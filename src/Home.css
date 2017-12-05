@@ -1,0 +1,16 @@
+.home-banner {
+    padding-top: 5vh;
+    height: 40vh;
+    background-color: #192B38;
+    color: #ffffff;
+    min-height: 18em;
+    margin-bottom: 4em;
+}
+
+.home-banner__actions {
+    margin-top: 5vh;
+}
+
+.home-banner h2, .home-banner h5 {
+    color: #ffffff;
+}
