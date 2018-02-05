@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import SearchComponent from './components/SearchComponent';
 import './Home.css';
 
 class Home extends Component {
@@ -9,18 +10,7 @@ class Home extends Component {
                     <div className="medium-offset-3 medium-6 text-center">
                         <h2>GIFTs</h2>
                         <h5>Helping biologists one mapping at a time</h5>
-                        <div className="input-group">
-                            <input
-                                type="text"
-                                placeholder="ENST00000620613, A7E2Y1, ..."
-                                className="input-group-field"/>
-                            <div className="input-group-button">
-                                <button type="button" className="button">Submit</button>
-                            </div>
-                        </div>
-                        <div className="home-banner__actions">
-                            <a className="button">Explore mappings</a>
-                        </div>
+                        <SearchComponent default="blablabla"/>
                     </div>
                 </div>
                 <div className="row">
