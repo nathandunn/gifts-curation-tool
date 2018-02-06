@@ -1,17 +1,16 @@
 import React from 'react';
-import PaginationComponent from "./PaginationComponent";
-import FilterComponent from "./FilterComponent";
-
 
 class ResultsComponent extends React.Component {
     render() {
         return (
             <main>
-                <FilterComponent/>
                 <div>
-                    Lots of results!
+                    Lots of results for {this.props.searchValue}!<br/>
+                    table<br/>
+                    ENST, ENSP, UniProt accession (incl. isoforms), organism, status<br/>
+
+
                 </div>
-                <PaginationComponent/>
             </main>
         );
     }

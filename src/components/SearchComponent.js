@@ -1,36 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ResultsComponent from "./ResultsComponent";
 
 class SearchComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: this.props.value,
+            showResults: false
+        };
+        this.handleClick = this.handleClick.bind(this);
+    }
+
     render() {
+
         return (
             <div>
+                Current search value: {this.state.value}
                 <div className="input-group">
                     <input
-                        defaultValue={this.props.default}
+                        value={this.state.value}
                         type="text"
                         placeholder="ENST00000620613, A7E2Y1, ..."
-                        className="input-group-field"/>
+                        className="input-group-field"
+                        onChange={ this.handleChange }/>
                     <div className="input-group-button">
                         <button type="button" className="button" onClick={this.handleClick}>Submit</button>
                     </div>
-                </div>
-                <div className="home-banner__actions">
-                    <a className="button">Explore mappings</a>
                 </div>
             </div>
         );
     }
 
+    handleChange = (e) => {
+        this.setState({value :e.target.value});
+    }
+
     handleClick = () => {
-        window.location = '/results';
+        this.props.action(this.state.value);
     }
 
 }
 
 SearchComponent.propTypes = {
     value: PropTypes.string,
-    default: PropTypes.string,
 };
 
 export default SearchComponent;
