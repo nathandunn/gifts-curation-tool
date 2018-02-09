@@ -30,7 +30,6 @@ class Home extends Component {
             <main>
                 <div className="row home-banner">
                     <div className="medium-offset-3 medium-6 text-center">
-                        <h2>GIFTs</h2>
                         <h5>Helping biologists one mapping at a time</h5>
                         <SearchComponent default="blablabla" action={this.handler}/>
                         <div className="home-banner__actions">
