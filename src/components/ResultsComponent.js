@@ -6,10 +6,15 @@ class ResultsComponent extends React.Component {
             <main>
                 <div>
                     Lots of results for {this.props.searchValue}!<br/>
-                    table<br/>
-                    ENST, ENSP, UniProt accession (incl. isoforms), organism, status<br/>
-
-
+                    <table>
+                        <tr>
+                            <td>ENST</td>
+                            <td>ENSP</td>
+                            <td>UniProt accession</td>
+                            <td>organism</td>
+                            <td>status</td>
+                        </tr>
+                    </table>
                 </div>
             </main>
         );

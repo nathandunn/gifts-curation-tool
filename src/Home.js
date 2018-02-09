@@ -20,7 +20,7 @@ class Home extends Component {
         let results = null;
         if (this.state.showResults) {
             results = <div>
-                         <FilterComponent/>
+                        <FilterComponent/>
                         <ResultsComponent searchValue={this.state.searchValue}/>
                         <PaginationComponent/>
                     </div>;
