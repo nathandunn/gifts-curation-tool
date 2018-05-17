@@ -3,7 +3,7 @@ import SearchComponent from './components/SearchComponent';
 import FilterComponent from './components/FilterComponent';
 import ResultsComponent from './components/ResultsComponent';
 import PaginationComponent from './components/PaginationComponent';
-import './Home.css';
+import '../styles/Home.css';
 
 class Home extends Component {
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import SearchComponent from './components/SearchComponent';
-import './Home.css';
+import '../styles/Home.css';
 
 class Mappings extends Component {
 
