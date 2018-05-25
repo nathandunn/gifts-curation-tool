@@ -1,0 +1,24 @@
+.status {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+.status--unreviewed {
+    background-color: grey;
+}
+
+.status--under-review {
+    background-color: blue;
+}
+
+.status--accepted {
+    background-color: green;
+}
+
+.status--rejected {
+    background-color: red;
+}

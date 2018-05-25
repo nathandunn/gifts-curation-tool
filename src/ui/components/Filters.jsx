@@ -1,4 +1,16 @@
 import React, { Fragment } from 'react';
+import Status from './Status';
+
+function formatLabel(item, facet) {
+  if (facet.name === 'status') {
+    return (
+      <span>
+        <Status status={item.name} /> {item.label}
+      </span>
+    );
+  }
+  return item.label;
+}
 
 function Filters(props) {
   return (
@@ -9,7 +21,11 @@ function Filters(props) {
           <ul className="no-bullet">
             {facet.items.map(item => (
               <li key={item.name}>
-                {item.active ? <strong>{item.label}</strong> : <a href="/">{item.label}</a>}
+                {item.active ? (
+                  <strong>{formatLabel(item, facet)}</strong>
+                ) : (
+                  <a href="/">{formatLabel(item, facet)}</a>
+                )}
               </li>
             ))}
           </ul>

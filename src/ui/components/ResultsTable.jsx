@@ -1,4 +1,6 @@
 import React from 'react';
+import Status from './Status';
+import '../../styles/ResultsTable.css';
 
 function ResultsTable(props) {
   if (props.data.results) {
@@ -6,6 +8,7 @@ function ResultsTable(props) {
       <table>
         <thead>
           <tr>
+            <th />
             <th>Gene</th>
             <th>Transcript</th>
             <th>Start</th>
@@ -20,6 +23,9 @@ function ResultsTable(props) {
               <tr
                 key={`${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`}
               >
+                <td>
+                  <Status status={mapping.status} />
+                </td>
                 <td>
                   <a href={`//www.ensembl.org/id/${mapping.ensemblTranscript.enstId}`}>
                     {mapping.ensemblTranscript.enstId}
