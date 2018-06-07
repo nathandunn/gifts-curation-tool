@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { Redirect } from 'react-router-dom';
 import decode from 'jwt-decode';
+import { withCookies, Cookies } from 'react-cookie';
 
 const GIFTS_DOMAIN = "self.gifts";
 const GIFTS_DOMAIN_ID = "dom-5e831673-a930-49e3-a5a3-e9de307cd449";
@@ -19,13 +19,14 @@ class Login extends Component {
     }
 
     onElixirResponse = message => {
-      const { onLoginSuccess, onLoginFailure } = this.props;
+      const { onLoginSuccess, onLoginFailure, cookies } = this.props;
 
       if ('https://explore.api.aai.ebi.ac.uk' !== message.origin) {
           return false;
       }
 
       const jwt = decode(message.data);
+      cookies.set('jwt', message.data, { path: '/' });
       let readonly = true;
       const user = {
         id: jwt.sub,
@@ -50,4 +51,4 @@ class Login extends Component {
     render = () => null;
 }
 
-export default Login;
+export default withCookies(Login);
