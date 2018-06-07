@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchComponent component should render 1`] = `
+<div>
+  <div
+    className="input-group"
+  >
+    <input
+      className="input-group-field"
+      onChange={[Function]}
+      placeholder="ENST00000620613, A7E2Y1, ..."
+      type="text"
+      value=""
+    />
+    <div
+      className="input-group-button"
+    >
+      <button
+        className="button"
+        onClick={[Function]}
+        type="button"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>
+`;
