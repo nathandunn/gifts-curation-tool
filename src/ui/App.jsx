@@ -26,10 +26,10 @@ class App extends Component {
   componentWillMount() {
         const { cookies } = this.props;
 
-        this.state = {
+      this.setState({
             authenticated: cookies.get('authenticated') === '1' ? true : false,
             jwt: cookies.get('jwt') || ""
-        };
+        });
   }
 
   onLoginSuccess = (user, readonly) => {
