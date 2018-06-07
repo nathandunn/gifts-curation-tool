@@ -31,8 +31,9 @@
     }
   },
   "dependencies": {
-    "axios": "^0.18.0",
     "ajv": "^6.5.0",
+    "axios": "^0.18.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "jwt-decode": "^2.2.0",
     "node-sass-chokidar": "^1.1.0",
     "npm-run-all": "^4.1.2",

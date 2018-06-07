@@ -5,8 +5,9 @@ class SearchComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: '',
+      searchTerm: props.searchTerm ? props.searchTerm : '',
     };
+
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -15,10 +16,11 @@ class SearchComponent extends React.Component {
   };
 
   handleClick = () => {
-    this.props.history.push({
-      pathname: '/mappings',
-      search: `?searchTerm=${this.state.searchTerm}`,
-    });
+    this.props.handleSearch(this.state.searchTerm);
+    // this.props.history.push({
+    //   pathname: '/mappings',
+    //   search: `?searchTerm=${this.state.searchTerm}`,
+    // });
   };
 
   render() {

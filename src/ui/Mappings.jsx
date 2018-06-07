@@ -8,41 +8,29 @@ import Filters from './components/Filters';
 import '../styles/Home.css';
 
 class Mappings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-    };
-  }
-
   componentDidMount() {
     // const query = qs.parse(this.props.location.search);
-    axios
-      .get(`http://localhost:3000/gifts/mappings${this.props.location.search}`)
-      .then(d => this.setState({ data: d.data }));
+    // TODO update url
   }
 
   render() {
-    return (
-      <Fragment>
-        <h2>Mappings</h2>
-        <div className="row">
-          <div className="column medium-2">
-            <Filters data={this.state.data.facets} />
+    if (this.props.searchResults) {
+      return (
+        <Fragment>
+          <h2>Mappings</h2>
+          <div className="row">
+            <div className="column medium-2">
+              <Filters data={this.props.searchResults.facets} />
+            </div>
+            <div className="column medium-10">
+              <ResultsTable data={this.props.searchResults} />
+            </div>
           </div>
-          <div className="column medium-10">
-            <ResultsTable data={this.state.data} />
-          </div>
-        </div>
-      </Fragment>
-    );
+        </Fragment>
+      );
+    }
+    return <span>Loading</span>;
   }
 }
 
-Mappings.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-export default withRouter(Mappings);
+export default Mappings;
