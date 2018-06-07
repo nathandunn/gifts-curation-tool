@@ -18,7 +18,7 @@ function ResultsTable(props) {
           </tr>
         </thead>
         {props.data.results.map(row => (
-          <tbody>
+          <tbody key={row.entryMapping.reduce((total, mapping) => `${total}_${mapping.mappingId}`)}>
             {row.entryMapping.map(mapping => (
               <tr
                 key={`${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`}
