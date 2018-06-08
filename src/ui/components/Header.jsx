@@ -1,8 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import SearchComponent from './SearchComponent';
 
 function Header(props) {
+  const { authenticated, user } = props;
+
   return (
     <div data-sticky-container>
       <header
@@ -14,29 +16,30 @@ function Header(props) {
         data-btm-anchor="content:bottom"
       >
         <div className="masthead-inner row">
+        { /* <!-- local-title --> */ }
           <div className="columns medium-6" id="local-title">
             <h1>
-              <a href="../../" title="Back to GIFTs homepage">
+              <Link to="../../" title="Back to GIFTs homepage">
                 GIFTs
-              </a>
+              </Link>
             </h1>
           </div>
+          { /* <!-- /local-title --> */ }
+          { /* <!-- local-nav --> */ }
           <div className="columns medium-6">
             {props.location.pathname != '/' && <SearchComponent {...props} />}
           </div>
-          <nav>
+          <nav >
             <ul id="local-nav" className="dropdown menu float-left" data-description="navigational">
-              <li>
-                <a href="../../">Overview</a>
-              </li>
-              <li>
-                <a>Mappings</a>
-              </li>
-              <li>
-                <a href="../../login">Login</a>
-              </li>
+              <li><Link to="../../">Overview</Link></li>
+              <li><Link to="../../">Mappings</Link></li>
+
+              {(authenticated)
+                  ? <li><Link to="../../logout">Logout</Link></li>
+                  : <li><Link to="../../login">Login</Link></li>}
             </ul>
           </nav>
+          { /* <!-- /local-nav --> */ }
         </div>
       </header>
     </div>
