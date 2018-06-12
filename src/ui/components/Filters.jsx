@@ -23,7 +23,12 @@ class Filters extends Component {
               {facet.items.map(item => (
                 <li key={item.name}>
                   {item.active ? (
-                    <strong>{Filters.formatLabel(item, facet)}</strong>
+                    <a
+                      className="filter--active"
+                      onClick={d => this.props.removeFilter(facet.name)}
+                    >
+                      {Filters.formatLabel(item, facet)}
+                    </a>
                   ) : (
                     <a onClick={d => this.props.addFilter(facet.name, item.name)}>
                       {Filters.formatLabel(item, facet)}

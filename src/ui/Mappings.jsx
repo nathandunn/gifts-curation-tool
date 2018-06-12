@@ -17,7 +17,11 @@ class Mappings extends Component {
           <h2>Mappings</h2>
           <div className="row">
             <div className="column medium-2">
-              <Filters data={this.props.searchResults.facets} addFilter={this.props.addFilter} />
+              <Filters
+                data={this.props.searchResults.facets}
+                addFilter={this.props.addFilter}
+                removeFilter={this.props.removeFilter}
+              />
             </div>
             <div className="column medium-10">
               <ResultsTable data={this.props.searchResults} />

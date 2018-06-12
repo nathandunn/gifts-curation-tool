@@ -95,6 +95,12 @@ class App extends Component {
     this.setState({ filters }, () => this.handleSearch());
   };
 
+  removeFilter = (facet) => {
+    const { filters } = this.state;
+    delete filters[facet];
+    this.setState({ filters }, () => this.handleSearch());
+  };
+
   render() {
     const { authenticated } = this.state;
     const LoginComponent = () => (
@@ -107,6 +113,7 @@ class App extends Component {
       ...this.state,
       updateSearchTerm: this.updateSearchTerm,
       addFilter: this.addFilter,
+      removeFilter: this.removeFilter,
     };
 
     return (
