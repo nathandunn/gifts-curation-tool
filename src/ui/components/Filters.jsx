@@ -25,7 +25,9 @@ class Filters extends Component {
                   {item.active ? (
                     <strong>{Filters.formatLabel(item, facet)}</strong>
                   ) : (
-                    <a onClick={d => console.log('hello')}>{Filters.formatLabel(item, facet)}</a>
+                    <a onClick={d => this.props.addFilter(facet.name, item.name)}>
+                      {Filters.formatLabel(item, facet)}
+                    </a>
                   )}
                 </li>
               ))}

@@ -16,7 +16,7 @@ class SearchComponent extends React.Component {
   };
 
   handleClick = () => {
-    this.props.handleSearch(this.state.searchTerm);
+    this.props.updateSearchTerm(this.state.searchTerm);
     // this.props.history.push({
     //   pathname: '/mappings',
     //   search: `?searchTerm=${this.state.searchTerm}`,

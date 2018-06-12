@@ -1,7 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import axios from 'axios';
 import qs from 'query-string';
 import ResultsTable from './components/ResultsTable';
 import Filters from './components/Filters';
@@ -20,7 +17,7 @@ class Mappings extends Component {
           <h2>Mappings</h2>
           <div className="row">
             <div className="column medium-2">
-              <Filters data={this.props.searchResults.facets} />
+              <Filters data={this.props.searchResults.facets} addFilter={this.props.addFilter} />
             </div>
             <div className="column medium-10">
               <ResultsTable data={this.props.searchResults} />
