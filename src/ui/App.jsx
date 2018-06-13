@@ -8,6 +8,7 @@ import Home from './Home';
 import Mappings from './Mappings';
 import Login from './Login';
 import Logout from './Logout';
+import Mapping from './Mapping';
 import Header from './components/Header';
 
 import '../styles/Gifts.css';
@@ -42,8 +43,8 @@ class App extends Component {
   }
 
   handleSearch = term => {
-    const accession = term;
-    const apiURI = `http://localhost:3000/search?term=${accession}`;
+    const accession = term || 'test';
+    const apiURI = `http://localhost:3000/api/search/${accession}`;
     axios.get(apiURI)
       .then(response => {
         console.log("handleSearch response:", response);
@@ -105,6 +106,7 @@ class App extends Component {
               <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />
               <Route exact path={'/login'} render={LoginComponent} />
               <Route exact path={'/logout'} render={LogoutComponent} />
+              <Route path={'/mapping/:mappingId'} component={Mapping} />
             </Switch>
           </div>
         </section>
