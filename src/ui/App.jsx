@@ -43,14 +43,16 @@ class App extends Component {
 
   handleSearch = term => {
     const accession = term;
-    const apiURI = `http://localhost:3000/gifts/mappings?searchTerm=${accession}`;
-    axios.get(apiURI).then((response) => {
-      this.setState({
-        searchTerm: term,
-        searchResults: response.data,
+    const apiURI = `http://localhost:3000/search?term=${accession}`;
+    axios.get(apiURI)
+      .then(response => {
+        console.log("handleSearch response:", response);
+        this.setState({
+          searchTerm: term,
+          searchResults: response.data,
+        });
+        this.props.history.push('mappings');
       });
-      this.props.history.push('mappings');
-    });
   }
 
   onLoginSuccess = (user, readonly) => {

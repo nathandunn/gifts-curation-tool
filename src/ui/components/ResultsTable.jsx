@@ -1,50 +1,54 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Status from './Status';
 import '../../styles/ResultsTable.css';
 
 function ResultsTable(props) {
   if (props.data.results) {
     return (
-      <table>
-        <thead>
-          <tr>
-            <th />
-            <th>Gene</th>
-            <th>Transcript</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Protein</th>
-            <th>Organism</th>
-          </tr>
-        </thead>
+      <div className="table tbody-zebra">
+        <div className="table-head">
+          <div className="table-row">
+            <div className="table-cell" />
+            <div className="table-cell">Gene</div>
+            <div className="table-cell">Transcript</div>
+            <div className="table-cell">Start</div>
+            <div className="table-cell">End</div>
+            <div className="table-cell">Protein</div>
+            <div className="table-cell">Organism</div>
+          </div>
+        </div>
         {props.data.results.map(row => (
-          <tbody key={row.entryMapping.reduce((total, mapping) => `${total}_${mapping.mappingId}`)}>
-            {row.entryMapping.map(mapping => (
-              <tr
-                key={`${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`}
-              >
-                <td>
-                  <Status status={mapping.status} />
-                </td>
-                <td>
-                  <a href={`//www.ensembl.org/id/${mapping.ensemblTranscript.enstId}`}>
-                    {mapping.ensemblTranscript.enstId}
-                  </a>
-                </td>
-                <td>{mapping.ensemblTranscript.ensgId}</td>
-                <td>{mapping.ensemblTranscript.seqRegionStart}</td>
-                <td>{mapping.ensemblTranscript.seqRegionEnd}</td>
-                <td>
-                  <a href={`//www.uniprot.org/uniprot/${mapping.uniprotEntry.uniprotAccession}`}>
-                    {mapping.uniprotEntry.uniprotAccession}
-                  </a>
-                </td>
-                <td>{row.taxonomy.specie}</td>
-              </tr>
-            ))}
-          </tbody>
+          <div
+            className="table-body"
+            key={
+              row.entryMappings
+                .reduce((total, mapping) => (total ? `${total}_${mapping.mappingId}` : mapping.mappingId), undefined)
+            }
+          >
+            {row.entryMappings.map(mapping => {
+              const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
+              return (
+                <Link
+                  to={`mapping/${mapping.mappingId}`}
+                  key={key}
+                  className="table-row"
+                >
+                  <div className="table-cell">
+                    <Status status={mapping.status} />
+                  </div>
+                  <div className="table-cell">{mapping.ensemblTranscript.enstId}</div>
+                  <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
+                  <div className="table-cell">{mapping.ensemblTranscript.seqRegionStart}</div>
+                  <div className="table-cell">{mapping.ensemblTranscript.seqRegionEnd}</div>
+                  <div className="table-cell">{mapping.uniprotEntry.uniprotAccession}</div>
+                  <div className="table-cell">{row.taxonomy.specie}</div>
+                </Link>
+              )}
+            )}
+          </div>
         ))}
-      </table>
+      </div>
     );
   }
   return <div>Loading</div>;

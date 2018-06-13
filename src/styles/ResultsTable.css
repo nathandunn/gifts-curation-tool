@@ -1,3 +1,51 @@
 tbody {
     border-top: #CCC 2px solid !important;
 }
+
+.table {
+  width: 100%;
+  display: table;
+  border-collapse: separate;
+  margin-bottom: 1rem;
+  border-radius: 0;
+}
+
+.table-head {
+  display: table-header-group;
+  vertical-align: middle;
+}
+
+.table-head .table-row {
+  background-color: #f8f8f8;
+}
+
+.table-head .table-row .table-cell {
+  font-weight: bold;
+  text-align: left;
+}
+
+.table-body {
+  display: table-row-group;
+  vertical-align: middle;
+  border: 1px solid #f1f1f1;
+  background-color: #fefefe;
+}
+
+.table-row {
+  display: table-row;
+  vertical-align: inherit;
+}
+
+.table-cell {
+  display: table-cell;
+  vertical-align: inherit;
+  padding: 0.5rem 0.625rem 0.625rem;
+}
+
+.table.zebra .table-body .table-row:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+.table.tbody-zebra .table-body:nth-child(odd) {
+  background-color: #f1f1f1;
+}
