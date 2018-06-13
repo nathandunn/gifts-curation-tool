@@ -53,6 +53,17 @@ class Mapping extends Component {
     const details = this.state.details || { mapping: {} };
     const mappingId = details.mapping.mappingId || null;
     const status = details.mapping.status || '';
+    const comments = details.mapping.comments || [];
+
+
+    const Comment = props => (
+      <div>
+        by {props.details.user} @{props.details.timeAdded}
+        <p>{props.details.text}</p>
+        <hr />
+      </div>
+    );
+
 console.log("mapping state:", this.state);
     return (
       <Fragment>
@@ -75,6 +86,11 @@ console.log("mapping state:", this.state);
                   <option value="REVIEWED">Reviewd</option>
                   <option value="REJECTED">Rejected</option>
                 </select>
+              </div>
+              <hr />
+              <div>
+                <h2>Comments</h2>
+                {comments.map(comment => <Comment details={comment} key={`${comment.user}-${comment.timeAdded}`} />)}
               </div>
             </div>
           </div>
