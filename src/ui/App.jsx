@@ -98,7 +98,6 @@ class App extends Component {
 
     return (
       <Layout {...appProps}>
-        <h3>{authenticated ?  'Welcome' : 'Not logged in yet!'}</h3>
         <section id="main-content-area" className="row" role="main">
           <div className="columns" id="root">
             <Switch>
