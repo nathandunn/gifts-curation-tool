@@ -48,3 +48,12 @@ a {
   .masthead { background-color: #22424B; }
   
   /* end */
+
+.label {
+  padding: 0.33333rem 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.label.primary {
+  color: #fefefe;
+}

@@ -14,7 +14,9 @@ class Mapping extends Component {
     status: null,
     comments: null,
     draftComment: '',
-    labels: null
+    labels: null,
+    addLabelMode: false,
+    draftLabel: null
   }
 
   statusOptions = {
@@ -25,6 +27,12 @@ class Mapping extends Component {
   }
 
   textEditor = null;
+
+  constructor(props) {
+    super(props);
+
+    this.labelTextInputRef = React.createRef();
+  }
 
   componentDidMount() {
     const { match: { params } } = this.props;
@@ -63,12 +71,13 @@ class Mapping extends Component {
   }
 
   updateStatus = status => {
-    const { id } = this.state.details;
+    const { details } = this.state;
+    const { id } = details;
 
     // const apiURI = `http://localhost:3000/api/mappings/${id}/status`;
 
     const apiURI = `http://localhost:3000/api/mappings/${id}`;
-    let changes = { ...this.state.details };
+    let changes = { ...details };
     changes.mapping.status = status;
 
     axios.patch(apiURI, changes)
@@ -84,14 +93,13 @@ class Mapping extends Component {
   }
 
   saveComment = () => {
-    const { draftComment } = this.state;
+    const { draftComment, details } = this.state;
     const { id } = this.state.details;
     let { comments } = this.state;
 
     // const apiURI = `http://localhost:3000/api/mappings/${id}/comments`;
 
     const apiURI = `http://localhost:3000/api/mappings/${id}`;
-    let changes = { ...this.state.details };
 
     comments.push({
       text: draftComment,
@@ -106,6 +114,81 @@ class Mapping extends Component {
 
     this.textEditor.value('');
 
+    axios.patch(apiURI, details)
+      .then(response => {
+        // should roll-back the state here if changes weren't saved
+      });
+  }
+
+  enableAddLabelMode = e => {
+    this.setState({
+      addLabelMode: true
+    }, () => {
+      this.labelTextInputRef.current.focus();
+    });
+
+    e.preventDefault();
+    return false;
+  }
+
+  onLabelEnter = e => {
+    const { draftLabel } = this.state;
+
+    if (13 === e.keyCode || 13 === e.which || 'Enter' === e.key) {
+      this.addLabel(draftLabel);
+    }
+  }
+
+  onLabelTextInputChange = ({ target }) => {
+    this.setState({
+      draftLabel: target.value.replace(/\s+/g, '-').toLowerCase()
+    });
+  }
+
+  addLabel = label => {
+    const { draftLabel, labels, details } = this.state;
+    const { id } = details;
+
+    labels.push(draftLabel);
+
+    this.setState({
+      addLabelMode: false,
+      draftLabel: '',
+      labels
+    });
+
+    // const apiURI = `http://localhost:3000/api/mappings/${id}/labels`;
+
+    const apiURI = `http://localhost:3000/api/mappings/${id}`;
+
+    axios.patch(apiURI, details)
+      .then(response => {
+        // should roll-back the state here if changes weren't saved
+      });
+  }
+
+  deleteLabel = label => {
+    const { labels, details } = this.state;
+    const { id } = details;
+    const index = labels.indexOf(label);
+
+    if (index < 0) {
+      return false;
+    }
+
+    labels.splice(index, 1);
+
+    this.setState({
+      labels
+    });
+
+    // const apiURI = `http://localhost:3000/api/mappings/${id}/labels`;
+
+    const apiURI = `http://localhost:3000/api/mappings/${id}`;
+    let changes = { ...details };
+
+    changes.mapping.labels = labels;
+
     axios.patch(apiURI, changes)
       .then(response => {
         // should roll-back the state here if changes weren't saved
@@ -118,7 +201,14 @@ class Mapping extends Component {
       return null;
     }
 
-    const { details, status, comments, draftComment } = this.state;
+    const {
+      details,
+      status,
+      comments,
+      draftComment,
+      labels,
+      addLabelMode
+    } = this.state;
     const { mapping } = details;
     const { mappingId } = mapping;
 
@@ -133,6 +223,14 @@ class Mapping extends Component {
       case 'REVIEWED':      statusColour = 'accepted';      break;
       case 'REJECTED':      statusColour = 'rejected';      break;
     }
+
+    const Label = props =>
+      <span className="label primary">
+        {props.text}
+        <button onClick={() => this.deleteLabel(props.text)}>
+          <span style={{ marginLeft: '0.3rem', color: '#FEFEFE', cursor: 'pointer' }}>&times;</span>
+        </button>
+      </span>;
 
 console.log("mapping state:", this.state);
     return (
@@ -153,31 +251,37 @@ console.log("mapping state:", this.state);
                 </select>
               </div>
             </div>
+
+            <div>
+              {labels.map(label => <Label text={label} key={label} />)}
+              {(addLabelMode)
+                ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
+                : <a href="#" onClick={this.enableAddLabelMode}>Add label</a>
+              }
+            </div>
+
             <div style={{ height: '30vh' }}>
               <h2>Mapping</h2>
             </div>
+
             <div>
               {comments.map(comment => <Comment details={comment} key={`${comment.user}-${comment.timeAdded}-${Math.random()}`} />)}
-            
 
-
-            <div className="comment row">
-              <div className="column medium-12">
-                <div className="comment__avatar">
-                  ?
-                </div>
-                <div className="comment__details">
-                  <textarea id="text-editor" onChange={this.handleCommentTextChange} value={draftComment}></textarea>
-                  <button
-                    className="button"
-                    onClick={this.saveComment}
-                    style={{ float: 'right' }}
-                  >Add comment</button>
+              <div className="comment row">
+                <div className="column medium-12">
+                  <div className="comment__avatar">
+                    ?
+                  </div>
+                  <div className="comment__details">
+                    <textarea id="text-editor" onChange={this.handleCommentTextChange} value={draftComment}></textarea>
+                    <button
+                      className="button"
+                      onClick={this.saveComment}
+                      style={{ float: 'right' }}
+                    >Add comment</button>
+                  </div>
                 </div>
               </div>
-            </div>
-
-
             </div>
 
           </div>
