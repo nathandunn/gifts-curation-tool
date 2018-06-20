@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import '../../styles/Comment.css';
 
@@ -19,7 +20,7 @@ const Comment = props => {
           <span className="comment__date">
             {props.details.timeAdded}
           </span>
-          <p>{props.details.text}</p>
+          <ReactMarkdown source={props.details.text} />
         </div>
       </div>
     </div>

@@ -55,7 +55,8 @@ class Mapping extends Component {
     if (null === this.textEditor) {
       this.textEditor = new SimpleMED({
         element: document.getElementById('text-editor'),
-        initialValue: this.state.draftComment
+        initialValue: this.state.draftComment,
+        hideIcons: ['image']
       });
 
       this.textEditor.codemirror.on('change', this.handleCommentTextChange);
