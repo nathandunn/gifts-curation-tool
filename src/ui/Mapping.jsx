@@ -30,7 +30,6 @@ class Mapping extends Component {
 
   constructor(props) {
     super(props);
-
     this.labelTextInputRef = React.createRef();
   }
 

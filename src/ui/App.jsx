@@ -43,17 +43,8 @@ class App extends Component {
   }
 
   handleSearch = term => {
-    const accession = term || 'test';
-    const apiURI = `http://localhost:3000/api/search/${accession}`;
-    axios.get(apiURI)
-      .then(response => {
-        console.log("handleSearch response:", response);
-        this.setState({
-          searchTerm: term,
-          searchResults: response.data,
-        });
-        this.props.history.push('mappings');
-      });
+    term = term || 'test';
+    this.props.history.push(`mappings/${term}`);
   }
 
   onLoginSuccess = (user, readonly) => {
@@ -81,7 +72,7 @@ class App extends Component {
   }
 
   render() {
-    const { authenticated } = this.state;
+    const { authenticated, searchTerm } = this.state;
     const LoginComponent = () => <Login
       onLoginSuccess={this.onLoginSuccess}
       onLoginFailure={this.onLoginFailure}
@@ -102,7 +93,7 @@ class App extends Component {
           <div className="columns" id="root">
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
-              <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />
+              <Route exact path="/mappings/:term" render={() => <Mappings {...appProps} query={searchTerm} />} />
               <Route exact path={'/login'} render={LoginComponent} />
               <Route exact path={'/logout'} render={LogoutComponent} />
               <Route path={'/mapping/:mappingId'} component={Mapping} />

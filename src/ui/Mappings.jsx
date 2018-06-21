@@ -8,22 +8,52 @@ import Filters from './components/Filters';
 import '../styles/Home.css';
 
 class Mappings extends Component {
+
+  state = {
+    searchTerm: null,
+    searchResults: null
+  }
+
+  constructor(props) {
+    super(props);
+
+    const { query } = props;
+    this.handleSearch(query);
+  }
+
   componentDidMount() {
     // const query = qs.parse(this.props.location.search);
     // TODO update url
   }
 
+  handleSearch = term => {
+    term = term || 'test';
+    const accession = term;
+    const apiURI = `http://localhost:3000/api/search/${accession}`;
+    axios.get(apiURI)
+      .then(response => {
+        console.log("handleSearch response:", response);
+        this.setState({
+          searchTerm: term,
+          searchResults: response.data,
+        });
+        console.log("term:", `mappings/${term}`);
+      });
+  }
+
   render() {
-    if (this.props.searchResults) {
+    const { searchResults } = this.state;
+
+    if (searchResults) {
       return (
         <Fragment>
           <h2>Mappings</h2>
           <div className="row">
             <div className="column medium-2">
-              <Filters data={this.props.searchResults.facets} />
+              <Filters data={searchResults.facets} />
             </div>
             <div className="column medium-10">
-              <ResultsTable data={this.props.searchResults} />
+              <ResultsTable data={searchResults} />
             </div>
           </div>
         </Fragment>

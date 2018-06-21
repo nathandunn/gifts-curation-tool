@@ -30,7 +30,7 @@ function ResultsTable(props) {
               const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
               return (
                 <Link
-                  to={`mapping/${mapping.mappingId}`}
+                  to={`/mapping/${mapping.mappingId}`}
                   key={key}
                   className="table-row"
                 >
