@@ -8,39 +8,39 @@ import Home from './Home';
 import Mappings from './Mappings';
 import Login from './Login';
 import Logout from './Logout';
+import Mapping from './Mapping';
+import Header from './components/Header';
 
 import '../styles/Gifts.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = this.defaultState;
-    this.handleSearch = this.handleSearch.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-  }
+  state = this.defaultState;
 
   componentWillMount() {
     const { cookies } = this.props;
 
     this.setState({
-      authenticated: cookies.get('authenticated') === '1',
-      jwt: cookies.get('jwt') || '',
+      authenticated: cookies.get('authenticated') === '1' ? true : false,
+      jwt: cookies.get('jwt') || ''
     });
+  }
+
+  handleSearch = term => {
+    term = term || 'test';
+    this.props.history.push(`mappings/${term}`);
   }
 
   onLoginSuccess = (user, readonly) => {
     const { history, cookies } = this.props;
 
-    this.setState(
-      {
-        authenticated: true,
-        readonly,
-        user,
-      },
-      () => {
+    this.setState({
+      authenticated: true,
+      readonly,
+      user,
+    }, () => {
         history.push('/');
         cookies.set('authenticated', '1', { path: '/' });
-      },
+      }
     );
   };
 
@@ -69,43 +69,35 @@ class App extends Component {
 
   getResults = () => {};
 
-  updateSearchTerm = (term) => {
-    this.setState({ searchTerm: term, filters: {} }, () => this.handleSearch());
-  };
-
-  handleSearch = () => {
-    axios
-      .get('http://localhost:3000/gifts/mappings', {
-        params: {
-          searchTerm: this.state.searchTerm,
-          ...this.state.filters,
-        },
-      })
-      .then((response) => {
-        this.setState({
-          searchResults: response.data,
-        });
-        this.props.history.push('mappings');
-      });
+  updateSearchTerm = term => {
+    this.setState({
+      searchTerm: term,
+      filters: {}
+    }, this.handleSearch);
   };
 
   addFilter = (facet, value) => {
     const { filters } = this.state;
     filters[facet] = value;
-    this.setState({ filters }, () => this.handleSearch());
+    this.setState({
+      filters
+    }, this.handleSearch);
   };
 
-  removeFilter = (facet) => {
+  removeFilter = facet => {
     const { filters } = this.state;
     delete filters[facet];
-    this.setState({ filters }, () => this.handleSearch());
+    this.setState({
+      filters
+    }, this.handleSearch);
   };
 
   render() {
     const { authenticated } = this.state;
-    const LoginComponent = () => (
-      <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
-    );
+    const LoginComponent = () => <Login
+      onLoginSuccess={this.onLoginSuccess}
+      onLoginFailure={this.onLoginFailure}
+    />
 
     const LogoutComponent = () => <Logout onLogout={this.onLogout} />;
 
@@ -118,14 +110,14 @@ class App extends Component {
 
     return (
       <Layout {...appProps}>
-        <h3>{authenticated ? 'Welcome' : 'Not logged in yet!'}</h3>
         <section id="main-content-area" className="row" role="main">
           <div className="columns" id="root">
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
-              <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />
-              <Route exact path="/login" render={LoginComponent} />
-              <Route exact path="/logout" render={LogoutComponent} />
+              <Route exact path="/mappings/:term" render={() => <Mappings {...appProps} />} />
+              <Route exact path={'/login'} render={LoginComponent} />
+              <Route exact path={'/logout'} render={LogoutComponent} />
+              <Route path={'/mapping/:mappingId'} component={Mapping} />
             </Switch>
           </div>
         </section>

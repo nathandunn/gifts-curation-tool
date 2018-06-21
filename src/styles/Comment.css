@@ -1,0 +1,35 @@
+
+.comment {
+  margin-bottom: 2.5rem;
+  clear: both;
+}
+
+.comment__avatar {
+  width: 5rem;
+  height: 5rem;
+  background-color: #CACACA;
+  border-radius: 2.5rem;
+  text-align: center;
+  line-height: 5rem;
+  font-size: 2rem;
+  color: #FFF;
+  float: left;
+  margin-right: 2.5rem;
+  text-transform: uppercase;
+}
+
+.comment__details {
+  float: left;
+  margin-top: 0.5rem;
+  width: calc(100% - 10rem);
+}
+
+.comment__username {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 0.7rem;
+}
+
+.comment__date {
+  color: #CCC;
+}
