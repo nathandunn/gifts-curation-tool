@@ -25,12 +25,31 @@ class Mappings extends Component {
   componentDidMount() {
     // const query = qs.parse(this.props.location.search);
     // TODO update url
+    
+    this.setStateFromProps();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     const { searchTerm, filters } = this.props;
+
+    if (!this.hasSearchParamsChanged(searchTerm, filters)) {
+      return false;
+    }
+
+    this.setStateFromProps(() => {
+      const { searchTerm, filters } = this.state;
+      this.handleSearch(searchTerm, filters);
+    });
+  }
+
+  setStateFromProps = callback => {
+    const { searchTerm, filters } = this.props;
+    callback = callback || null;
 
     this.setState({
       searchTerm,
       filters
-    });
+    }, callback);
   }
 
   handleSearch = (searchTerm, filters) => {
@@ -38,22 +57,53 @@ class Mappings extends Component {
     const accession = searchTerm;
     const apiURI = `http://localhost:3000/api/search/${accession}`;
     const params = {
-      searchTerm,
+      // searchTerm,
       ...filters
     };
-
+console.log("handleSearch props:", this.props);
+    // if (!this.hasSearchParamsChanged(searchTerm, filters)) {
+    //   console.log("it has NOT changed");
+    //   return false;
+    // }
+console.log("search params has changed:", searchTerm, filters);
     axios.get(apiURI, { params })
       .then(response => {
         this.setState({
-          searchTerm: searchTerm,
+          // searchTerm: searchTerm,
           searchResults: response.data,
         });
       });
   }
 
+  hasSearchParamsChanged = (searchTerm, filters) => {
+console.log("+++", typeof this.props.searchTerm, this.props.searchTerm);
+console.log("***", typeof searchTerm, searchTerm);
+    if (this.props.searchTerm !== searchTerm) {
+      console.log("111:", this.props.searchTerm, searchTerm);
+      return true;
+    }
+
+    let hasChanged = false;
+
+    Object.keys(this.props.filters)
+      .forEach(key => {
+        if (this.props.filters.hasOwnProperty(key)) {
+          if (filters.hasOwnProperty(key)) {
+            if (this.props.filters[key] !== filters[key]) {
+              hasChanged = true;
+            }
+          } else {
+            hasChanged = true;
+          }
+        }
+      });
+
+    return hasChanged;
+  }
+
   render() {
     const { searchResults } = this.state;
-
+console.log("- mappings render:", this.state);
     if (searchResults) {
       return (
         <Fragment>

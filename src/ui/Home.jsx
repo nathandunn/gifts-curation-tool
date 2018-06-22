@@ -3,6 +3,7 @@ import SearchComponent from './components/SearchComponent';
 import '../styles/Home.css';
 
 function Home(props) {
+  console.log("home props:", props);
   return (
     <main>
       <div className="row home-banner">

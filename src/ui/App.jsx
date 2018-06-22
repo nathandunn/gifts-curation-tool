@@ -14,7 +14,11 @@ import Header from './components/Header';
 import '../styles/Gifts.css';
 
 class App extends Component {
-  state = this.defaultState;
+  constructor(props) {
+    super(props);
+
+    this.state = this.defaultState;
+  }
 
   componentWillMount() {
     const { cookies } = this.props;
@@ -25,9 +29,9 @@ class App extends Component {
     });
   }
 
-  handleSearch = term => {
-    term = term || 'test';
-    this.props.history.push(`mappings/${term}`);
+  handleSearch = () => {
+    const { searchTerm } = this.state;
+    this.props.history.push(`/mappings/${searchTerm}`);
   }
 
   onLoginSuccess = (user, readonly) => {
@@ -58,7 +62,7 @@ class App extends Component {
   defaultState = {
     searchTerm: null,
     filters: {},
-    searchResults: null,
+    // searchResults: null,
     authenticated: false,
     readonly: true,
     user: {
@@ -81,7 +85,7 @@ class App extends Component {
     filters[facet] = value;
     this.setState({
       filters
-    }, this.handleSearch);
+    }, this.forceUpdate);
   };
 
   removeFilter = facet => {
@@ -89,7 +93,7 @@ class App extends Component {
     delete filters[facet];
     this.setState({
       filters
-    }, this.handleSearch);
+    }, this.forceUpdate);
   };
 
   render() {
@@ -105,7 +109,7 @@ class App extends Component {
       ...this.state,
       updateSearchTerm: this.updateSearchTerm,
       addFilter: this.addFilter,
-      removeFilter: this.removeFilter,
+      removeFilter: this.removeFilter
     };
 
     return (
