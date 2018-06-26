@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SimpleMED from 'simplemde';
 
@@ -209,7 +210,7 @@ class Mapping extends Component {
       labels,
       addLabelMode
     } = this.state;
-    const { mapping } = details;
+    const { mapping, relatedMappings } = details;
     const { mappingId } = mapping;
 
     const statusList = Object.keys(this.statusOptions)
@@ -238,6 +239,14 @@ class Mapping extends Component {
       display: 'inline-block',
       verticalAlign: 'top'
     };
+
+    const RelatedMapping = props => (
+      <div>
+        <Link to={`/mapping/${props.id}`}>
+          <h4>{`${props.ensgId}`}</h4>
+        </Link>
+      </div>
+    );
 
 console.log("mapping state:", this.state);
     return (
@@ -275,15 +284,17 @@ console.log("mapping state:", this.state);
               <span style={mappingIdStyles}>
                 {`${mapping.ensemblTranscript.ensgId} (v${mapping.ensemblTranscript.enstVersion})`}
               </span>
-                
-              <span dangerouslySetInnerHTML={{__html: `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                   viewBox="0 0 200.423 200.423" style="enable-background:new 0 0 200.423 200.423; width: 100px; height: 50px;" xml:space="preserve">
-                <g>
-                  <polygon style="fill:#010002;" points="7.913,102.282 192.51,102.282 160.687,134.094 163.614,137.018 200.423,100.213 
-                    163.614,63.405 160.687,66.325 192.51,98.145 7.913,98.145 39.725,66.332 36.798,63.405 0,100.213 36.798,137.018 39.725,134.101  
-                    "/>
-                </g>
-              </svg>` }} />
+
+              <span dangerouslySetInnerHTML={{__html: `
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 200.423 200.423" style="enable-background:new 0 0 200.423 200.423; width: 100px; height: 50px;" xml:space="preserve">
+                  <g>
+                    <polygon style="fill:#010002;" points="7.913,102.282 192.51,102.282 160.687,134.094 163.614,137.018 200.423,100.213 
+                      163.614,63.405 160.687,66.325 192.51,98.145 7.913,98.145 39.725,66.332 36.798,63.405 0,100.213 36.798,137.018 39.725,134.101  
+                      "/>
+                  </g>
+                </svg>`
+              }} />
 
               <span style={mappingIdStyles}>
                 {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.entryVersion})`}
@@ -291,6 +302,11 @@ console.log("mapping state:", this.state);
             </div>
 
             <div>
+              <h3>Related Mappings</h3>
+              {relatedMappings.map(mapping => <RelatedMapping id={mapping.mappingId} ensgId={mapping.ensemblTranscript.ensgId} key={mapping.mappingId} />)}
+            </div>
+
+            <div style={{marginTop: '3rem'}}>
               {comments.map(comment => <Comment details={comment} key={`${comment.user}-${comment.timeAdded}-${Math.random()}`} />)}
 
               <div className="comment row">
