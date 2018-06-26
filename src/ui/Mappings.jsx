@@ -57,29 +57,19 @@ class Mappings extends Component {
     const accession = searchTerm;
     const apiURI = `http://localhost:3000/api/search/${accession}`;
     const params = {
-      // searchTerm,
       ...filters
     };
-console.log("handleSearch props:", this.props);
-    // if (!this.hasSearchParamsChanged(searchTerm, filters)) {
-    //   console.log("it has NOT changed");
-    //   return false;
-    // }
-console.log("search params has changed:", searchTerm, filters);
+
     axios.get(apiURI, { params })
       .then(response => {
         this.setState({
-          // searchTerm: searchTerm,
           searchResults: response.data,
         });
       });
   }
 
   hasSearchParamsChanged = (searchTerm, filters) => {
-console.log("+++", typeof this.props.searchTerm, this.props.searchTerm);
-console.log("***", typeof searchTerm, searchTerm);
     if (this.props.searchTerm !== searchTerm) {
-      console.log("111:", this.props.searchTerm, searchTerm);
       return true;
     }
 
@@ -102,7 +92,7 @@ console.log("***", typeof searchTerm, searchTerm);
   }
 
   render() {
-    const { searchResults } = this.state;
+    const { searchResults, filters } = this.state;
 console.log("- mappings render:", this.state);
     if (searchResults) {
       return (

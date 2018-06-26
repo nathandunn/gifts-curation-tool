@@ -16,7 +16,6 @@ import '../styles/Gifts.css';
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = this.defaultState;
   }
 
@@ -29,9 +28,34 @@ class App extends Component {
     });
   }
 
-  handleSearch = () => {
+  componentDidMount = () => {
+    const urlParams = this.parseURLParams();
+  }
+
+  parseURLParams = () => {
+    const { searchTerm, filters } = this.state;
+    const url = window.location.pathname;
+    const regexSearchAndFilters = /^\/mappings\/([a-zA-Z0-9\-_]+)\/?(.+)?\/?$/;
+    const params = url.match(regexSearchAndFilters);
+
+    if (null === params) {
+      return false;
+    }
+
+    const [full, searchTermParam, filtersParam] = params;
+
+    if ('' === searchTerm || null === searchTerm) {
+      this.setState({
+        searchTerm: searchTermParam
+      });
+    }
+  }
+
+  displaySearchResults = () => {
     const { searchTerm } = this.state;
-    this.props.history.push(`/mappings/${searchTerm}`);
+    let { history } = this.props;
+
+    history.push(`/mappings/${searchTerm}`);
   }
 
   onLoginSuccess = (user, readonly) => {
@@ -46,39 +70,41 @@ class App extends Component {
         cookies.set('authenticated', '1', { path: '/' });
       }
     );
-  };
+  }
 
   onLoginFailure = () => {
     this.setState(this.defaultState);
-  };
+  }
 
   onLogout = () => {
     const { history } = this.props;
 
     this.setState(this.defaultState);
     history.push('/');
-  };
+  }
 
   defaultState = {
-    searchTerm: null,
+    searchTerm: '',
     filters: {},
-    // searchResults: null,
     authenticated: false,
     readonly: true,
     user: {
       id: 'guest',
       name: 'Guest',
     },
-  };
+  }
 
-  getResults = () => {};
+  getResults = () => {}
 
-  updateSearchTerm = term => {
+  handleSearchTermChange = ({ target }) => {
     this.setState({
-      searchTerm: term,
-      filters: {}
-    }, this.handleSearch);
-  };
+      searchTerm: target.value
+    });
+  }
+
+  handleSearchSubmit = () => {
+    this.displaySearchResults();
+  }
 
   addFilter = (facet, value) => {
     const { filters } = this.state;
@@ -86,7 +112,7 @@ class App extends Component {
     this.setState({
       filters
     }, this.forceUpdate);
-  };
+  }
 
   removeFilter = facet => {
     const { filters } = this.state;
@@ -94,7 +120,7 @@ class App extends Component {
     this.setState({
       filters
     }, this.forceUpdate);
-  };
+  }
 
   render() {
     const { authenticated } = this.state;
@@ -107,9 +133,10 @@ class App extends Component {
 
     const appProps = {
       ...this.state,
-      updateSearchTerm: this.updateSearchTerm,
       addFilter: this.addFilter,
-      removeFilter: this.removeFilter
+      removeFilter: this.removeFilter,
+      handleSearchTermChange: this.handleSearchTermChange,
+      handleSearchSubmit: this.handleSearchSubmit
     };
 
     return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import SearchComponent from './SearchComponent';
+
+import SearchField from './SearchField';
 
 function Header(props) {
   const { authenticated, user } = props;
@@ -27,7 +28,7 @@ function Header(props) {
           { /* <!-- /local-title --> */ }
           { /* <!-- local-nav --> */ }
           <div className="columns medium-6">
-            {props.location.pathname != '/' && <SearchComponent {...props} />}
+            {props.location.pathname != '/' && <SearchField {...props} />}
           </div>
           <nav >
             <ul id="local-nav" className="dropdown menu float-left" data-description="navigational">
