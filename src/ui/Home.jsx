@@ -5,7 +5,6 @@ import SearchField from './components/SearchField';
 import '../styles/Home.css';
 
 function Home(props) {
-  console.log("home props:", props);
   return (
     <main>
       <div className="row home-banner">

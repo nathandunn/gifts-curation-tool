@@ -11,3 +11,7 @@
   line-height: 3rem;
   vertical-align: top;
 }
+
+#status-indicator {
+  margin-left: 1rem;
+}

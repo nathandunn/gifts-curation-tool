@@ -146,9 +146,9 @@ class App extends Component {
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
               <Route exact path="/mappings/:term" render={() => <Mappings {...appProps} />} />
-              <Route exact path={'/login'} render={LoginComponent} />
-              <Route exact path={'/logout'} render={LogoutComponent} />
-              <Route path={'/mapping/:mappingId'} component={Mapping} />
+              <Route exact path={'/login'} component={LoginComponent} />
+              <Route exact path={'/logout'} component={LogoutComponent} />
+              <Route path={'/mapping/:mappingId'} render={({ match }) => <Mapping match={match} isLoggedIn={authenticated} />} />
             </Switch>
           </div>
         </section>
