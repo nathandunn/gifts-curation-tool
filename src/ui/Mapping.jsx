@@ -18,7 +18,8 @@ class Mapping extends Component {
     labels: null,
     addLabelMode: false,
     draftLabel: null,
-    isLoggedIn: null
+    isLoggedIn: null,
+    mappingId: null
   }
 
   statusOptions = {
@@ -39,22 +40,21 @@ class Mapping extends Component {
     const { match: { params }, isLoggedIn } = this.props;
     const { mappingId } = params;
 
-    const apiURI = `http://localhost:3000/api/mappings/get/${mappingId}`;
-    axios.get(apiURI)
-      .then(response => {
-        const details = response.data[0];
-        this.setState({
-          details,
-          isLoggedIn,
-          status: details.mapping.status,
-          comments: details.mapping.comments,
-          labels: details.mapping.labels
-        });
-      });
+    this.setState({
+      mappingId
+    });
+
+    this.getMappingDetails(mappingId, isLoggedIn);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { match: { params } } = this.props;
+    const { mappingId } = params;
     const { isLoggedIn } = this.state;
+
+    if ( mappingId !== prevProps.match.params.mappingId) {
+      this.getMappingDetails(mappingId, isLoggedIn);
+    }
 
     if (null === this.textEditor && isLoggedIn) {
       this.textEditor = new SimpleMED({
@@ -67,6 +67,22 @@ class Mapping extends Component {
     }
   }
 
+  getMappingDetails = (mappingId, isLoggedIn) => {
+    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/?format=json`;
+    axios.get(apiURI)
+      .then(response => {
+        const details = response.data;
+
+        this.setState({
+          details,
+          isLoggedIn,
+          status: details.mapping.status || 'NOT_REVIEWED',
+          comments: details.mapping.comments || [],
+          labels: details.mapping.labels || []
+        });
+      });
+  }
+
   onStatusChange = ({ target }) => {
     this.setState({
       status: target.value
@@ -76,18 +92,18 @@ class Mapping extends Component {
   }
 
   updateStatus = status => {
-    const { details } = this.state;
-    const { id } = details;
-
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/status`;
-
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
-    let changes = { ...details };
-    changes.mapping.status = status;
+    const { mappingId } = this.state;
+console.log("status change:", mappingId, status);
+    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/status/`;
+    let changes = {
+      status
+    };
+    // changes.mapping.status = status;
 
     axios.patch(apiURI, changes)
       .then(response => {
         // should roll-back the state here if changes weren't saved
+        console.log("-response:", response);
       });
   }
 
@@ -341,7 +357,7 @@ console.log("mapping state:", this.state);
               }} />
 
               <span style={mappingIdStyles}>
-                {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.entryVersion})`}
+                {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}
               </span>
             </div>
 

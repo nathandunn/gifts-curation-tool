@@ -55,7 +55,7 @@ class Mappings extends Component {
   handleSearch = (searchTerm, filters) => {
     searchTerm = searchTerm || 'test';
     const accession = searchTerm;
-    const apiURI = `http://localhost:3000/api/search/${accession}`;
+    const apiURI = `http://193.62.52.185:5000/gifts/mappings/?searchTerm=${accession}&format=json`;
     const params = {
       ...filters
     };
