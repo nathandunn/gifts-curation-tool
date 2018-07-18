@@ -17,7 +17,8 @@ class Mapping extends Component {
     draftComment: '',
     labels: null,
     addLabelMode: false,
-    draftLabel: null
+    draftLabel: null,
+    isLoggedIn: null
   }
 
   statusOptions = {
@@ -35,7 +36,7 @@ class Mapping extends Component {
   }
 
   componentDidMount() {
-    const { match: { params } } = this.props;
+    const { match: { params }, isLoggedIn } = this.props;
     const { mappingId } = params;
 
     const apiURI = `http://localhost:3000/api/mappings/get/${mappingId}`;
@@ -44,6 +45,7 @@ class Mapping extends Component {
         const details = response.data[0];
         this.setState({
           details,
+          isLoggedIn,
           status: details.mapping.status,
           comments: details.mapping.comments,
           labels: details.mapping.labels
@@ -52,7 +54,9 @@ class Mapping extends Component {
   }
 
   componentDidUpdate() {
-    if (null === this.textEditor) {
+    const { isLoggedIn } = this.state;
+
+    if (null === this.textEditor && isLoggedIn) {
       this.textEditor = new SimpleMED({
         element: document.getElementById('text-editor'),
         initialValue: this.state.draftComment,
@@ -208,13 +212,29 @@ class Mapping extends Component {
       comments,
       draftComment,
       labels,
-      addLabelMode
+      addLabelMode,
+      isLoggedIn
     } = this.state;
     const { mapping, relatedMappings } = details;
     const { mappingId } = mapping;
 
     const statusList = Object.keys(this.statusOptions)
       .map(key => <option value={key} key={key}>{this.statusOptions[key]}</option>);
+
+    const StatusChangeControl = () => {
+      return (
+        <select
+          className="status-modifier"
+          onChange={this.onStatusChange}
+          value={status}
+        >
+          <option value=""></option>
+          {statusList}
+        </select>
+      );
+    }
+
+    const StatusIndicator = () => <span id="status-indicator">{this.statusOptions[status]}</span>;
 
     let statusColour = undefined;
 
@@ -229,7 +249,7 @@ class Mapping extends Component {
       <span className="label primary">
         {props.text}
         <button onClick={() => this.deleteLabel(props.text)}>
-          <span style={{ marginLeft: '0.3rem', color: '#FEFEFE', cursor: 'pointer' }}>&times;</span>
+          {(props.isLoggedIn) ? <span style={{ marginLeft: '0.3rem', color: '#FEFEFE', cursor: 'pointer' }}>&times;</span> : null }
         </button>
       </span>;
 
@@ -259,6 +279,30 @@ class Mapping extends Component {
       </div>
     );
 
+    const CommentsSection = () => {
+      return (
+        <div style={{marginTop: '3rem'}}>
+          {comments.map(comment => <Comment details={comment} key={`${comment.user}-${comment.timeAdded}-${Math.random()}`} />)}
+
+          <div className="comment row">
+            <div className="column medium-12">
+              <div className="comment__avatar">
+                ?
+              </div>
+              <div className="comment__details">
+                <textarea id="text-editor" onChange={this.handleCommentTextChange} value={draftComment}></textarea>
+                <button
+                  className="button"
+                  onClick={this.saveComment}
+                  style={{ float: 'right' }}
+                >Add comment</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
 console.log("mapping state:", this.state);
     return (
       <Fragment>
@@ -268,23 +312,16 @@ console.log("mapping state:", this.state);
             <div className="column medium-4">
               <div>
                 <div className={`status status--${statusColour}`}></div>
-                <select
-                  className="status-modifier"
-                  onChange={this.onStatusChange}
-                  value={status}
-                >
-                  <option value=""></option>
-                  {statusList}
-                </select>
+                {(isLoggedIn) ? <StatusChangeControl /> : <StatusIndicator />}
               </div>
             </div>
 
             <div>
-              {labels.map(label => <Label text={label} key={label} />)}
-              {(addLabelMode)
-                ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
-                : <a href="#" onClick={this.enableAddLabelMode}>Add label</a>
-              }
+              {labels.map(label => <Label text={label} key={label} isLoggedIn={isLoggedIn} />)}
+              {(isLoggedIn) ? (addLabelMode)
+                  ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
+                  : <a href="#" onClick={this.enableAddLabelMode}>Add label</a>
+                : null }
             </div>
 
             <div style={{marginTop: '2rem', height: '15vh'}}>
@@ -318,26 +355,7 @@ console.log("mapping state:", this.state);
               )}
             </div>
 
-            <div style={{marginTop: '3rem'}}>
-              {comments.map(comment => <Comment details={comment} key={`${comment.user}-${comment.timeAdded}-${Math.random()}`} />)}
-
-              <div className="comment row">
-                <div className="column medium-12">
-                  <div className="comment__avatar">
-                    ?
-                  </div>
-                  <div className="comment__details">
-                    <textarea id="text-editor" onChange={this.handleCommentTextChange} value={draftComment}></textarea>
-                    <button
-                      className="button"
-                      onClick={this.saveComment}
-                      style={{ float: 'right' }}
-                    >Add comment</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            {(isLoggedIn) ? <CommentsSection /> : null}
           </div>
         </div>
       </Fragment>
