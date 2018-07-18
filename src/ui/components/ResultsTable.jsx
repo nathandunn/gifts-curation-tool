@@ -42,7 +42,7 @@ function ResultsTable(props) {
                   <div className="table-cell">{mapping.ensemblTranscript.seqRegionStart}</div>
                   <div className="table-cell">{mapping.ensemblTranscript.seqRegionEnd}</div>
                   <div className="table-cell">{mapping.uniprotEntry.uniprotAccession}</div>
-                  <div className="table-cell">{row.taxonomy.specie}</div>
+                  <div className="table-cell">{row.taxonomy.species}</div>
                 </Link>
               )}
             )}
