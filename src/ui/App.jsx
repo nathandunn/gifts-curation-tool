@@ -94,8 +94,6 @@ class App extends Component {
     },
   }
 
-  getResults = () => {}
-
   handleSearchTermChange = ({ target }) => {
     this.setState({
       searchTerm: target.value

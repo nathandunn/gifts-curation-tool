@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SimpleMED from 'simplemde';
 
+import Alignment from './components/Alignment';
 import Comment from './components/Comment';
 
 import '../styles/Mapping.css';
@@ -324,7 +325,7 @@ console.log("mapping state:", this.state);
                 : null }
             </div>
 
-            <div style={{marginTop: '2rem', height: '15vh'}}>
+            <div style={{marginTop: '2rem'}}>
               <span style={mappingIdStyles}>
                 {`${mapping.ensemblTranscript.enstId} (v${mapping.ensemblTranscript.enstVersion})`}
               </span>
@@ -344,6 +345,8 @@ console.log("mapping state:", this.state);
                 {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.entryVersion})`}
               </span>
             </div>
+
+            <Alignment />
 
             <div>
               <h3>Related Mappings</h3>

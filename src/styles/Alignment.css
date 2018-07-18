@@ -1,0 +1,14 @@
+
+.alignment {
+  margin: 2rem 0;
+}
+
+.alignment__ids {
+  width: 30%;
+  display: inline-block;
+}
+
+.alignment__seqs {
+  width: 70%;
+  display: inline-block;
+}
