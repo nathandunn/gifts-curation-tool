@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 import SearchField from './components/SearchField';
 
@@ -12,7 +13,9 @@ function Home(props) {
           <h5>Helping biologists one mapping at a time</h5>
           <SearchField {...props} />
           <div className="home-banner__actions">
-            <a className="button">Explore mappings</a>
+            <Link to="/mappings/" className="button">
+              Explore mappings
+            </Link>
           </div>
         </div>
       </div>
