@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import ResultsTable from './components/ResultsTable';
 import Filters from './components/Filters';
+import Paginator from './components/Pagination';
 
 import '../styles/Home.css';
 
@@ -53,18 +54,19 @@ class Mappings extends Component {
     );
   };
 
-  handleSearch = (searchTerm, filters) => {
+  handleSearch = (searchTerm, filters, currentPage = 1, itemsPerPage = 25) => {
     searchTerm = searchTerm || '';
     const accession = searchTerm;
-    const apiURI = `http://193.62.52.185:5000/gifts/mappings/?searchTerm=${accession}&format=json`;
+    const apiURI = `http://193.62.52.185:5000/gifts/mappings/?searchTerm=${accession}&page=${currentPage}&limit=${itemsPerPage}&format=json`;
     const params = {
       ...filters,
     };
 
-    axios.get(apiURI, { params }).then((response) => {
+    return axios.get(apiURI, { params }).then((response) => {
       this.setState({
         searchResults: response.data,
       });
+      return response.data;
     });
   };
 
@@ -90,6 +92,9 @@ class Mappings extends Component {
     return hasChanged;
   };
 
+  fetchPage = (currentPage, itemsPerPage) =>
+    this.handleSearch(this.state.searchTerm, this.state.filters, currentPage, itemsPerPage);
+
   render() {
     const { searchResults, filters } = this.state;
     console.log('- mappings render:', this.state);
@@ -106,7 +111,7 @@ class Mappings extends Component {
               />
             </div>
             <div className="column medium-10">
-              <ResultsTable data={searchResults} />
+              <ResultsTable data={searchResults} fetchPage={this.fetchPage} />
             </div>
           </div>
         </Fragment>
