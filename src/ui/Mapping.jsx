@@ -98,9 +98,16 @@ console.log("status change:", mappingId, status);
     let changes = {
       status
     };
-    // changes.mapping.status = status;
 
-    axios.patch(apiURI, changes)
+    const config = {
+      // responseType: 'json',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      }
+    };
+
+    axios.put(apiURI, changes, config)
       .then(response => {
         // should roll-back the state here if changes weren't saved
         console.log("-response:", response);
