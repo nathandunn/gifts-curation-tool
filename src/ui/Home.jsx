@@ -10,7 +10,7 @@ function Home(props) {
     <main>
       <div className="row home-banner">
         <div className="medium-offset-3 medium-6 text-center">
-          <h5>Helping biologists one mapping at a time</h5>
+          <h5>Search for a mapping:</h5>
           <SearchField {...props} />
           <div className="home-banner__actions">
             <a className="button">Explore mappings</a>
