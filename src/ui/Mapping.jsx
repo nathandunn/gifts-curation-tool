@@ -155,14 +155,11 @@ console.log("### mapping:", details);
 
   saveComment = () => {
     const { mappingId } = this.state;
-    let { comments } = this.state;
 
     const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/comments/`;
-  
     const comment = {
       text: this.textEditor.value()
     }
-console.log("comment:", comment);
 
     const config = {
       headers: {
@@ -172,11 +169,6 @@ console.log("comment:", comment);
 
     axios.post(apiURI, comment, config)
       .then(response => {
-        // this.setState({
-        //   // draftComment: '',
-        //   // comments
-        // });
-
         this.textEditor.value('');
         this.getMappingCommentsAndLabels(mappingId);
       });
@@ -208,24 +200,38 @@ console.log("comment:", comment);
   }
 
   addLabel = label => {
-    const { draftLabel, labels, details } = this.state;
-    const { id } = details;
+    const { draftLabel, labels, details, mappingId } = this.state;
 
-    labels.push(draftLabel);
+    // labels.push(draftLabel);
 
-    this.setState({
-      addLabelMode: false,
-      draftLabel: '',
-      labels
-    });
+    // this.setState({
+    //   addLabelMode: false,
+    //   draftLabel: '',
+    //   labels
+    // });
 
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/labels`;
+    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/labels/`;
+    // const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/labels/${label}`;
 
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
+    const newLabel = {
+      label
+    };
 
-    axios.patch(apiURI, details)
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
+
+    axios.post(apiURI, newLabel, config)
       .then(response => {
-        // should roll-back the state here if changes weren't saved
+
+        this.setState({
+          addLabelMode: false,
+          draftLabel: ''
+        });
+
+        this.getMappingCommentsAndLabels(mappingId);
       });
   }
 
