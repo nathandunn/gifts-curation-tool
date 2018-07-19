@@ -54,10 +54,10 @@ class Mappings extends Component {
     );
   };
 
-  handleSearch = (searchTerm, filters, currentPage = 1, itemsPerPage = 25) => {
+  handleSearch = (searchTerm, filters, offset = 0, itemsPerPage = 25) => {
     searchTerm = searchTerm || '';
     const accession = searchTerm;
-    const apiURI = `http://193.62.52.185:5000/gifts/mappings/?searchTerm=${accession}&page=${currentPage}&limit=${itemsPerPage}&format=json`;
+    const apiURI = `http://193.62.52.185:5000/gifts/mappings/?searchTerm=${accession}&offset=${offset}&limit=${itemsPerPage}&format=json`;
     const params = {
       ...filters,
     };
@@ -92,8 +92,10 @@ class Mappings extends Component {
     return hasChanged;
   };
 
-  fetchPage = (currentPage, itemsPerPage) =>
-    this.handleSearch(this.state.searchTerm, this.state.filters, currentPage, itemsPerPage);
+  fetchPage = (currentPage, itemsPerPage) => {
+    const offSet = (currentPage - 1) * itemsPerPage;
+    return this.handleSearch(this.state.searchTerm, this.state.filters, offSet, itemsPerPage);
+  };
 
   render() {
     const { searchResults, filters } = this.state;
