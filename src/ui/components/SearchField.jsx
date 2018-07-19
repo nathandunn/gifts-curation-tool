@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
 
-const SearchField = props => {
-
+const SearchField = (props) => {
   const { searchTerm, handleSearchTermChange, handleSearchSubmit } = props;
 
-  return(
+  return (
     <Fragment>
       <div className="input-group">
         <input
@@ -22,6 +21,6 @@ const SearchField = props => {
       </div>
     </Fragment>
   );
-}
+};
 
 export default SearchField;
