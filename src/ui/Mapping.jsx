@@ -40,6 +40,10 @@ class Mapping extends Component {
     const { match: { params }, isLoggedIn } = this.props;
     const { mappingId } = params;
 
+    if (null === this.textEditor && isLoggedIn) {
+      this.createTextEditor();
+    }
+
     this.setState({
       mappingId
     });
@@ -50,21 +54,36 @@ class Mapping extends Component {
   componentDidUpdate(prevProps) {
     const { match: { params } } = this.props;
     const { mappingId } = params;
-    const { isLoggedIn } = this.state;
+    const { isLoggedIn, draftComment } = this.state;
+
+    if (null === this.textEditor && isLoggedIn) {
+      this.createTextEditor();
+    }
+
+    // fix this re-render issue later
+    this.textEditor && this.textEditor.render(document.getElementById('text-editor'));
 
     if ( mappingId !== prevProps.match.params.mappingId) {
       this.getMappingDetails(mappingId, isLoggedIn);
     }
+  }
 
-    if (null === this.textEditor && isLoggedIn) {
+  createTextEditor = () => {
+    const { draftComment } = this.state;
+    const element = document.getElementById('text-editor');
+
+    if (null === element) {
+      return false;
+    }
+
+// console.log("--- creating text edito, el,", element);
       this.textEditor = new SimpleMED({
-        element: document.getElementById('text-editor'),
-        initialValue: this.state.draftComment,
+        element,
+        initialValue: draftComment,
         hideIcons: ['image']
       });
-
+// console.log("text editor:", this.textEditor);
       this.textEditor.codemirror.on('change', this.handleCommentTextChange);
-    }
   }
 
   getMappingDetails = (mappingId, isLoggedIn) => {
@@ -72,13 +91,26 @@ class Mapping extends Component {
     axios.get(apiURI)
       .then(response => {
         const details = response.data;
-
+console.log("### mapping:", details);
         this.setState({
           details,
           isLoggedIn,
           status: details.mapping.status || 'NOT_REVIEWED',
           comments: details.mapping.comments || [],
           labels: details.mapping.labels || []
+        }, () => this.getMappingCommentsAndLabels(mappingId));
+      });
+  }
+
+  getMappingCommentsAndLabels = mappingId => {
+    const apiURI = `http://193.62.52.185:5000/gifts/comments/${mappingId}/?format=json`;
+    axios.get(apiURI)
+      .then(({ data }) => {
+        const { comments, labels } = data;
+
+        this.setState({
+          comments: comments.reverse(),
+          labels
         });
       });
   }
@@ -93,17 +125,14 @@ class Mapping extends Component {
 
   updateStatus = status => {
     const { mappingId } = this.state;
-console.log("status change:", mappingId, status);
     const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/status/`;
-    let changes = {
+    const changes = {
       status
     };
 
     const config = {
-      // responseType: 'json',
       headers: {
         'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       }
     };
 
@@ -114,37 +143,42 @@ console.log("status change:", mappingId, status);
       });
   }
 
+  // this is not used anymore
   handleCommentTextChange = () => {
-    this.setState({
-      draftComment: this.textEditor.value()
-    });
+    console.log("text changed:", this.textEditor.value());
+    // this.setState({
+    //   draftComment: this.textEditor.value()
+    // }, () => {
+    //   console.log("after text change:", this.state.draftComment);
+    // });
   }
 
   saveComment = () => {
-    const { draftComment, details } = this.state;
-    const { id } = this.state.details;
+    const { mappingId } = this.state;
     let { comments } = this.state;
 
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/comments`;
+    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/comments/`;
+  
+    const comment = {
+      text: this.textEditor.value()
+    }
+console.log("comment:", comment);
 
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
 
-    comments.push({
-      text: draftComment,
-      timeAdded: "0001-02-03",
-      user: "user-000"
-    });
-
-    this.setState({
-      draftComment: '',
-      comments
-    });
-
-    this.textEditor.value('');
-
-    axios.patch(apiURI, details)
+    axios.post(apiURI, comment, config)
       .then(response => {
-        // should roll-back the state here if changes weren't saved
+        // this.setState({
+        //   // draftComment: '',
+        //   // comments
+        // });
+
+        this.textEditor.value('');
+        this.getMappingCommentsAndLabels(mappingId);
       });
   }
 
@@ -326,7 +360,10 @@ console.log("status change:", mappingId, status);
       );
     }
 
+// console.log(">>> EDITOR:", this.textEditor);
+// console.log(">>> VALUE:", this.textEditor && this.textEditor.value());
 console.log("mapping state:", this.state);
+
     return (
       <Fragment>
         <div className="row" style={{ paddingTop: '2.5rem' }}>
