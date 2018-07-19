@@ -1,4 +1,3 @@
-
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
@@ -7,7 +6,7 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 module.exports = {
   context: __dirname,
   devtool: 'inline-sourcemap',
-  entry: __dirname + '/src/ui/index.jsx',
+  entry: ['babel-polyfill', __dirname + '/src/ui/index.jsx'],
   output: {
     path: __dirname + '/build',
     filename: 'app.[hash].bundle.js',
@@ -27,7 +26,9 @@ module.exports = {
       test: /\.html$/,
       use: [{
         loader: 'html-loader',
-        options: { minimize: true }
+        options: {
+          minimize: true
+        }
       }]
     }, {
       test: /\.(css|sass|scss)$/,
