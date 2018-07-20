@@ -87,7 +87,7 @@ class Mapping extends Component {
   }
 
   getMappingDetails = (mappingId, isLoggedIn) => {
-    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/?format=json`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/?format=json`;
     axios.get(apiURI)
       .then(response => {
         const details = response.data;
@@ -103,7 +103,7 @@ console.log("### mapping:", details);
   }
 
   getMappingCommentsAndLabels = mappingId => {
-    const apiURI = `http://193.62.52.185:5000/gifts/comments/${mappingId}/?format=json`;
+    const apiURI = `${API_URL}/comments/${mappingId}/?format=json`;
     axios.get(apiURI)
       .then(({ data }) => {
         const { comments, labels } = data;
@@ -125,7 +125,7 @@ console.log("### mapping:", details);
 
   updateStatus = status => {
     const { mappingId } = this.state;
-    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/status/`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/status/`;
     const changes = {
       status
     };
@@ -156,7 +156,7 @@ console.log("### mapping:", details);
   saveComment = () => {
     const { mappingId } = this.state;
 
-    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/comments/`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/comments/`;
     const comment = {
       text: this.textEditor.value()
     }
@@ -210,8 +210,7 @@ console.log("### mapping:", details);
     //   labels
     // });
 
-    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/labels/`;
-    // const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/labels/${label}`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/labels/`;
 
     const newLabel = {
       label

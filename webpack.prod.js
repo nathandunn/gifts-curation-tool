@@ -8,6 +8,9 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
   plugins: [
+    new webpack.DefinePlugin({
+      API_URL: JSON.stringify('http://193.62.52.185:5000/gifts')
+    }),
     new UglifyJSPlugin({
       sourceMap: true
     }),

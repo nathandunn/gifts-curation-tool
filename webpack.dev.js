@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
@@ -9,6 +10,9 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   plugins: [
+    new webpack.DefinePlugin({
+      API_URL: JSON.stringify('http://193.62.52.185:5000/gifts')
+    }),
     new HtmlWebPackPlugin({
       template: __dirname + '/public/index.html',
       filename: 'index.html'

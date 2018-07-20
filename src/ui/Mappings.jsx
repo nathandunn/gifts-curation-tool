@@ -57,7 +57,7 @@ class Mappings extends Component {
   handleSearch = (searchTerm, filters, offset = 0, itemsPerPage = 25) => {
     searchTerm = searchTerm || '';
     const accession = searchTerm;
-    const apiURI = `http://193.62.52.185:5000/gifts/mappings/?searchTerm=${accession}&offset=${offset}&limit=${itemsPerPage}&format=json`;
+    const apiURI = `${API_URL}/mappings/?searchTerm=${accession}&offset=${offset}&limit=${itemsPerPage}&format=json`;
     const params = {
       ...filters,
     };
