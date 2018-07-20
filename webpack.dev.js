@@ -11,7 +11,8 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   plugins: [
     new webpack.DefinePlugin({
-      API_URL: JSON.stringify('http://193.62.52.185:5000/gifts')
+      API_URL: JSON.stringify('http://193.62.52.185:5000/gifts'),
+      AUTH_CALLBACK_URL: JSON.stringify('http%3A%2F%2Flocalhost%3A39093%2Flogin')
     }),
     new HtmlWebPackPlugin({
       template: __dirname + '/public/index.html',

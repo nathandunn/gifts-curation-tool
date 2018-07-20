@@ -10,11 +10,10 @@ import '../styles/Home.css';
 
 class Login extends Component {
     windowRef = null;
-        // .open('https://explore.api.aai.ebi.ac.uk/sso?from=http%3A%2F%2Flocalhost%3A39093%2Flogin', 'elixir')
     componentDidMount() {
       window.addEventListener("message", this.onElixirResponse);
       this.windowRef = window
-        .open('https://explore.api.aai.ebi.ac.uk/sso?from=http%3A%2F%2F193.62.52.185%3A5000%2Flogin', 'elixir')
+        .open(`https://explore.api.aai.ebi.ac.uk/sso?from=${AUTH_CALLBACK_URL}`, 'elixir')
         .focus();
     }
 
