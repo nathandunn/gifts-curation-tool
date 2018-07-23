@@ -235,30 +235,19 @@ console.log("### mapping:", details);
   }
 
   deleteLabel = label => {
-    const { labels, details } = this.state;
-    const { id } = details;
-    const index = labels.indexOf(label);
+    const { mappingId } = this.state;
 
-    if (index < 0) {
-      return false;
-    }
+    const apiURI = `${API_URL}/mapping/${mappingId}/labels/${label}/`;
 
-    labels.splice(index, 1);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
 
-    this.setState({
-      labels
-    });
-
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/labels`;
-
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
-    let changes = { ...details };
-
-    changes.mapping.labels = labels;
-
-    axios.patch(apiURI, changes)
+    axios.delete(apiURI, config)
       .then(response => {
-        // should roll-back the state here if changes weren't saved
+        this.getMappingCommentsAndLabels(mappingId);
       });
   }
 
@@ -365,8 +354,6 @@ console.log("### mapping:", details);
       );
     }
 
-// console.log(">>> EDITOR:", this.textEditor);
-// console.log(">>> VALUE:", this.textEditor && this.textEditor.value());
 console.log("mapping state:", this.state);
 
     return (
@@ -382,7 +369,7 @@ console.log("mapping state:", this.state);
             </div>
 
             <div>
-              {labels.map(label => <Label text={label} key={label} isLoggedIn={isLoggedIn} />)}
+              {labels.reverse().map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
               {(isLoggedIn) ? (addLabelMode)
                   ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
                   : <a href="#" onClick={this.enableAddLabelMode}>Add label</a>
