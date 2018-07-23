@@ -1,13 +1,9 @@
-
 const webpack = require('webpack');
-const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
   context: __dirname,
   devtool: 'inline-sourcemap',
-  entry: __dirname + '/src/ui/index.jsx',
+  entry: ['babel-polyfill', __dirname + '/src/ui/index.jsx'],
   output: {
     path: __dirname + '/build',
     filename: 'app.[hash].bundle.js',
@@ -27,7 +23,9 @@ module.exports = {
       test: /\.html$/,
       use: [{
         loader: 'html-loader',
-        options: { minimize: true }
+        options: {
+          minimize: true
+        }
       }]
     }, {
       test: /\.(css|sass|scss)$/,
@@ -39,25 +37,5 @@ module.exports = {
         loader: "sass-loader" // compiles Sass to CSS
       }]
     }]
-  },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: __dirname + '/public/index.html',
-      filename: 'index.html'
-    }),
-    new BrowserSyncPlugin({
-      host: 'localhost',
-      port: 3100,
-      proxy: 'http://localhost:39093/',
-      open: false,
-      ui: false
-    })
-  ],
-  devServer: {
-    contentBase: path.join(__dirname, 'build'),
-    compress: true,
-    host: 'localhost',
-    port: 39093,
-    historyApiFallback: true
   }
 };

@@ -19,7 +19,8 @@ class Mapping extends Component {
     labels: null,
     addLabelMode: false,
     draftLabel: null,
-    isLoggedIn: null
+    isLoggedIn: null,
+    mappingId: null
   }
 
   statusOptions = {
@@ -40,32 +41,79 @@ class Mapping extends Component {
     const { match: { params }, isLoggedIn } = this.props;
     const { mappingId } = params;
 
-    const apiURI = `http://localhost:3000/api/mappings/get/${mappingId}`;
+    if (null === this.textEditor && isLoggedIn) {
+      this.createTextEditor();
+    }
+
+    this.setState({
+      mappingId
+    });
+
+    this.getMappingDetails(mappingId, isLoggedIn);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { match: { params } } = this.props;
+    const { mappingId } = params;
+    const { isLoggedIn, draftComment } = this.state;
+
+    if (null === this.textEditor && isLoggedIn) {
+      this.createTextEditor();
+    }
+
+    // fix this re-render issue later
+    this.textEditor && this.textEditor.render(document.getElementById('text-editor'));
+
+    if ( mappingId !== prevProps.match.params.mappingId) {
+      this.getMappingDetails(mappingId, isLoggedIn);
+    }
+  }
+
+  createTextEditor = () => {
+    const { draftComment } = this.state;
+    const element = document.getElementById('text-editor');
+
+    if (null === element) {
+      return false;
+    }
+
+// console.log("--- creating text edito, el,", element);
+      this.textEditor = new SimpleMED({
+        element,
+        initialValue: draftComment,
+        hideIcons: ['image']
+      });
+// console.log("text editor:", this.textEditor);
+      this.textEditor.codemirror.on('change', this.handleCommentTextChange);
+  }
+
+  getMappingDetails = (mappingId, isLoggedIn) => {
+    const apiURI = `${API_URL}/mapping/${mappingId}/?format=json`;
     axios.get(apiURI)
       .then(response => {
-        const details = response.data[0];
+        const details = response.data;
+console.log("### mapping:", details);
         this.setState({
           details,
           isLoggedIn,
-          status: details.mapping.status,
-          comments: details.mapping.comments,
-          labels: details.mapping.labels
-        });
+          status: details.mapping.status || 'NOT_REVIEWED',
+          comments: details.mapping.comments || [],
+          labels: details.mapping.labels || []
+        }, () => this.getMappingCommentsAndLabels(mappingId));
       });
   }
 
-  componentDidUpdate() {
-    const { isLoggedIn } = this.state;
+  getMappingCommentsAndLabels = mappingId => {
+    const apiURI = `${API_URL}/comments/${mappingId}/?format=json`;
+    axios.get(apiURI)
+      .then(({ data }) => {
+        const { comments, labels } = data;
 
-    if (null === this.textEditor && isLoggedIn) {
-      this.textEditor = new SimpleMED({
-        element: document.getElementById('text-editor'),
-        initialValue: this.state.draftComment,
-        hideIcons: ['image']
+        this.setState({
+          comments: comments.reverse(),
+          labels
+        });
       });
-
-      this.textEditor.codemirror.on('change', this.handleCommentTextChange);
-    }
   }
 
   onStatusChange = ({ target }) => {
@@ -77,52 +125,53 @@ class Mapping extends Component {
   }
 
   updateStatus = status => {
-    const { details } = this.state;
-    const { id } = details;
+    const { mappingId } = this.state;
+    const apiURI = `${API_URL}/mapping/${mappingId}/status/`;
+    const changes = {
+      status
+    };
 
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/status`;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
 
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
-    let changes = { ...details };
-    changes.mapping.status = status;
-
-    axios.patch(apiURI, changes)
+    axios.put(apiURI, changes, config)
       .then(response => {
         // should roll-back the state here if changes weren't saved
+        console.log("-response:", response);
       });
   }
 
+  // this is not used anymore
   handleCommentTextChange = () => {
-    this.setState({
-      draftComment: this.textEditor.value()
-    });
+    console.log("text changed:", this.textEditor.value());
+    // this.setState({
+    //   draftComment: this.textEditor.value()
+    // }, () => {
+    //   console.log("after text change:", this.state.draftComment);
+    // });
   }
 
   saveComment = () => {
-    const { draftComment, details } = this.state;
-    const { id } = this.state.details;
-    let { comments } = this.state;
+    const { mappingId } = this.state;
 
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/comments`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/comments/`;
+    const comment = {
+      text: this.textEditor.value()
+    }
 
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
 
-    comments.push({
-      text: draftComment,
-      timeAdded: "0001-02-03",
-      user: "user-000"
-    });
-
-    this.setState({
-      draftComment: '',
-      comments
-    });
-
-    this.textEditor.value('');
-
-    axios.patch(apiURI, details)
+    axios.post(apiURI, comment, config)
       .then(response => {
-        // should roll-back the state here if changes weren't saved
+        this.textEditor.value('');
+        this.getMappingCommentsAndLabels(mappingId);
       });
   }
 
@@ -152,52 +201,54 @@ class Mapping extends Component {
   }
 
   addLabel = label => {
-    const { draftLabel, labels, details } = this.state;
-    const { id } = details;
+    const { draftLabel, labels, details, mappingId } = this.state;
 
-    labels.push(draftLabel);
+    // labels.push(draftLabel);
 
-    this.setState({
-      addLabelMode: false,
-      draftLabel: '',
-      labels
-    });
+    // this.setState({
+    //   addLabelMode: false,
+    //   draftLabel: '',
+    //   labels
+    // });
 
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/labels`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/labels/`;
 
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
+    const newLabel = {
+      label
+    };
 
-    axios.patch(apiURI, details)
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
+
+    axios.post(apiURI, newLabel, config)
       .then(response => {
-        // should roll-back the state here if changes weren't saved
+
+        this.setState({
+          addLabelMode: false,
+          draftLabel: ''
+        });
+
+        this.getMappingCommentsAndLabels(mappingId);
       });
   }
 
   deleteLabel = label => {
-    const { labels, details } = this.state;
-    const { id } = details;
-    const index = labels.indexOf(label);
+    const { mappingId } = this.state;
 
-    if (index < 0) {
-      return false;
-    }
+    const apiURI = `${API_URL}/mapping/${mappingId}/labels/${label}/`;
 
-    labels.splice(index, 1);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
 
-    this.setState({
-      labels
-    });
-
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/labels`;
-
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
-    let changes = { ...details };
-
-    changes.mapping.labels = labels;
-
-    axios.patch(apiURI, changes)
+    axios.delete(apiURI, config)
       .then(response => {
-        // should roll-back the state here if changes weren't saved
+        this.getMappingCommentsAndLabels(mappingId);
       });
   }
 
@@ -305,6 +356,7 @@ class Mapping extends Component {
     }
 
 console.log("mapping state:", this.state);
+
     return (
       <Fragment>
         <div className="row" style={{ paddingTop: '2.5rem' }}>
@@ -318,7 +370,7 @@ console.log("mapping state:", this.state);
             </div>
 
             <div>
-              {labels.map(label => <Label text={label} key={label} isLoggedIn={isLoggedIn} />)}
+              {labels.reverse().map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
               {(isLoggedIn) ? (addLabelMode)
                   ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
                   : <a href="#" onClick={this.enableAddLabelMode}>Add label</a>
@@ -342,7 +394,7 @@ console.log("mapping state:", this.state);
               }} />
 
               <span style={mappingIdStyles}>
-                {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.entryVersion})`}
+                {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}
               </span>
             </div>
 
