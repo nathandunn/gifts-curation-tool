@@ -90,9 +90,9 @@ console.log(">> Positions:", this.positions);
 
     return (
       <Fragment>
-        <div id="alignment-hover-tooltip" className="alignment__hover-position">
-          <div id="positionA" className="alignment__hover-position__A"></div>
-          <div id="positionB" className="alignment__hover-position__B"></div>
+        <div id="alignment-hover-tooltip" className="alignment__hover-position__wrapper">
+          <div id="positionA" className="alignment__hover-position alignment__hover-position__A"></div>
+          <div id="positionB" className="alignment__hover-position alignment__hover-position__B"></div>
         </div>
 
         {rows.map((row, rowIndex) => {
@@ -166,9 +166,9 @@ console.log(">> Positions:", this.positions);
     elementA.innerHTML = (null !== valueA) ? `${positionA}:${valueA}` : '-';
     elementB.innerHTML = (null !== valueB) ? `${positionB}:${valueB}` : '-';
 
-    tooltip.style.top = targetPosition.y + window.scrollY - 25 + 'px';
+    tooltip.style.top = targetPosition.y + window.scrollY - 20 + 'px';
     tooltip.style.left = targetPosition.x + window.scrollX - 1 + 'px';
-    tooltip.style.height = targetPosition.height + 50 + 'px';
+    tooltip.style.height = targetPosition.height + 40 + 'px';
     // tooltip.style.width = '60px';
     tooltip.style.display = 'block';
   }

@@ -65,12 +65,12 @@
 }
 
 .alignment__position {
-  color: #6ce67d;
+  color: #954aa7;
   font-weight: bold;
   width: 2rem;
 }
 
-.alignment__hover-position {
+.alignment__hover-position__wrapper {
   position: absolute;
   top: 0;
   left: 0;
@@ -81,20 +81,25 @@
   text-align: left;
   font-size: 1.1rem;
   font-weight: bold;
-  border-left: 1px solid #aa69b9;
+  border-left: 1px solid #954aa7;
   color: #aa69b9;
 }
 
-.alignment__hover-position__A {
+.alignment__hover-position {
   position: absolute;
-  top: 0;
-  left: 5px;
+  padding: 2px 5px;
+  line-height: 1rem;
+  background: #954aa7;
+  color: #fff;
   line-height: 1rem;
 }
 
+.alignment__hover-position__A {
+  top: 0;
+  left: 0;
+}
+
 .alignment__hover-position__B {
-  position: absolute;
   bottom: 0;
-  left: 5px;
-  line-height: 1rem;
+  left: 0;
 }
