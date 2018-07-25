@@ -44,6 +44,7 @@
     "react-cookie": "^2.1.6",
     "react-dom": "^16.4.0",
     "react-markdown": "^3.3.4",
+    "react-paginate": "^5.2.3",
     "react-router-dom": "^4.2.2",
     "simplemde": "^1.11.2"
   },

@@ -1,5 +1,5 @@
 tbody {
-    border-top: #CCC 2px solid !important;
+  border-top: #CCC 2px solid !important;
 }
 
 .table {
@@ -52,4 +52,33 @@ tbody {
 
 .table-row:hover {
   background-color: #e9f3c0;
+}
+
+.results-paginate {
+  list-style: none;
+}
+
+.results-paginate li {
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  height: 2em;
+}
+
+.results-paginate li a {
+  display: block;
+  padding: 0 .7em;
+  line-height: 2em;
+  text-decoration: none;
+  border: none;
+}
+
+.results-paginate li.selected a {
+  background-color: #22424B;
+  color: #ffffff;
+}
+
+.results-paginate li.disabled a {
+  color: #CCC;
+  cursor: default;
 }
