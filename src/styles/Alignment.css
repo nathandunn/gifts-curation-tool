@@ -4,7 +4,6 @@
 }
 
 .alignment__seqs {
-  width: 60%;
   display: inline-block;
 }
 
@@ -14,11 +13,9 @@
 
 .alignment__column {
   display: inline-block;
-  width: 2rem;
-  /*height: 3rem;
-  margin: 0 0.2rem 0 0;*/
-  border: 5px solid #e5efeb;
+  width: 0.75rem;
   color: #ccc;
+  padding: 0.2rem 0;
 }
 
 .alignment__column:hover {
@@ -27,33 +24,77 @@
 }
 
 .alignment__cell {
-  /*width: 1.5rem;
-  height: 1.5rem;
-  line-height: 1.5rem;*/
   text-align: center;
-  /*vertical-align: middle;*/
+  font-size: 0.6rem;
 }
 
 .alignment__changed {
-  border: 5px solid pink;
   color: #000;
+  background: #e4ecec;
 }
 
 .alignment__deleted {
-  border: 5px solid #bdbcf9;
-  color: #000;
+  color: #fff;
+  background: #484747;
 }
 
-/*.alignment__deleted {
-  background: #cd9fea;
+.alignment__deleted:hover {
   color: #fff;
-}*/
+}
 
 .alignment__id-wrapper {
   display: inline-block;
   margin-right: 5rem;
+  font-size: 0.7rem;
 }
 
 .alignment_id {
 
+}
+
+.alignment__start {
+  margin-right: 3rem;
+  text-align: right;
+  font-size: 0.7rem;
+}
+
+.alignment__end {
+  margin-left: 3rem;
+  text-align: left;
+  font-size: 0.7rem;
+}
+
+.alignment__position {
+  color: #6ce67d;
+  font-weight: bold;
+  width: 2rem;
+}
+
+.alignment__hover-position {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 1000;
+  display: none;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-left: 1px solid #aa69b9;
+  color: #aa69b9;
+}
+
+.alignment__hover-position__A {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  line-height: 1rem;
+}
+
+.alignment__hover-position__B {
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+  line-height: 1rem;
 }
