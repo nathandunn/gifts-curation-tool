@@ -15,3 +15,22 @@
 #status-indicator {
   margin-left: 1rem;
 }
+
+.mapping__alignment__header {
+  padding-top: 2.5rem;
+}
+
+.mapping__alignment__wrapper {
+  padding-top: 2.5rem;
+  border: 2px solid #484747;
+  height: 30vh;
+  overflow-y: scroll;
+  border-radius: 1rem;
+}
+
+.mapping__comments__wrapper {
+  padding-top: 2.5rem;
+  /*border: 1px solid blue;
+  height: 30vh;
+  overflow-y: scroll;*/
+}

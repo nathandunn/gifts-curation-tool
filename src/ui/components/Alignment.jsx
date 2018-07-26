@@ -13,6 +13,7 @@ class Alignment extends Component {
   rowSize = 60;
   positions = undefined;
   startEndPosition = undefined;
+  hidePositionTooltip = undefined;
 
   matchSequences = sequences => {
     const paired = sequences
@@ -31,6 +32,11 @@ class Alignment extends Component {
       }, []);
 
     return paired;
+  }
+
+  componentDidMount() {
+    // document.getElementsByClassName('mapping__alignment__wrapper')[0]
+    //   .addEventListener('scroll', () => console.log("scrolling..."));
   }
 
   calculatePositions = (alignments, size) => {
@@ -126,6 +132,7 @@ console.log(">> Positions:", this.positions);
                     <div
                       className={`alignment__column ${extraCSSClasses}`}
                       onMouseEnter={this.showPosition}
+                      onMouseLeave={this.hidePosition}
                       position-a={el[0]}
                       position-b={el[1]}
                       row-index={`${rowIndex}`}
@@ -150,6 +157,8 @@ console.log(">> Positions:", this.positions);
   }
 
   showPosition = ({ currentTarget }) => {
+    window.clearTimeout(this.hidePositionTooltip);
+
     const tooltip = document.getElementById('alignment-hover-tooltip');
     const elementA = document.getElementById('positionA');
     const elementB = document.getElementById('positionB');
@@ -169,8 +178,14 @@ console.log(">> Positions:", this.positions);
     tooltip.style.top = targetPosition.y + window.scrollY - 20 + 'px';
     tooltip.style.left = targetPosition.x + window.scrollX - 1 + 'px';
     tooltip.style.height = targetPosition.height + 40 + 'px';
-    // tooltip.style.width = '60px';
     tooltip.style.display = 'block';
+  }
+
+  hidePosition = () => {
+    this.hidePositionTooltip = window.setTimeout(() => {
+      const tooltip = document.getElementById('alignment-hover-tooltip');
+      tooltip.style.display = 'none';
+    }, 20);
   }
 
   render() {
