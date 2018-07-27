@@ -8,34 +8,53 @@ class Mappings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filters: '',
+      offset: 0,
+      limit: 15,
+      facets: {},
+      initialPage: 0,
     };
   }
 
+  handlePageClick = (data) => {
+    const initialPage = data.selected;
+    const offset = Math.ceil(initialPage * this.state.limit);
+    this.setState({ offset, initialPage });
+  };
+
   addFilter = (facet, value) => {
-    const { filters } = this.state;
-    filters[facet] = value;
+    const { facets } = this.state;
+    facets[facet] = value;
     this.setState({
-      filters,
+      facets,
     });
   };
 
   removeFilter = (facet) => {
-    const { filters } = this.state;
-    delete filters[facet];
+    const { facets } = this.state;
+    delete facets[facet];
     this.setState({
-      filters,
+      facets,
     });
   };
+
+  getFacetsAsString = facets =>
+    Object.keys(this.state.facets)
+      .map(key => `${key}:${this.state.facets[key]}`)
+      .join(',');
 
   render() {
     const propsToPass = {
       addFilter: this.addFilter,
       removeFilter: this.removeFilter,
+      handlePageClick: this.handlePageClick,
       params: {
         searchTerm: this.props.searchTerm,
-        filters: this.state.filters,
+        facets: this.getFacetsAsString(this.state.facets),
+        offset: this.state.offset,
+        limit: this.state.limit,
+        format: 'json',
       },
+      initialPage: this.state.initialPage,
     };
     return <ResultsTable {...propsToPass} />;
   }

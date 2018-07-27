@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
+import { isEqual } from 'lodash-es';
 
 import Status from './Status';
 import Filters from './Filters';
@@ -9,41 +10,42 @@ import Filters from './Filters';
 import '../../styles/ResultsTable.css';
 
 class ResultsTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      offset: 0,
-      limit: 15,
-      facets: [],
-      results: [],
-      totalCount: 0,
-    };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!isEqual(nextProps.params, prevState.params)) {
+      return {
+        params: nextProps.params,
+        facets: null,
+        results: null,
+        totalCount: 0,
+      };
+    }
+    return null;
   }
+
+  state = {};
 
   componentDidMount() {
     this.loadResults();
   }
 
-  handlePageClick = (data) => {
-    const selected = data.selected;
-    const offset = Math.ceil(selected * this.state.limit);
-    this.setState({ offset }, () => {
+  componentDidUpdate() {
+    if (this.state.results === null) {
       this.loadResults();
-    });
-  };
+    }
+  }
 
   loadResults = () => {
     const apiURI = 'http://193.62.52.185:5000/gifts/mappings';
-    const params = {
-      offset: this.state.offset,
-      limit: this.state.limit,
-      ...this.props.params,
-      format: 'json',
-    };
     axios
-      .get(apiURI, { params })
-      .then(d =>
-        this.setState({ facets: d.data.facets, results: d.data.results, totalCount: d.data.count }))
+      .get(apiURI, { params: this.props.params })
+      .then((d) => {
+        this.setState({
+          params: this.props.params,
+          facets: d.data.facets,
+          results: d.data.results,
+          totalCount: d.data.count,
+        });
+      })
       .catch(e => console.log(e));
   };
 
@@ -51,7 +53,7 @@ class ResultsTable extends Component {
     if (this.state.totalCount > 0) {
       return (
         <Fragment>
-          <h2>Mappings</h2>
+          <h2>{this.state.totalCount} Mapping(s)</h2>
           <div className="row">
             <div className="column medium-2">
               <Filters
@@ -106,10 +108,11 @@ class ResultsTable extends Component {
                 ))}
               </div>
               <ReactPaginate
-                pageCount={Math.ceil(this.state.totalCount / this.state.limit)}
+                pageCount={Math.ceil(this.state.totalCount / this.state.params.limit)}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
-                onPageChange={this.handlePageClick}
+                onPageChange={this.props.handlePageClick}
+                initialPage={this.props.initialPage}
                 containerClassName="results-paginate"
               />
             </div>

@@ -63,19 +63,20 @@ class App extends Component {
     },
   };
 
-  handleSearchSubmit = (e) => {
+  handleSearchSubmit = (e, input) => {
     const { history } = this.props;
 
     this.setState({
-      searchTerm: e.value,
+      searchTerm: input,
     });
-    history.push(`/mappings/${e.value}`);
+    history.push(`/mappings/${input}`);
+    e.preventDefault();
   };
 
   exploreMappingsAction = () => {
     const { history } = this.props;
     this.setState({ searchTerm: '' });
-    history.push('/mappings');
+    history.push('/mappings/all');
   };
 
   render() {
@@ -85,7 +86,6 @@ class App extends Component {
     );
 
     const LogoutComponent = () => <Logout onLogout={this.onLogout} />;
-
     const appProps = {
       ...this.state,
       handleSearchSubmit: this.handleSearchSubmit,
@@ -98,7 +98,6 @@ class App extends Component {
           <div className="columns" id="root">
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
-              <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />
               <Route exact path="/mappings/:term" render={() => <Mappings {...appProps} />} />
               <Route exact path="/login" component={LoginComponent} />
               <Route exact path="/logout" component={LogoutComponent} />

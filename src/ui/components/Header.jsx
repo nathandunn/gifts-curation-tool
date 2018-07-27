@@ -17,7 +17,7 @@ function Header(props) {
         data-btm-anchor="content:bottom"
       >
         <div className="masthead-inner row">
-        { /* <!-- local-title --> */ }
+          {/* <!-- local-title --> */}
           <div className="columns medium-6" id="local-title">
             <h1>
               <Link to="../../" title="Back to GIFTs homepage">
@@ -25,22 +25,32 @@ function Header(props) {
               </Link>
             </h1>
           </div>
-          { /* <!-- /local-title --> */ }
-          { /* <!-- local-nav --> */ }
+          {/* <!-- /local-title --> */}
+          {/* <!-- local-nav --> */}
           <div className="columns medium-6">
             {props.location.pathname != '/' && <SearchField {...props} />}
           </div>
-          <nav >
+          <nav>
             <ul id="local-nav" className="dropdown menu float-left" data-description="navigational">
-              <li><Link to="../../">Overview</Link></li>
-              <li><Link to="../../">Mappings</Link></li>
+              <li>
+                <Link to="../../">Overview</Link>
+              </li>
+              <li>
+                <Link to="../../">Mappings</Link>
+              </li>
 
-              {(authenticated)
-                  ? <li><Link to="../../logout">Logout</Link></li>
-                  : <li><Link to="../../login">Login</Link></li>}
+              {authenticated ? (
+                <li>
+                  <Link to="../../logout">Logout</Link>
+                </li>
+              ) : (
+                <li>
+                  <Link to="../../login">Login</Link>
+                </li>
+              )}
             </ul>
           </nav>
-          { /* <!-- /local-nav --> */ }
+          {/* <!-- /local-nav --> */}
         </div>
       </header>
     </div>

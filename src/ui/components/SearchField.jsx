@@ -1,26 +1,33 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 
-const SearchField = (props) => {
-  let input = '';
-  const { handleSearchSubmit } = props;
+class SearchField extends Component {
+  constructor(props) {
+    super(props);
+    this.testInput = React.createRef();
+  }
 
-  return (
-    <Fragment>
-      <form onSubmit={() => handleSearchSubmit(input)} className="input-group">
-        <input
-          type="text"
-          placeholder="ENST00000620613, A7E2Y1, ..."
-          className="input-group-field"
-          ref={component => (input = component)}
-        />
-        <div className="input-group-button">
-          <button type="submit" className="button">
-            Submit
-          </button>
-        </div>
-      </form>
-    </Fragment>
-  );
-};
+  render() {
+    return (
+      <Fragment>
+        <form
+          onSubmit={e => this.props.handleSearchSubmit(e, this.testInput.current.value)}
+          className="input-group"
+        >
+          <input
+            type="text"
+            placeholder="ENST00000620613, A7E2Y1, ..."
+            className="input-group-field"
+            ref={this.testInput}
+          />
+          <div className="input-group-button">
+            <button type="submit" className="button">
+              Submit
+            </button>
+          </div>
+        </form>
+      </Fragment>
+    );
+  }
+}
 
 export default SearchField;
