@@ -5,9 +5,9 @@
   "homepage": "http://ebi-uniprot.github.io/gifts-curation-tool",
   "license": "MIT",
   "scripts": {
-    "dev-server": "webpack --mode development && webpack-dev-server --mode development --open",
+    "dev-server": "webpack --config webpack.dev.js --mode development && webpack-dev-server --config webpack.dev.js --mode development --open",
     "dev": "webpack --mode development",
-    "build": "webpack --mode production",
+    "build": "webpack --config webpack.prod.js",
     "jslint": "./node_modules/.bin/eslint -c .eslintrc.json --ext .js --ext .jsx src/** __tests__/** __mocks__/**",
     "csslint": "scss-lint ./src/styles/**/*.scss",
     "test": "jest",
@@ -78,6 +78,7 @@
     "style-loader": "^0.20.3",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.4",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.3"
   }
 }

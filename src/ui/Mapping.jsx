@@ -87,7 +87,7 @@ class Mapping extends Component {
   }
 
   getMappingDetails = (mappingId, isLoggedIn) => {
-    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/?format=json`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/?format=json`;
     axios.get(apiURI)
       .then(response => {
         const details = response.data;
@@ -103,7 +103,7 @@ console.log("### mapping:", details);
   }
 
   getMappingCommentsAndLabels = mappingId => {
-    const apiURI = `http://193.62.52.185:5000/gifts/comments/${mappingId}/?format=json`;
+    const apiURI = `${API_URL}/comments/${mappingId}/?format=json`;
     axios.get(apiURI)
       .then(({ data }) => {
         const { comments, labels } = data;
@@ -125,7 +125,7 @@ console.log("### mapping:", details);
 
   updateStatus = status => {
     const { mappingId } = this.state;
-    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/status/`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/status/`;
     const changes = {
       status
     };
@@ -156,7 +156,7 @@ console.log("### mapping:", details);
   saveComment = () => {
     const { mappingId } = this.state;
 
-    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/comments/`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/comments/`;
     const comment = {
       text: this.textEditor.value()
     }
@@ -210,8 +210,7 @@ console.log("### mapping:", details);
     //   labels
     // });
 
-    const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/labels/`;
-    // const apiURI = `http://193.62.52.185:5000/gifts/mapping/${mappingId}/labels/${label}`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/labels/`;
 
     const newLabel = {
       label
@@ -236,30 +235,19 @@ console.log("### mapping:", details);
   }
 
   deleteLabel = label => {
-    const { labels, details } = this.state;
-    const { id } = details;
-    const index = labels.indexOf(label);
+    const { mappingId } = this.state;
 
-    if (index < 0) {
-      return false;
-    }
+    const apiURI = `${API_URL}/mapping/${mappingId}/labels/${label}/`;
 
-    labels.splice(index, 1);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
 
-    this.setState({
-      labels
-    });
-
-    // const apiURI = `http://localhost:3000/api/mappings/${id}/labels`;
-
-    const apiURI = `http://localhost:3000/api/mappings/${id}`;
-    let changes = { ...details };
-
-    changes.mapping.labels = labels;
-
-    axios.patch(apiURI, changes)
+    axios.delete(apiURI, config)
       .then(response => {
-        // should roll-back the state here if changes weren't saved
+        this.getMappingCommentsAndLabels(mappingId);
       });
   }
 
@@ -366,8 +354,6 @@ console.log("### mapping:", details);
       );
     }
 
-// console.log(">>> EDITOR:", this.textEditor);
-// console.log(">>> VALUE:", this.textEditor && this.textEditor.value());
 console.log("mapping state:", this.state);
 
     return (
@@ -383,7 +369,7 @@ console.log("mapping state:", this.state);
             </div>
 
             <div>
-              {labels.map(label => <Label text={label} key={label} isLoggedIn={isLoggedIn} />)}
+              {labels.reverse().map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
               {(isLoggedIn) ? (addLabelMode)
                   ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
                   : <a href="#" onClick={this.enableAddLabelMode}>Add label</a>
