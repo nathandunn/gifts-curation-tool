@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SimpleMED from 'simplemde';
 
+import Alignment from './components/Alignment';
 import Comment from './components/Comment';
 
 import '../styles/Mapping.css';
@@ -91,7 +92,7 @@ class Mapping extends Component {
     axios.get(apiURI)
       .then(response => {
         const details = response.data;
-console.log("### mapping:", details);
+// console.log("### mapping:", details);
         this.setState({
           details,
           isLoggedIn,
@@ -358,7 +359,7 @@ console.log("mapping state:", this.state);
 
     return (
       <Fragment>
-        <div className="row" style={{ paddingTop: '2.5rem' }}>
+        <div className="row mapping__alignment__header">
           <div className="column medium-12">
             <div className="column medium-8">&nbsp;</div>
             <div className="column medium-4">
@@ -376,7 +377,7 @@ console.log("mapping state:", this.state);
                 : null }
             </div>
 
-            <div style={{marginTop: '2rem', height: '15vh'}}>
+            <div style={{marginTop: '2rem'}}>
               <span style={mappingIdStyles}>
                 {`${mapping.ensemblTranscript.enstId} (v${mapping.ensemblTranscript.enstVersion})`}
               </span>
@@ -397,7 +398,7 @@ console.log("mapping state:", this.state);
               </span>
             </div>
 
-            <div>
+            <div style={{marginBottom: '2rem'}}>
               <h3>Related Mappings</h3>
               {relatedMappings.map(mapping => <RelatedMapping
                 id={mapping.mappingId}
@@ -406,7 +407,16 @@ console.log("mapping state:", this.state);
                 key={mapping.mappingId} />
               )}
             </div>
+          </div>
+        </div>
 
+        <div className="row mapping__alignment__wrapper">
+          <div className="column medium-12">
+            <Alignment />
+          </div>
+        </div>
+        <div className="row mapping__comments__wrapper">
+          <div className="column medium-12">
             {(isLoggedIn) ? <CommentsSection /> : null}
           </div>
         </div>
