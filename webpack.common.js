@@ -1,12 +1,15 @@
 const webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   context: __dirname,
-  devtool: 'inline-sourcemap',
-  entry: ['babel-polyfill', __dirname + '/src/ui/index.jsx'],
+  entry: {
+    app: ['babel-polyfill', __dirname + '/src/ui/index.jsx'],
+    vendor: ['react', 'react-dom', 'simplemde']
+  },
   output: {
     path: __dirname + '/build',
-    filename: 'app.[hash].bundle.js',
+    filename: '[name].[chunkhash].js',
     publicPath: '/'
   },
   resolve: {
@@ -15,7 +18,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.(js|jsx)$/,
-      exclude: /(node_modules|bower_components)/,
+      exclude: /node_modules/,
       use: {
         loader: 'babel-loader'
       }
