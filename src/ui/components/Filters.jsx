@@ -13,6 +13,10 @@ class Filters extends Component {
     return item.label;
   }
 
+  isActive(facet, value) {
+    return this.props.activeFacets[facet.name] === value;
+  }
+
   render() {
     return (
       <Fragment>
@@ -22,9 +26,9 @@ class Filters extends Component {
             <ul className="no-bullet">
               {facet.items.map(item => (
                 <li key={item.name}>
-                  {item.active ? (
+                  {this.isActive(facet, item.name) ? (
                     <a onClick={d => this.props.removeFilter(facet.name)}>
-                      <strong>{Filters.formatLabel(item, facet)}</strong>
+                      <strong>{Filters.formatLabel(item, facet)} X</strong>
                     </a>
                   ) : (
                     <a onClick={d => this.props.addFilter(facet.name, item.name)}>
