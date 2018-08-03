@@ -147,7 +147,7 @@ class Mapping extends Component {
 
   updateStatus = () => {
     const { mappingId, status } = this.state;
-    const { cookies } = this.props;
+    const { history, cookies } = this.props;
     const apiURI = `${API_URL}/mapping/${mappingId}/status/`;
     const changes = {
       status
@@ -190,6 +190,7 @@ class Mapping extends Component {
 
   saveComment = () => {
     const { mappingId } = this.state;
+    const { history, cookies } = this.props;
 
     const apiURI = `${API_URL}/mapping/${mappingId}/comments/`;
     const comment = {
@@ -241,6 +242,7 @@ class Mapping extends Component {
 
   addLabel = label => {
     const { draftLabel, labels, details, mappingId } = this.state;
+    const { history, cookies } = this.props;
 
     // labels.push(draftLabel);
 
@@ -281,6 +283,7 @@ class Mapping extends Component {
 
   deleteLabel = label => {
     const { mappingId } = this.state;
+    const { history, cookies } = this.props;
 
     const apiURI = `${API_URL}/mapping/${mappingId}/labels/${label}/`;
 

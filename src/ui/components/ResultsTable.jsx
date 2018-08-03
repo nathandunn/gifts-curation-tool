@@ -36,6 +36,7 @@ class ResultsTable extends Component {
   }
 
   loadResults = () => {
+    const { history, cookies } = this.props;
     const apiURI = `${API_URL}/mappings`;
 
     // fetch(apiURI, {
