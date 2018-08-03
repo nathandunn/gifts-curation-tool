@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { withCookies } from 'react-cookie';
 import SimpleMED from 'simplemde';
 
+import LoadingSpinner from './components/LoadingSpinner';
 import Alignment from './components/Alignment';
 import Comment from './components/Comment';
 
@@ -120,23 +122,24 @@ class Mapping extends Component {
     this.setState({
       status: target.value
     });
-
-    this.updateStatus(target.value);
   }
 
-  updateStatus = status => {
-    const { mappingId } = this.state;
+  updateStatus = () => {
+    const { mappingId, status } = this.state;
+    const { cookies } = this.props;
     const apiURI = `${API_URL}/mapping/${mappingId}/status/`;
     const changes = {
       status
     };
-
+console.log("JWT cookie:", cookies.get('jwt'));
     const config = {
+      withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cookies.get('jwt')}`
       }
     };
-
+axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
     axios.put(apiURI, changes, config)
       .then(response => {
         // should roll-back the state here if changes weren't saved
@@ -255,7 +258,7 @@ class Mapping extends Component {
   render() {
 
     if (null === this.state.details) {
-      return null;
+      return <LoadingSpinner />;
     }
 
     const {
@@ -275,14 +278,21 @@ class Mapping extends Component {
 
     const StatusChangeControl = () => {
       return (
-        <select
-          className="status-modifier"
-          onChange={this.onStatusChange}
-          value={status}
-        >
-          <option value=""></option>
-          {statusList}
-        </select>
+        <div className="input-group">
+          <select
+            className="status-modifier input-group-field"
+            onChange={this.onStatusChange}
+            value={status}
+          >
+            <option value=""></option>
+            {statusList}
+          </select>
+          <div className="input-group-button">
+            <button className="button button--primary" onClick={this.updateStatus}>
+              Save
+            </button>
+          </div>
+        </div>
       );
     }
 
@@ -363,7 +373,7 @@ console.log("mapping state:", this.state);
           <div className="column medium-12">
             <div className="column medium-8">&nbsp;</div>
             <div className="column medium-4">
-              <div>
+              <div className="status-wrapper">
                 <div className={`status status--${statusColour}`}></div>
                 {(isLoggedIn) ? <StatusChangeControl /> : <StatusIndicator />}
               </div>
@@ -425,4 +435,4 @@ console.log("mapping state:", this.state);
   }
 }
 
-export default Mapping;
+export default withCookies(Mapping);

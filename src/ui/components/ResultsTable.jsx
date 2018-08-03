@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { isEqual } from 'lodash-es';
 
+import LoadingSpinner from './LoadingSpinner';
 import Status from './Status';
 import Filters from './Filters';
 
@@ -36,8 +37,21 @@ class ResultsTable extends Component {
 
   loadResults = () => {
     const apiURI = 'http://193.62.52.185:5000/gifts/mappings';
+
+    // fetch(apiURI, {
+    //   method: 'GET',
+    //   mode: "cors",
+    //   headers: {
+    //     'Authorization': '--TEST--'
+    //   }
+    // })
+    // .then(response => response.json())
+    // .catch(error => console.error(`Fetch Error =\n`, error));
+
     axios
       .get(apiURI, { params: this.props.params })
+      // .get(apiURI, { params: this.props.params, headers: { 'Authorization': 'TEST' } })
+      // .get(apiURI, { params: this.props.params, auth: {'user': 'TEST'}, withCredentials: true })
       .then((d) => {
         this.setState({
           params: this.props.params,
@@ -50,7 +64,13 @@ class ResultsTable extends Component {
   };
 
   render() {
-    if (this.state.totalCount > 0) {
+
+    if (0 >= this.state.totalCount) {
+      return <LoadingSpinner />;
+    }
+
+    // if (this.state.totalCount > 0) {
+    else {
       return (
         <Fragment>
           <h2>{this.state.totalCount} Mapping(s)</h2>

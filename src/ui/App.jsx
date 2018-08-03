@@ -8,6 +8,7 @@ import Mappings from './Mappings';
 import Login from './Login';
 import Logout from './Logout';
 import Mapping from './Mapping';
+import Message from './components/Message';
 
 import '../styles/Gifts.css';
 
@@ -61,6 +62,11 @@ class App extends Component {
       id: 'guest',
       name: 'Guest',
     },
+    message: {
+      title: 'Oops!',
+      text: 'something went wrong',
+      isError: false
+    }
   };
 
   handleSearchSubmit = (e, input) => {
@@ -79,8 +85,24 @@ class App extends Component {
     history.push('/mappings/all');
   };
 
+  setMessage = (title, message, isError) => {
+    this.setState({
+      message: {
+        title,
+        message,
+        isError
+      }
+    });
+  };
+
+  clearMessage = () => {
+    this.setState({
+      message: null
+    });
+  };
+
   render() {
-    const { authenticated } = this.state;
+    const { authenticated, message } = this.state;
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
     );
@@ -96,6 +118,7 @@ class App extends Component {
       <Layout {...appProps}>
         <section id="main-content-area" className="row" role="main">
           <div className="columns" id="root">
+            {(null !== message) ? <Message details={message} onClose={this.clearMessage} /> : null}
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
               <Route exact path="/mappings/:term" render={() => <Mappings {...appProps} />} />

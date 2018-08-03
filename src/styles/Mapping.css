@@ -1,8 +1,16 @@
 
+.status {
+  margin-right: 1rem;
+}
+
+.status-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
 .status-modifier {
   display: inline-block;
-  width: calc(100% - 2rem);
-  margin-left: 1rem;
 }
 
 .related-mapping span {

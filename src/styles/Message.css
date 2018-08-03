@@ -1,0 +1,7 @@
+
+.message {
+  position: absolute;
+  right: 2vw;
+  top: 2vw;
+  min-width: 30vw;
+}
