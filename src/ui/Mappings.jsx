@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-
 import ResultsTable from './components/ResultsTable';
 
 import '../styles/Home.css';
@@ -10,7 +9,7 @@ class Mappings extends Component {
     this.state = {
       offset: 0,
       limit: 15,
-      facets: {},
+      activeFacets: {},
       initialPage: 0,
     };
   }
@@ -22,24 +21,24 @@ class Mappings extends Component {
   };
 
   addFilter = (facet, value) => {
-    const { facets } = this.state;
-    facets[facet] = value;
+    const { activeFacets } = this.state;
+    activeFacets[facet] = value;
     this.setState({
-      facets,
+      activeFacets,
     });
   };
 
   removeFilter = (facet) => {
-    const { facets } = this.state;
-    delete facets[facet];
+    const { activeFacets } = this.state;
+    delete activeFacets[facet];
     this.setState({
-      facets,
+      activeFacets,
     });
   };
 
   getFacetsAsString = facets =>
-    Object.keys(this.state.facets)
-      .map(key => `${key}:${this.state.facets[key]}`)
+    Object.keys(this.state.activeFacets)
+      .map(key => `${key}:${this.state.activeFacets[key]}`)
       .join(',');
 
   render() {
@@ -47,9 +46,10 @@ class Mappings extends Component {
       addFilter: this.addFilter,
       removeFilter: this.removeFilter,
       handlePageClick: this.handlePageClick,
+      activeFacets: this.state.activeFacets,
       params: {
         searchTerm: this.props.searchTerm,
-        facets: this.getFacetsAsString(this.state.facets),
+        facets: this.getFacetsAsString(this.state.activeFacets),
         offset: this.state.offset,
         limit: this.state.limit,
         format: 'json',

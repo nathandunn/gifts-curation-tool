@@ -68,7 +68,6 @@ class ResultsTable extends Component {
   };
 
   render() {
-
     if (0 >= this.state.totalCount) {
       return <LoadingSpinner />;
     }
@@ -84,6 +83,7 @@ class ResultsTable extends Component {
                 data={this.state.facets}
                 addFilter={this.props.addFilter}
                 removeFilter={this.props.removeFilter}
+                activeFacets={this.props.activeFacets}
               />
             </div>
             <div className="column medium-10">
