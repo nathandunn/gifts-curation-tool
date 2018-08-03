@@ -1,6 +1,8 @@
 import React, { Fragment, Component } from 'react';
 import Status from './Status';
 
+import '../../styles/Filters.css';
+
 class Filters extends Component {
   static formatLabel(item, facet) {
     if (facet.name === 'status') {
@@ -19,7 +21,7 @@ class Filters extends Component {
 
   render() {
     return (
-      <Fragment>
+      <div className="filters">
         {this.props.data.map(facet => (
           <Fragment key={facet.name}>
             <h3>{facet.label}</h3>
@@ -27,11 +29,17 @@ class Filters extends Component {
               {facet.items.map(item => (
                 <li key={item.name}>
                   {this.isActive(facet, item.name) ? (
-                    <a onClick={d => this.props.removeFilter(facet.name)}>
-                      <strong>{Filters.formatLabel(item, facet)} X</strong>
+                    <a
+                      className="filter__value filter__value--active"
+                      onClick={() => this.props.removeFilter(facet.name)}
+                    >
+                      {Filters.formatLabel(item, facet)}
                     </a>
                   ) : (
-                    <a onClick={d => this.props.addFilter(facet.name, item.name)}>
+                    <a
+                      className="filter__value"
+                      onClick={() => this.props.addFilter(facet.name, item.name)}
+                    >
                       {Filters.formatLabel(item, facet)}
                     </a>
                   )}
@@ -40,7 +48,7 @@ class Filters extends Component {
             </ul>
           </Fragment>
         ))}
-      </Fragment>
+      </div>
     );
   }
 }

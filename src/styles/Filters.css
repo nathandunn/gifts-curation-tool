@@ -1,0 +1,22 @@
+.filters a {
+    border-bottom: none;
+}
+
+.filters li {
+    line-height: 2em;
+}
+
+.filter__value::before {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 1px solid #cccccc;
+    content: "";
+    margin-top: .3em;
+    margin-right: .5em;
+}
+
+.filter__value--active::before {
+    border: 1px solid #F5F5F5;
+    background-color: #cccccc;
+}
