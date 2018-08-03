@@ -8,6 +8,7 @@ import Mappings from './Mappings';
 import Login from './Login';
 import Logout from './Logout';
 import Mapping from './Mapping';
+import Broken from './Broken';
 import Message from './components/Message';
 
 import '../styles/Gifts.css';
@@ -62,11 +63,7 @@ class App extends Component {
       id: 'guest',
       name: 'Guest',
     },
-    message: {
-      title: 'Oops!',
-      text: 'something went wrong',
-      isError: false
-    }
+    message: null
   };
 
   handleSearchSubmit = (e, input) => {
@@ -128,6 +125,7 @@ class App extends Component {
                 path="/mapping/:mappingId"
                 render={({ match }) => <Mapping match={match} isLoggedIn={authenticated} />}
               />
+              <Route exact path="/error" render={() => <Broken {...appProps} />} />
             </Switch>
           </div>
         </section>
