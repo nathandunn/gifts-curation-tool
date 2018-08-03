@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { withCookies } from 'react-cookie';
 import SimpleMED from 'simplemde';
@@ -79,22 +79,28 @@ class Mapping extends Component {
       return false;
     }
 
-// console.log("--- creating text edito, el,", element);
       this.textEditor = new SimpleMED({
         element,
         initialValue: draftComment,
         hideIcons: ['image']
       });
-// console.log("text editor:", this.textEditor);
+
       this.textEditor.codemirror.on('change', this.handleCommentTextChange);
   }
 
   getMappingDetails = (mappingId, isLoggedIn) => {
+    const { history, cookies } = this.props;
     const apiURI = `${API_URL}/mapping/${mappingId}/?format=json`;
-    axios.get(apiURI)
+
+    const config = {
+      headers: { 'Authorization': `Bearer ${cookies.get('jwt')}` }
+    };
+
+    axios
+      .get(apiURI, config)
       .then(response => {
         const details = response.data;
-// console.log("### mapping:", details);
+
         this.setState({
           details,
           isLoggedIn,
@@ -102,12 +108,23 @@ class Mapping extends Component {
           comments: details.mapping.comments || [],
           labels: details.mapping.labels || []
         }, () => this.getMappingCommentsAndLabels(mappingId));
+      })
+      .catch( e => {
+        console.log(e.response);
+        history.push('/error');
       });
   }
 
   getMappingCommentsAndLabels = mappingId => {
+    const { history, cookies } = this.props;
     const apiURI = `${API_URL}/comments/${mappingId}/?format=json`;
-    axios.get(apiURI)
+
+    const config = {
+      headers: { 'Authorization': `Bearer ${cookies.get('jwt')}` }
+    };
+
+    axios
+      .get(apiURI, config)
       .then(({ data }) => {
         const { comments, labels } = data;
 
@@ -115,6 +132,10 @@ class Mapping extends Component {
           comments: comments.reverse(),
           labels
         });
+      })
+      .catch( e => {
+        console.log(e.response);
+        history.push('/error');
       });
   }
 
@@ -131,19 +152,29 @@ class Mapping extends Component {
     const changes = {
       status
     };
-console.log("JWT cookie:", cookies.get('jwt'));
+// console.log("JWT cookie:", cookies.get('jwt'));
+//     const config = {
+//       withCredentials: true,
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': `Bearer ${cookies.get('jwt')}`
+//       }
+//     };
+// axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
+
     const config = {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cookies.get('jwt')}`
-      }
+      headers: { 'Authorization': `Bearer ${cookies.get('jwt')}` }
     };
-axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
-    axios.put(apiURI, changes, config)
+
+    axios
+      .put(apiURI, changes, config)
       .then(response => {
         // should roll-back the state here if changes weren't saved
         console.log("-response:", response);
+      })
+      .catch( e => {
+        console.log(e.response);
+        history.push('/error');
       });
   }
 
@@ -168,6 +199,7 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cookies.get('jwt')}`
       }
     };
 
@@ -175,6 +207,10 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
       .then(response => {
         this.textEditor.value('');
         this.getMappingCommentsAndLabels(mappingId);
+      })
+      .catch( e => {
+        console.log(e.response);
+        history.push('/error');
       });
   }
 
@@ -223,6 +259,7 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cookies.get('jwt')}`
       }
     };
 
@@ -235,6 +272,10 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
         });
 
         this.getMappingCommentsAndLabels(mappingId);
+      })
+      .catch( e => {
+        console.log(e.response);
+        history.push('/error');
       });
   }
 
@@ -246,12 +287,18 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cookies.get('jwt')}`
       }
     };
 
-    axios.delete(apiURI, config)
+    axios
+      .delete(apiURI, config)
       .then(response => {
         this.getMappingCommentsAndLabels(mappingId);
+      })
+      .catch( e => {
+        console.log(e.response);
+        history.push('/error');
       });
   }
 
@@ -435,4 +482,4 @@ console.log("mapping state:", this.state);
   }
 }
 
-export default withCookies(Mapping);
+export default withCookies(withRouter(Mapping));

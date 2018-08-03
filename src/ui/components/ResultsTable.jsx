@@ -36,7 +36,7 @@ class ResultsTable extends Component {
   }
 
   loadResults = () => {
-    const apiURI = 'http://193.62.52.185:5000/gifts/mappings';
+    const apiURI = `${API_URL}/mappings`;
 
     // fetch(apiURI, {
     //   method: 'GET',
@@ -60,7 +60,10 @@ class ResultsTable extends Component {
           totalCount: d.data.count,
         });
       })
-      .catch(e => console.log(e));
+      .catch( e => {
+        console.log(e.response);
+        history.push('/error');
+      });
   };
 
   render() {
