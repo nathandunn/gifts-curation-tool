@@ -1,3 +1,7 @@
 language: node_js
 node_js:
   - "node"
+notifications:
+  email:
+    - xwatkins@ebi.ac.uk
+    - mmahmoudy@ebi.ac.uk
