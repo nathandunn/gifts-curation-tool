@@ -1,28 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SearchComponent component should render 1`] = `
-<div>
+exports[`SearchField component should render 1`] = `
+<form
+  className="input-group"
+  onSubmit={[Function]}
+>
+  <input
+    className="input-group-field"
+    placeholder="ENST00000620613, A7E2Y1, ..."
+    type="text"
+  />
   <div
-    className="input-group"
+    className="input-group-button"
   >
-    <input
-      className="input-group-field"
-      onChange={[Function]}
-      placeholder="ENST00000620613, A7E2Y1, ..."
-      type="text"
-      value=""
-    />
-    <div
-      className="input-group-button"
+    <button
+      className="button"
+      type="submit"
     >
-      <button
-        className="button"
-        onClick={[Function]}
-        type="button"
-      >
-        Submit
-      </button>
-    </div>
+      Submit
+    </button>
   </div>
-</div>
+</form>
 `;

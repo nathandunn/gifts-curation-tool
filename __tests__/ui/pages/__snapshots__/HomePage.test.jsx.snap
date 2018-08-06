@@ -9,85 +9,38 @@ exports[`HomePage component should render 1`] = `
       className="medium-offset-3 medium-6 text-center"
     >
       <h5>
-        Helping biologists one mapping at a time
+        Search for a mapping:
       </h5>
-      <div>
+      <form
+        className="input-group"
+        onSubmit={[Function]}
+      >
+        <input
+          className="input-group-field"
+          placeholder="ENST00000620613, A7E2Y1, ..."
+          type="text"
+        />
         <div
-          className="input-group"
+          className="input-group-button"
         >
-          <input
-            className="input-group-field"
-            onChange={[Function]}
-            placeholder="ENST00000620613, A7E2Y1, ..."
-            type="text"
-            value=""
-          />
-          <div
-            className="input-group-button"
+          <button
+            className="button"
+            type="submit"
           >
-            <button
-              className="button"
-              onClick={[Function]}
-              type="button"
-            >
-              Submit
-            </button>
-          </div>
+            Submit
+          </button>
         </div>
-      </div>
+      </form>
       <div
         className="home-banner__actions"
       >
-        <a
+        <button
           className="button"
+          onClick={undefined}
         >
-          Explore mappings
-        </a>
+          Explore Mappings
+        </button>
       </div>
-    </div>
-  </div>
-  <div
-    className="row"
-  >
-    <div
-      className="column medium-3"
-    >
-      <h3>
-        Some title
-      </h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-    </div>
-    <div
-      className="column medium-3"
-    >
-      <h3>
-        Some title
-      </h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-    </div>
-    <div
-      className="column medium-3"
-    >
-      <h3>
-        Some title
-      </h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-    </div>
-    <div
-      className="column medium-3"
-    >
-      <h3>
-        Some title
-      </h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
     </div>
   </div>
 </main>

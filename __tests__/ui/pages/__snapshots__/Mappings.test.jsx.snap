@@ -1,7 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Mappings component should render 1`] = `
-<span>
-  Loading
-</span>
+<div
+  className="loading-spinner"
+>
+  <div
+    className="css-1d8ny0s"
+  >
+    <div
+      className="css-1hs6dmj"
+    />
+    <div
+      className="css-1apkdvz"
+    />
+    <div
+      className="css-ruz37k"
+    />
+    <div
+      className="css-1vy4sx6"
+    />
+    <div
+      className="css-p5zwuv"
+    />
+  </div>
+</div>
 `;
