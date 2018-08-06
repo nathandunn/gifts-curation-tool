@@ -2,13 +2,13 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { MemoryRouter } from 'react-router-dom';
 
-import SearchComponent from '../../../../src/ui/components/SearchComponent';
+import SearchField from '../../../../src/ui/components/SearchField';
 
-describe('SearchComponent component', () => {
+describe('SearchField component', () => {
   test('should render', () => {
     const component = renderer
       .create(<MemoryRouter>
-        <SearchComponent />
+        <SearchField />
               </MemoryRouter>)
       .toJSON();
 

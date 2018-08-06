@@ -29,6 +29,13 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "transformIgnorePatterns": [
+      "/!node_modules\\/lodash-es/"
+    ],
+    "globals": {
+      "API_URL": "http://193.62.52.185:5000/gifts",
+      "AUTH_CALLBACK_URL": "http%3A%2F%2Flocalhost%3A39093%2Flogin"
     }
   },
   "dependencies": {
