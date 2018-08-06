@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import '../../styles/Alignment.css';
@@ -19,6 +20,7 @@ class Alignment extends Component {
   };
 
   getAlignments = mappingId => {
+    const { history } = this.props;
     const apiURI = `${API_URL}/mapping/${mappingId}/pairwise/?format=json`;
 
     axios
@@ -221,4 +223,4 @@ class Alignment extends Component {
   }
 }
 
-export default Alignment;
+export default withRouter(Alignment);
