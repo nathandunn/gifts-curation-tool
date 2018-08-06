@@ -17,6 +17,9 @@
       "components": [ "Link" ],
       "specialLink": [ "to", "hrefLeft", "hrefRight" ],
       "aspects": [ "noHref", "invalidHref", "preferButton" ]
-    }]
+    }],
+    "react/forbid-prop-types": 0,
+    "react/no-array-index-key": 0,
+    "no-plusplus": 0
   }
 }

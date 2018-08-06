@@ -7,9 +7,7 @@ import Mappings from '../../../src/ui/Mappings';
 describe('Mappings component', () => {
   test('should render', () => {
     const component = renderer
-      .create(<MemoryRouter>
-        <Mappings />
-              </MemoryRouter>)
+      .create(<MemoryRouter><Mappings /></MemoryRouter>)
       .toJSON();
 
     expect(component).toMatchSnapshot();

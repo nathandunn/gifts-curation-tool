@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { withCookies } from 'react-cookie';
 import queryString from 'query-string';
 
@@ -55,6 +56,29 @@ class App extends Component {
     history.push('/');
   };
 
+  setMessage = (title, message, isError) => {
+    this.setState({
+      message: {
+        title,
+        message,
+        isError,
+      },
+    });
+  };
+
+  exploreMappingsAction = () => {
+    const { history } = this.props;
+    this.setState({ searchTerm: '' });
+    history.push('/mappings');
+  };
+
+  handleSearchSubmit = (e, input) => {
+    const { history } = this.props;
+    this.setState({ searchTerm: input });
+    history.push(`/mappings?searchTerm=${input}`);
+    e.preventDefault();
+  };
+
   defaultState = {
     searchTerm: queryString.parse(this.props.location.search).searchTerm
       ? queryString.parse(this.props.location.search).searchTerm
@@ -66,29 +90,6 @@ class App extends Component {
       name: 'Guest',
     },
     message: null,
-  };
-
-  handleSearchSubmit = (e, input) => {
-    const { history } = this.props;
-    this.setState({ searchTerm: input });
-    history.push(`/mappings?searchTerm=${input}`);
-    e.preventDefault();
-  };
-
-  exploreMappingsAction = () => {
-    const { history } = this.props;
-    this.setState({ searchTerm: '' });
-    history.push('/mappings');
-  };
-
-  setMessage = (title, message, isError) => {
-    this.setState({
-      message: {
-        title,
-        message,
-        isError,
-      },
-    });
   };
 
   clearMessage = () => {
@@ -132,5 +133,17 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  cookies: PropTypes.object,
+  history: PropTypes.object,
+  location: PropTypes.object,
+};
+
+App.defaultProps = {
+  cookies: {},
+  history: {},
+  location: {},
+};
 
 export default withRouter(withCookies(App));

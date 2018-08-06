@@ -1,4 +1,6 @@
 import React, { Fragment, Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Status from './Status';
 
 import '../../styles/Filters.css';
@@ -53,8 +55,14 @@ class Filters extends Component {
   }
 }
 
+Filters.propTypes = {
+  data: PropTypes.array,
+  activeFacets: PropTypes.array,
+};
+
 Filters.defaultProps = {
   data: [],
+  activeFacets: [],
 };
 
 export default Filters;
