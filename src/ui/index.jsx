@@ -9,9 +9,9 @@ import '../styles/index.css';
 
 ReactDOM.render(
   <BrowserRouter>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </BrowserRouter>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

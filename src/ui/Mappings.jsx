@@ -1,4 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import ResultsTable from './components/ResultsTable';
 
 import '../styles/Home.css';
@@ -14,10 +16,17 @@ class Mappings extends Component {
     };
   }
 
-  handlePageClick = (data) => {
-    const initialPage = data.selected;
-    const offset = Math.ceil(initialPage * this.state.limit);
-    this.setState({ offset, initialPage });
+  getFacetsAsString = () =>
+    Object.keys(this.state.activeFacets)
+      .map(key => `${key}:${this.state.activeFacets[key]}`)
+      .join(',');
+
+  removeFilter = (facet) => {
+    const { activeFacets } = this.state;
+    delete activeFacets[facet];
+    this.setState({
+      activeFacets,
+    });
   };
 
   addFilter = (facet, value) => {
@@ -28,18 +37,11 @@ class Mappings extends Component {
     });
   };
 
-  removeFilter = (facet) => {
-    const { activeFacets } = this.state;
-    delete activeFacets[facet];
-    this.setState({
-      activeFacets,
-    });
+  handlePageClick = (data) => {
+    const initialPage = data.selected;
+    const offset = Math.ceil(initialPage * this.state.limit);
+    this.setState({ offset, initialPage });
   };
-
-  getFacetsAsString = facets =>
-    Object.keys(this.state.activeFacets)
-      .map(key => `${key}:${this.state.activeFacets[key]}`)
-      .join(',');
 
   render() {
     const propsToPass = {
@@ -59,5 +61,13 @@ class Mappings extends Component {
     return <ResultsTable {...propsToPass} />;
   }
 }
+
+Mappings.propTypes = {
+  searchTerm: PropTypes.string,
+};
+
+Mappings.defaultProps = {
+  searchTerm: '',
+};
 
 export default Mappings;

@@ -61,54 +61,54 @@ class ResultsTable extends Component {
           totalCount: d.data.count,
         });
       })
-      .catch( e => {
+      .catch((e) => {
         console.log(e.response);
         history.push('/error');
       });
   };
 
   render() {
-    if (0 >= this.state.totalCount) {
+    if (this.state.totalCount <= 0) {
       return <LoadingSpinner />;
     }
 
     // if (this.state.totalCount > 0) {
-    else {
-      return (
-        <Fragment>
-          <h2>{this.state.totalCount} Mapping(s)</h2>
-          <div className="row">
-            <div className="column medium-2">
-              <Filters
-                data={this.state.facets}
-                addFilter={this.props.addFilter}
-                removeFilter={this.props.removeFilter}
-                activeFacets={this.props.activeFacets}
-              />
-            </div>
-            <div className="column medium-10">
-              <div className="table tbody-zebra">
-                <div className="table-head">
-                  <div className="table-row">
-                    <div className="table-cell" />
-                    <div className="table-cell">Gene</div>
-                    <div className="table-cell">Transcript</div>
-                    <div className="table-cell">Start</div>
-                    <div className="table-cell">End</div>
-                    <div className="table-cell">Protein</div>
-                    <div className="table-cell">Organism</div>
-                  </div>
+
+    return (
+      <Fragment>
+        <h2>{this.state.totalCount} Mapping(s)</h2>
+        <div className="row">
+          <div className="column medium-2">
+            <Filters
+              data={this.state.facets}
+              addFilter={this.props.addFilter}
+              removeFilter={this.props.removeFilter}
+              activeFacets={this.props.activeFacets}
+            />
+          </div>
+          <div className="column medium-10">
+            <div className="table tbody-zebra">
+              <div className="table-head">
+                <div className="table-row">
+                  <div className="table-cell" />
+                  <div className="table-cell">Gene</div>
+                  <div className="table-cell">Transcript</div>
+                  <div className="table-cell">Start</div>
+                  <div className="table-cell">End</div>
+                  <div className="table-cell">Protein</div>
+                  <div className="table-cell">Organism</div>
                 </div>
-                {this.state.results.map(row => (
-                  <div
-                    className="table-body"
-                    key={row.entryMappings.reduce(
+              </div>
+              {this.state.results.map(row => (
+                <div
+                  className="table-body"
+                  key={row.entryMappings.reduce(
                       (total, mapping) =>
                         (total ? `${total}_${mapping.mappingId}` : mapping.mappingId),
                       undefined,
                     )}
-                  >
-                    {row.entryMappings.map((mapping) => {
+                >
+                  {row.entryMappings.map((mapping) => {
                       const key = `${mapping.ensemblTranscript.enstId}_${
                         mapping.uniprotEntry.uniprotAccession
                       }`;
@@ -128,22 +128,22 @@ class ResultsTable extends Component {
                         </Link>
                       );
                     })}
-                  </div>
+                </div>
                 ))}
-              </div>
-              <ReactPaginate
-                pageCount={Math.ceil(this.state.totalCount / this.state.params.limit)}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={this.props.handlePageClick}
-                initialPage={this.props.initialPage}
-                containerClassName="results-paginate"
-              />
             </div>
+            <ReactPaginate
+              pageCount={Math.ceil(this.state.totalCount / this.state.params.limit)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.props.handlePageClick}
+              initialPage={this.props.initialPage}
+              containerClassName="results-paginate"
+            />
           </div>
-        </Fragment>
-      );
-    }
+        </div>
+      </Fragment>
+    );
+
     return null;
   }
 }

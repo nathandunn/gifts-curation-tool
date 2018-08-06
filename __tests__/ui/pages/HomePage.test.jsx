@@ -7,9 +7,7 @@ import HomePage from '../../../src/ui/Home';
 describe('HomePage component', () => {
   test('should render', () => {
     const component = renderer
-      .create(<MemoryRouter>
-        <HomePage />
-              </MemoryRouter>)
+      .create(<MemoryRouter><HomePage /></MemoryRouter>)
       .toJSON();
 
     expect(component).toMatchSnapshot();
