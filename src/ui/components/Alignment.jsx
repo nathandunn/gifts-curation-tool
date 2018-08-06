@@ -1,8 +1,47 @@
 import React, { Component, Fragment } from 'react';
+import axios from 'axios';
 
 import '../../styles/Alignment.css';
 
 class Alignment extends Component {
+  state = {
+    alignments: null,
+  };
+
+  componentDidMount() {
+    const { mappingId } = this.props;
+
+    this.getAlignments(mappingId);
+  };
+
+  componentDidUpdate(prevProps) {
+
+  };
+
+  getAlignments = mappingId => {
+    const apiURI = `${API_URL}/mapping/${mappingId}/pairwise/?format=json`;
+
+    axios
+      .get(apiURI)
+      .then(response => {
+        const details = response.data;
+        const alignments = (0 < details.alignments.length)
+          ? details.alignments[0]
+          : null;
+
+        this.setState({
+          alignments: [
+            alignments.uniprot_alignment,
+            alignments.ensembl_alignment,
+          ]
+        });
+      })
+      .catch(e => {
+        console.log(e.response);
+        history.push('/error');
+      });
+  };
+
   matchSequences = (sequences) => {
     const paired = sequences
       .reduce((accumulator, current) => {
@@ -21,17 +60,12 @@ class Alignment extends Component {
       }, []);
 
     return paired;
-  }
+  };
 
   rowSize = 60;
   positions = undefined;
   startEndPosition = undefined;
   hidePositionTooltip = undefined;
-
-  alignments = [
-    'MEASLGIQMDEPMAFSPQR--DRFQAEGSLKKNEQNFKLAGVKKDIEKLYEAVPQLSNVFKIEDKIGEGTFSSVYLATAQLQVGPEEKIALKHLIPTSHPIRIAAELQCLTVAGGQDNVMGVKYCFRKNDHVVIAMPYLEHESFLDILNSLSFQEVREYMLNLFKALKRIHQFGIVHRDVKPSNFLYNRRLKKYALVDFGLAQGTHDTKIELLKFVQSEAQQERCSQNKSHIITGNKIPLSGPVPKELDQQSTTKASVKRPYTNAQIQIKQGKDGKEGSVGLSVQRSVFGERNFNIHSSISHESPAVKLMKQSKTVDVLSRKLATKKKAISTKVMNSAVMRKTASSCPASLTCDCYATDKVCSICLSRRQQVAPRAGTPGFRAPEVLTKCPNQTTAIDMWSAGVIFLSLLSGRYPFYKASDDLTALAQIMTIRGSRETIQAAKTFGKSILCSKEVPAQDLRKLCERLRGMDSSTPKLTSDIQGHASHQPAISEKTDHKASCLVQTPPGQYSGNSFKKGDSNSCEHCFDEYNTNLEGWNEVPDEAYDLLDKLLDLNPASRITAEEALLHPFFKDMSL',
-    '--------MEEPMAFSSLRGSDRCPADDSLKKYEQSVKLSGIKRDIEELCEAVPQLVNVFKIKDKIGEGTFSSVYLATAQLQEGHEEKIALKHLIPTSHPMRIAAELQCLTVAGGQDNVMGLKYCFRKNDHVVIAMPYLEHESFLDILNSLSFQEVREYMYNLFVALKRIHQFGIVHRDVKPSNFLYNRRLKKYALVDFGLAQGTRDTKIELLKFVQSEAQQEDCSRNKYHGVVGHKGLLSRPAPKTVDQQCTPKTSVKRSYTQ--VHIKQGKDGKERSVGLSVQRSVFGERNFNIHSSISHESPAEKLIKQSKTVDIISRKLATKKTAISTKAMNS-VMRETARSCPAVLTCDCYGSDRVCSVCLSRRQQVAPRAGTPGFRAPEVLTKCPDQTTAIDMWSAGVIFLSLLSGRYPFYKASDDLTALAQIMTIRGSRETIQAAKAFGKSVLCSKEVPAQDLRALCERLRGLDSTTPRSASGPPGNASYDPAASKNTDHKASRVQAAQA-QHSEDSLYKRDNDGYWSHPKDCTSNSEGWDSVPDEAYDLLDKLLDLNPASRITAEAALLHAFFKDMCS',
-  ];
 
   alignmentIDs = ['UNP', 'ENS'];
 
@@ -68,8 +102,14 @@ class Alignment extends Component {
   }
 
   createAlignmentVisualization = () => {
-    this.calculatePositions(this.alignments, this.rowSize);
-    const alignment = this.matchSequences(this.alignments);
+    const { alignments } = this.state;
+
+    if (null === alignments) {
+      return null;
+    }
+
+    this.calculatePositions(alignments, this.rowSize);
+    const alignment = this.matchSequences(alignments);
 
     const rows = alignment
       .reduce((accu, value, index, array) => {

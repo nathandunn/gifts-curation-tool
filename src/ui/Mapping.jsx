@@ -98,7 +98,7 @@ class Mapping extends Component {
 
     axios
       .get(apiURI, config)
-      .then((response) => {
+      .then(response => {
         const details = response.data;
 
         this.setState({
@@ -109,18 +109,23 @@ class Mapping extends Component {
           labels: details.mapping.labels || [],
         }, () => this.getMappingCommentsAndLabels(mappingId));
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e.response);
         history.push('/error');
       });
   }
 
+
+
+  // --------------> TEMP <---------------- //
   getMappingCommentsAndLabels = () => {
     this.setState({
       comments: [],
       labels: []
     })
   }
+
+
 
   __getMappingCommentsAndLabels = (mappingId) => {
     const { history, cookies } = this.props;
@@ -384,15 +389,15 @@ class Mapping extends Component {
           <div
             style={{ display: 'inline-block' }}
             dangerouslySetInnerHTML={{
-__html: `
-            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 200.423 200.423" style="enable-background:new 0 0 200.423 200.423; width: 100px; height: 50px;" xml:space="preserve">
-              <g>
-                <polygon style="fill:#010002;" points="7.913,102.282 192.51,102.282 160.687,134.094 163.614,137.018 200.423,100.213 
-                  163.614,63.405 160.687,66.325 192.51,98.145 7.913,98.145 39.725,66.332 36.798,63.405 0,100.213 36.798,137.018 39.725,134.101  
-                  "/>
-              </g>
-            </svg>`,
+              __html: `
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 200.423 200.423" style="enable-background:new 0 0 200.423 200.423; width: 100px; height: 50px;" xml:space="preserve">
+                  <g>
+                    <polygon style="fill:#010002;" points="7.913,102.282 192.51,102.282 160.687,134.094 163.614,137.018 200.423,100.213 
+                      163.614,63.405 160.687,66.325 192.51,98.145 7.913,98.145 39.725,66.332 36.798,63.405 0,100.213 36.798,137.018 39.725,134.101  
+                      "/>
+                  </g>
+                </svg>`,
           }}
           />
           <span>{props.uniprotAccession}</span>
@@ -451,15 +456,15 @@ __html: `
               </span>
 
               <span dangerouslySetInnerHTML={{
-__html: `
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                     viewBox="0 0 200.423 200.423" style="enable-background:new 0 0 200.423 200.423; width: 100px; height: 50px;" xml:space="preserve">
-                  <g>
-                    <polygon style="fill:#010002;" points="7.913,102.282 192.51,102.282 160.687,134.094 163.614,137.018 200.423,100.213 
-                      163.614,63.405 160.687,66.325 192.51,98.145 7.913,98.145 39.725,66.332 36.798,63.405 0,100.213 36.798,137.018 39.725,134.101  
-                      "/>
-                  </g>
-                </svg>`,
+                __html: `
+                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                       viewBox="0 0 200.423 200.423" style="enable-background:new 0 0 200.423 200.423; width: 100px; height: 50px;" xml:space="preserve">
+                    <g>
+                      <polygon style="fill:#010002;" points="7.913,102.282 192.51,102.282 160.687,134.094 163.614,137.018 200.423,100.213 
+                        163.614,63.405 160.687,66.325 192.51,98.145 7.913,98.145 39.725,66.332 36.798,63.405 0,100.213 36.798,137.018 39.725,134.101  
+                        "/>
+                    </g>
+                  </svg>`,
               }}
               />
 
@@ -482,7 +487,7 @@ __html: `
 
         <div className="row mapping__alignment__wrapper">
           <div className="column medium-12">
-            <Alignment />
+            <Alignment mappingId={this.state.mappingId} />
           </div>
         </div>
         <div className="row mapping__comments__wrapper">
