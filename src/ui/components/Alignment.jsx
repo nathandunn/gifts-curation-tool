@@ -28,18 +28,15 @@ class Alignment extends Component {
       .then(response => {
         const details = response.data;
         const alignments = (0 < details.alignments.length)
-          ? details.alignments[0]
+          ? [details.alignments[0].uniprot_alignment, details.alignments[0].ensembl_alignment]
           : null;
 
         this.setState({
-          alignments: [
-            alignments.uniprot_alignment,
-            alignments.ensembl_alignment,
-          ]
+          alignments,
         });
       })
       .catch(e => {
-        console.log(e.response);
+        console.log(e);
         history.push('/error');
       });
   };
