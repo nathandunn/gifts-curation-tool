@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-const Broken = props => (
+const Broken = () => (
   <div>
     <h3>Oops! Some thing is not quite right...</h3>
   </div>
