@@ -485,11 +485,8 @@ class Mapping extends Component {
           </div>
         </div>
 
-        <div className="row mapping__alignment__wrapper">
-          <div className="column medium-12">
-            <Alignment mappingId={this.state.mappingId} />
-          </div>
-        </div>
+        <Alignment mappingId={this.state.mappingId} />
+
         <div className="row mapping__comments__wrapper">
           <div className="column medium-12">
             {(isLoggedIn) ? <CommentsSection /> : null}

@@ -212,9 +212,19 @@ class Alignment extends Component {
   }
 
   render() {
+    const { alignments } = this.state;
+
+    if (null === alignments) {
+      return null;
+    }
+
     return (
-      <div className="alignment">
-        {this.createAlignmentVisualization()}
+      <div className="row mapping__alignment__wrapper">
+        <div className="column medium-12">
+          <div className="alignment">
+            {this.createAlignmentVisualization()}
+          </div>
+        </div>
       </div>
     );
   }
