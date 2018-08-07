@@ -4,23 +4,30 @@
   align-items: baseline;
 }
 
+.status-wrapper>.status {
+  margin-right: 1rem;
+}
+
 .status-modifier {
   display: inline-block;
 }
 
+.related-mappings {
+  column-count: 3;
+}
+
 .related-mapping span {
-  font-size: 1.5rem;
   display: inline-block;
   line-height: 3rem;
   vertical-align: top;
 }
 
-#status-indicator {
-  margin-left: 1rem;
+.related-mapping a {
+  border-bottom: none;
 }
 
-.mapping__alignment__header {
-  padding-top: 2.5rem;
+#status-indicator {
+  margin-left: 1rem;
 }
 
 .mapping__alignment__wrapper {

@@ -432,25 +432,8 @@ class Mapping extends Component {
 
     return (
       <Fragment>
-        <div className="row mapping__alignment__header">
-          <div className="column medium-12">
-            <div className="column medium-8">&nbsp;</div>
-            <div className="column medium-4">
-              <div className="status-wrapper">
-                <div className={`status status--${statusColour}`} />
-                {(isLoggedIn) ? <StatusChangeControl /> : <StatusIndicator />}
-              </div>
-            </div>
-
-            <div>
-              {labels.reverse().map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
-              {(isLoggedIn) ? (addLabelMode)
-                  ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
-                  : <button href="#" onClick={this.enableAddLabelMode}>Add label</button>
-                : null }
-            </div>
-
-            <div style={{ marginTop: '2rem' }}>
+          <div className="row">
+            <div className="column medium-9">
               <span style={mappingIdStyles}>
                 {`${mapping.ensemblTranscript.enstId} (v${mapping.ensemblTranscript.enstVersion})`}
               </span>
@@ -470,20 +453,33 @@ class Mapping extends Component {
 
               <span style={mappingIdStyles}>
                 {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}
-              </span>
+              </span>            
             </div>
-
-            <div style={{ marginBottom: '2rem' }}>
+            <div className="column medium-3">
+              <div className="status-wrapper">
+                <div className={`status status--${statusColour}`} />
+                {(isLoggedIn) ? <StatusChangeControl /> : <StatusIndicator />}
+              </div>
+            </div>
+            </div>
+            <div className="row column medium-12">
+              {labels.reverse().map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
+              {(isLoggedIn) ? (addLabelMode)
+                  ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
+                  : <button href="#" onClick={this.enableAddLabelMode}>Add label</button>
+                : null }
+            </div>
+            <div className="row column medium-12">
               <h3>Related Mappings</h3>
+              <div className="related-mappings">
               {relatedMappings.map(item => (<RelatedMapping
                 id={item.mappingId}
                 enstId={item.ensemblTranscript.enstId}
                 uniprotAccession={item.uniprotEntry.uniprotAccession}
                 key={item.mappingId}
               />))}
+              </div>
             </div>
-          </div>
-        </div>
 
         <Alignment mappingId={this.state.mappingId} />
 

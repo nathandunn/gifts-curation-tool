@@ -76,7 +76,9 @@ class ResultsTable extends Component {
 
     return (
       <Fragment>
-        <h2>{this.state.totalCount} Mapping(s)</h2>
+        <div className="row column medium-12">
+          <h2>{this.state.totalCount} Mapping(s)</h2>
+        </div>
         <div className="row">
           <div className="column medium-2">
             <Filters
@@ -103,33 +105,31 @@ class ResultsTable extends Component {
                 <div
                   className="table-body"
                   key={row.entryMappings.reduce(
-                      (total, mapping) =>
-                        (total ? `${total}_${mapping.mappingId}` : mapping.mappingId),
-                      undefined,
-                    )}
+                    (total, mapping) =>
+                      (total ? `${total}_${mapping.mappingId}` : mapping.mappingId),
+                    undefined,
+                  )}
                 >
                   {row.entryMappings.map((mapping) => {
-                      const key = `${mapping.ensemblTranscript.enstId}_${
-                        mapping.uniprotEntry.uniprotAccession
-                      }`;
-                      return (
-                        <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
-                          <div className="table-cell">
-                            <Status status={mapping.status} />
-                          </div>
-                          <div className="table-cell">{mapping.ensemblTranscript.enstId}</div>
-                          <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-                          <div className="table-cell">
-                            {mapping.ensemblTranscript.seqRegionStart}
-                          </div>
-                          <div className="table-cell">{mapping.ensemblTranscript.seqRegionEnd}</div>
-                          <div className="table-cell">{mapping.uniprotEntry.uniprotAccession}</div>
-                          <div className="table-cell">{row.taxonomy.species}</div>
-                        </Link>
-                      );
-                    })}
+                    const key = `${mapping.ensemblTranscript.enstId}_${
+                      mapping.uniprotEntry.uniprotAccession
+                    }`;
+                    return (
+                      <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
+                        <div className="table-cell">
+                          <Status status={mapping.status} />
+                        </div>
+                        <div className="table-cell">{mapping.ensemblTranscript.enstId}</div>
+                        <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
+                        <div className="table-cell">{mapping.ensemblTranscript.seqRegionStart}</div>
+                        <div className="table-cell">{mapping.ensemblTranscript.seqRegionEnd}</div>
+                        <div className="table-cell">{mapping.uniprotEntry.uniprotAccession}</div>
+                        <div className="table-cell">{row.taxonomy.species}</div>
+                      </Link>
+                    );
+                  })}
                 </div>
-                ))}
+              ))}
             </div>
             <ReactPaginate
               pageCount={Math.ceil(this.state.totalCount / this.state.params.limit)}

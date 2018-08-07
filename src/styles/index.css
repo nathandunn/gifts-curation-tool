@@ -3,3 +3,8 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+#main-content-area .row {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
