@@ -3,10 +3,10 @@
 exports[`HomePage component should render 1`] = `
 <main>
   <div
-    className="row home-banner"
+    className="home-banner"
   >
     <div
-      className="medium-offset-3 medium-6 text-center"
+      className="column medium-offset-3 medium-6 text-center"
     >
       <h5>
         Search for a mapping:
