@@ -19,6 +19,7 @@ class Mapping extends Component {
     comments: null,
     draftComment: '',
     labels: null,
+    labelsAvailable: null,
     addLabelMode: false,
     draftLabel: null,
     isLoggedIn: null,
@@ -86,70 +87,42 @@ class Mapping extends Component {
     });
 
     this.textEditor.codemirror.on('change', this.handleCommentTextChange);
-  }
+  };
 
   getMappingDetails = (mappingId, isLoggedIn) => {
     const { history, cookies } = this.props;
-    const apiURI = `${API_URL}/mapping/${mappingId}/?format=json`;
 
     const config = {
       headers: { Authorization: `Bearer ${cookies.get('jwt')}` },
     };
 
     axios
-      .get(apiURI, config)
-      .then(response => {
-        const details = response.data;
+      .all([
+        axios.get(`${API_URL}/mapping/${mappingId}/?format=json`, config),
+        axios.get(`${API_URL}/mapping/${mappingId}/comments/?format=json`, config),
+        axios.get(`${API_URL}/mapping/${mappingId}/labels/?format=json`, config),
+      ])
+      .then(axios.spread((mappingResponse, commentsResponse, labelsResponse) => {
+        const details = mappingResponse.data;
+        const { comments } = commentsResponse.data;
+        const { labels } = labelsResponse.data;
+        const { status } = details.mapping;
 
         this.setState({
-          details,
           isLoggedIn,
-          status: details.mapping.status || 'NOT_REVIEWED',
-          comments: details.mapping.comments || [],
-          labels: details.mapping.labels || [],
-        }, () => this.getMappingCommentsAndLabels(mappingId));
-      })
-      .catch(e => {
-        console.log(e.response);
-        history.push('/error');
-      });
-  }
-
-
-
-  // --------------> TEMP <---------------- //
-  // getMappingCommentsAndLabels = () => {
-  //   this.setState({
-  //     comments: [],
-  //     labels: []
-  //   })
-  // }
-
-
-
-  getMappingCommentsAndLabels = (mappingId) => {
-    const { history, cookies } = this.props;
-    const apiURI = `${API_URL}/mapping/${mappingId}/comments/?format=json`;
-
-    const config = {
-      headers: { Authorization: `Bearer ${cookies.get('jwt')}` },
-    };
-
-    axios
-      .get(apiURI, config)
-      .then(({ data }) => {
-        const { comments, labels } = data;
-
-        this.setState({
+          details,
+          status,
           comments: comments.reverse(),
-          // labels,
+          labels: labels
+            .filter(label => label.status).reverse(),
+          labelsAvailable: labels.filter(label => !label.status),
         });
-      })
-      .catch((e) => {
-        console.log(e.response);
+      }))
+      .catch(e => {
+        console.log(e);
         history.push('/error');
       });
-  }
+  };
 
   onStatusChange = ({ target }) => {
     this.setState({
@@ -164,15 +137,6 @@ class Mapping extends Component {
     const changes = {
       status,
     };
-    // console.log("JWT cookie:", cookies.get('jwt'));
-    //     const config = {
-    //       withCredentials: true,
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': `Bearer ${cookies.get('jwt')}`
-    //       }
-    //     };
-    // axios.defaults.headers.common['Authorization'] = `Bearer ${cookies.get('jwt')}`;
 
     const config = {
       headers: { Authorization: `Bearer ${cookies.get('jwt')}` },
@@ -180,11 +144,11 @@ class Mapping extends Component {
 
     axios
       .put(apiURI, changes, config)
-      .then((response) => {
+      .then(response => {
         // should roll-back the state here if changes weren't saved
         console.log('-response:', response);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e.response);
         history.push('/error');
       });
@@ -193,11 +157,6 @@ class Mapping extends Component {
   // this is not used anymore
   handleCommentTextChange = () => {
     console.log('text changed:', this.textEditor.value());
-    // this.setState({
-    //   draftComment: this.textEditor.value()
-    // }, () => {
-    //   console.log("after text change:", this.state.draftComment);
-    // });
   }
 
   saveComment = () => {
@@ -217,28 +176,37 @@ class Mapping extends Component {
     };
 
     axios.post(apiURI, comment, config)
-      .then((response) => {
+      .then(response => {
         this.textEditor.value('');
         this.getMappingCommentsAndLabels(mappingId);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e.response);
         history.push('/error');
       });
   }
 
-  enableAddLabelMode = (e) => {
+  enableAddLabelMode = e => {
     this.setState({
       addLabelMode: true,
     }, () => {
-      this.labelTextInputRef.current.focus();
+      // this.labelTextInputRef.current.focus();
     });
 
     e.preventDefault();
     return false;
   }
 
-  onLabelEnter = (e) => {
+  disableAddLabelMode = e => {
+    this.setState({
+      addLabelMode: false,
+    });
+
+    e.preventDefault();
+    return false;
+  }
+
+  onLabelEnter = e => {
     const { draftLabel } = this.state;
 
     if (e.keyCode === 13 || e.which === 13 || e.key === 'Enter') {
@@ -252,7 +220,7 @@ class Mapping extends Component {
     });
   }
 
-  addLabel = (label) => {
+  addLabel = label => {
     const {
       draftLabel, labels, details, mappingId,
     } = this.state;
@@ -280,7 +248,7 @@ class Mapping extends Component {
     };
 
     axios.post(apiURI, newLabel, config)
-      .then((response) => {
+      .then(response => {
         this.setState({
           addLabelMode: false,
           draftLabel: '',
@@ -288,13 +256,13 @@ class Mapping extends Component {
 
         this.getMappingCommentsAndLabels(mappingId);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e.response);
         history.push('/error');
       });
   }
 
-  deleteLabel = (label) => {
+  deleteLabel = label => {
     const { mappingId } = this.state;
     const { history, cookies } = this.props;
 
@@ -309,10 +277,10 @@ class Mapping extends Component {
 
     axios
       .delete(apiURI, config)
-      .then((response) => {
+      .then(response => {
         this.getMappingCommentsAndLabels(mappingId);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e.response);
         history.push('/error');
       });
@@ -329,6 +297,7 @@ class Mapping extends Component {
       comments,
       draftComment,
       labels,
+      labelsAvailable,
       addLabelMode,
       isLoggedIn,
     } = this.state;
@@ -428,6 +397,21 @@ class Mapping extends Component {
       </div>
     );
 
+    const AddLabelControl = () => (
+      <div className="input-group">
+        <select className="input-group-field">
+          <option>&nbsp;</option>
+          {labelsAvailable.map(label => <option key={`label-${label.id}`}>{label.label}</option>)}
+        </select>
+        <div className="input-group-button">
+          <div className="button-group">
+            <button className="button button--primary">Add</button>
+            <button className="button button--secondary" onClick={this.disableAddLabelMode}>Cencel</button>
+          </div>
+        </div>
+      </div>
+    );
+
     console.log('mapping state:', this.state);
 
     return (
@@ -453,7 +437,7 @@ class Mapping extends Component {
 
               <span style={mappingIdStyles}>
                 <Link to={`//www.uniprot.org/uniprot/${mapping.uniprotEntry.uniprotAccession}`} target="_blank">{`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}</Link>
-              </span>            
+              </span>
             </div>
             <div className="column medium-3">
               <div className="status-wrapper">
@@ -463,10 +447,11 @@ class Mapping extends Component {
             </div>
             </div>
             <div className="row column medium-12">
-              {labels.reverse().map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
+              {labels.map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
               {(isLoggedIn) ? (addLabelMode)
-                  ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
+                  ? <AddLabelControl />
                   : <button href="#" onClick={this.enableAddLabelMode}>Add label</button>
+                  // ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
                 : null }
             </div>
             <div className="row column medium-12">
