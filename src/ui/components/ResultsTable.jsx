@@ -8,6 +8,7 @@ import LoadingSpinner from './LoadingSpinner';
 import Status from './Status';
 import Filters from './Filters';
 import ProteinReviewStatus from './ProteinReviewStatus';
+import AlignmentIndicator from './AlignmentIndicator';
 
 import '../../styles/ResultsTable.css';
 
@@ -102,6 +103,7 @@ class ResultsTable extends Component {
                   <div className="table-cell table-cell--number">Start</div>
                   <div className="table-cell table-cell--number">End</div>
                   <div className="table-cell">Organism</div>
+                  <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
               {this.state.results.map(row => (
@@ -122,12 +124,26 @@ class ResultsTable extends Component {
                         <div className="table-cell">
                           <Status status={mapping.status} />
                         </div>
-                        <div className="table-cell"><strong><ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />{mapping.uniprotEntry.uniprotAccession}</strong></div>
-                        <div className="table-cell"><strong>{mapping.ensemblTranscript.enstId}</strong></div>
+                        <div className="table-cell">
+                          <strong>
+                            <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
+                            {mapping.uniprotEntry.uniprotAccession}
+                          </strong>
+                        </div>
+                        <div className="table-cell">
+                          <strong>{mapping.ensemblTranscript.enstId}</strong>
+                        </div>
                         <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-                        <div className="table-cell table-cell--number">{this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}</div>
-                        <div className="table-cell table-cell--number">{this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}</div>
+                        <div className="table-cell table-cell--number">
+                          {this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}
+                        </div>
+                        <div className="table-cell table-cell--number">
+                          {this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}
+                        </div>
                         <div className="table-cell">{row.taxonomy.species}</div>
+                        <div className="table-cell">
+                          <AlignmentIndicator difference={mapping.alignment_difference} />
+                        </div>
                       </Link>
                     );
                   })}
