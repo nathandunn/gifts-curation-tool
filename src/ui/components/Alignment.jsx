@@ -2,11 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
+import LoadingSpinner from './LoadingSpinner';
 import '../../styles/Alignment.css';
 
 class Alignment extends Component {
   state = {
     alignments: null,
+    loading: false,
   };
 
   componentDidMount() {
@@ -15,13 +17,13 @@ class Alignment extends Component {
     this.getAlignments(mappingId);
   };
 
-  componentDidUpdate(prevProps) {
-
-  };
-
   getAlignments = mappingId => {
     const { history } = this.props;
     const apiURI = `${API_URL}/mapping/${mappingId}/pairwise/?format=json`;
+
+    this.setState({
+      loading: true,
+    });
 
     axios
       .get(apiURI)
@@ -33,6 +35,7 @@ class Alignment extends Component {
 
         this.setState({
           alignments,
+          loading: false,
         });
       })
       .catch(e => {
@@ -212,7 +215,11 @@ class Alignment extends Component {
   }
 
   render() {
-    const { alignments } = this.state;
+    const { alignments, loading } = this.state;
+
+    if (loading) {
+      return <LoadingSpinner />;
+    }
 
     if (null === alignments) {
       return null;
