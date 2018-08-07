@@ -113,8 +113,8 @@ class App extends Component {
 
     return (
       <Layout {...appProps}>
-        <section id="main-content-area" className="row" role="main">
-          <div className="columns" id="root">
+        <section id="main-content-area" role="main">
+          <div id="root">
             {message !== null ? <Message details={message} onClose={this.clearMessage} /> : null}
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />

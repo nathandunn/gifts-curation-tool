@@ -11,8 +11,8 @@ class Layout extends Component {
       <div id="content">
         <Header {...this.props} />
         {/* <!-- Suggested layout containers --> */}
-        <section id="main-content-area" className="row" role="main">
-          <div className="columns" id="root">
+        <section id="main-content-area" role="main">
+          <div id="root">
             {/* <!-- App content --> */}
             {children}
           </div>
