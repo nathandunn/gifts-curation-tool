@@ -33,10 +33,10 @@ function Header(props) {
           <nav>
             <ul id="local-nav" className="dropdown menu float-left" data-description="navigational">
               <li>
-                <Link to="../../">Overview</Link>
+                <Link to="../../">Home</Link>
               </li>
               <li>
-                <Link to="../../">Mappings</Link>
+                <Link to="../../mappings">Mappings</Link>
               </li>
 
               {authenticated ? (

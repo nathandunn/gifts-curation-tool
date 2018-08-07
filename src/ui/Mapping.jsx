@@ -435,7 +435,7 @@ class Mapping extends Component {
           <div className="row">
             <div className="column medium-9">
               <span style={mappingIdStyles}>
-                {`${mapping.ensemblTranscript.enstId} (v${mapping.ensemblTranscript.enstVersion})`}
+                <Link to={`//www.ensembl.org/id/${mapping.ensemblTranscript.enstId}`} target="_blank">{`${mapping.ensemblTranscript.enstId} (v${mapping.ensemblTranscript.enstVersion})`}</Link>
               </span>
 
               <span dangerouslySetInnerHTML={{
@@ -452,7 +452,7 @@ class Mapping extends Component {
               />
 
               <span style={mappingIdStyles}>
-                {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}
+                <Link to={`//www.uniprot.org/uniprot/${mapping.uniprotEntry.uniprotAccession}`} target="_blank">{`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}</Link>
               </span>            
             </div>
             <div className="column medium-3">
