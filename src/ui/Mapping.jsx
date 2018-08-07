@@ -118,18 +118,18 @@ class Mapping extends Component {
 
 
   // --------------> TEMP <---------------- //
-  getMappingCommentsAndLabels = () => {
-    this.setState({
-      comments: [],
-      labels: []
-    })
-  }
+  // getMappingCommentsAndLabels = () => {
+  //   this.setState({
+  //     comments: [],
+  //     labels: []
+  //   })
+  // }
 
 
 
-  __getMappingCommentsAndLabels = (mappingId) => {
+  getMappingCommentsAndLabels = (mappingId) => {
     const { history, cookies } = this.props;
-    const apiURI = `${API_URL}/comments/${mappingId}/?format=json`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/comments/?format=json`;
 
     const config = {
       headers: { Authorization: `Bearer ${cookies.get('jwt')}` },
@@ -142,7 +142,7 @@ class Mapping extends Component {
 
         this.setState({
           comments: comments.reverse(),
-          labels,
+          // labels,
         });
       })
       .catch((e) => {
