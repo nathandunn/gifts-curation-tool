@@ -8,6 +8,7 @@ import SimpleMED from 'simplemde';
 import LoadingSpinner from './components/LoadingSpinner';
 import Alignment from './components/Alignment';
 import Comment from './components/Comment';
+import ProteinReviewStatus from './components/ProteinReviewStatus';
 
 import '../styles/Mapping.css';
 import '../../node_modules/simplemde/dist/simplemde.min.css';
@@ -400,7 +401,7 @@ class Mapping extends Component {
                 </svg>`,
           }}
           />
-          <span>{props.uniprotAccession}</span>
+          <span><ProteinReviewStatus entryType={props.entryType}/>{props.uniprotAccession}</span>
         </Link>
       </div>
     );
@@ -452,7 +453,7 @@ class Mapping extends Component {
               />
 
               <span style={mappingIdStyles}>
-                <Link to={`//www.uniprot.org/uniprot/${mapping.uniprotEntry.uniprotAccession}`} target="_blank">{`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}</Link>
+                <Link to={`//www.uniprot.org/uniprot/${mapping.uniprotEntry.uniprotAccession}`} target="_blank"><ProteinReviewStatus entryType={mapping.uniprotEntry.entryType}/>{`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}</Link>
               </span>            
             </div>
             <div className="column medium-3">
@@ -476,6 +477,7 @@ class Mapping extends Component {
                 id={item.mappingId}
                 enstId={item.ensemblTranscript.enstId}
                 uniprotAccession={item.uniprotEntry.uniprotAccession}
+                entryType={item.uniprotEntry.entryType}
                 key={item.mappingId}
               />))}
               </div>
