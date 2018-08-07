@@ -482,8 +482,11 @@ class Mapping extends Component {
               />))}
               </div>
             </div>
-
-        <Alignment mappingId={this.state.mappingId} />
+        
+        <div className="row column medium-12">
+          <h3>Alignment</h3>
+          <Alignment mappingId={this.state.mappingId} />
+        </div>
 
         <div className="row mapping__comments__wrapper">
           <div className="column medium-12">
