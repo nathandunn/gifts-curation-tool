@@ -98,8 +98,8 @@ class ResultsTable extends Component {
                   <div className="table-cell">Protein</div>
                   <div className="table-cell">Transcript</div>
                   <div className="table-cell">Gene</div>
-                  <div className="table-cell">Start</div>
-                  <div className="table-cell">End</div>
+                  <div className="table-cell table-cell--number">Start</div>
+                  <div className="table-cell table-cell--number">End</div>
                   <div className="table-cell">Organism</div>
                 </div>
               </div>
@@ -124,8 +124,8 @@ class ResultsTable extends Component {
                         <div className="table-cell"><strong>{mapping.uniprotEntry.uniprotAccession}</strong></div>
                         <div className="table-cell"><strong>{mapping.ensemblTranscript.enstId}</strong></div>
                         <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-                        <div className="table-cell">{this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}</div>
-                        <div className="table-cell">{this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}</div>
+                        <div className="table-cell table-cell--number">{this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}</div>
+                        <div className="table-cell table-cell--number">{this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}</div>
                         <div className="table-cell">{row.taxonomy.species}</div>
                       </Link>
                     );
