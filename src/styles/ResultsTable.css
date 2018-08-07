@@ -36,6 +36,10 @@ tbody {
   vertical-align: inherit;
 }
 
+.table-cell--number {
+  text-align: right !important;
+}
+
 .table-cell {
   display: table-cell;
   vertical-align: inherit;

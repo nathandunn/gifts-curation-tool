@@ -8,6 +8,7 @@ import SimpleMED from 'simplemde';
 import LoadingSpinner from './components/LoadingSpinner';
 import Alignment from './components/Alignment';
 import Comment from './components/Comment';
+import ProteinReviewStatus from './components/ProteinReviewStatus';
 
 import '../styles/Mapping.css';
 import '../../node_modules/simplemde/dist/simplemde.min.css';
@@ -369,7 +370,7 @@ class Mapping extends Component {
                 </svg>`,
           }}
           />
-          <span>{props.uniprotAccession}</span>
+          <span><ProteinReviewStatus entryType={props.entryType}/>{props.uniprotAccession}</span>
         </Link>
       </div>
     );
@@ -461,12 +462,16 @@ class Mapping extends Component {
                 id={item.mappingId}
                 enstId={item.ensemblTranscript.enstId}
                 uniprotAccession={item.uniprotEntry.uniprotAccession}
+                entryType={item.uniprotEntry.entryType}
                 key={item.mappingId}
               />))}
               </div>
             </div>
-
-        <Alignment mappingId={this.state.mappingId} />
+        
+        <div className="row column medium-12">
+          <h3>Alignment</h3>
+          <Alignment mappingId={this.state.mappingId} />
+        </div>
 
         <div className="row mapping__comments__wrapper">
           <div className="column medium-12">

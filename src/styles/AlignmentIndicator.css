@@ -1,0 +1,15 @@
+.alignment-indicator {
+    font-size: .9rem;
+    display: inline-block;
+    background-color: #666666;
+    color: #ffffff;
+    border-radius: .2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    text-align: center;
+}
+
+.alignment-indicator--small {
+    background-color: #ffa500;
+}
