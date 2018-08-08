@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import decode from 'jwt-decode';
 import { withCookies, Cookies } from 'react-cookie';
 

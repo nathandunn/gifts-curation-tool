@@ -5,6 +5,7 @@ import axios from 'axios';
 import { withCookies } from 'react-cookie';
 import SimpleMED from 'simplemde';
 
+import { isTokenExpired } from './util/util';
 import LoadingSpinner from './components/LoadingSpinner';
 import Alignment from './components/Alignment';
 import Comment from './components/Comment';
@@ -91,6 +92,11 @@ class Mapping extends Component {
 
   getMappingDetails = (mappingId, isLoggedIn) => {
     const { history, cookies } = this.props;
+    const jwt = cookies.get('jwt');
+
+    if (isTokenExpired(jwt)) {
+      console.log("<<<<<< token is expired >>>>>");
+    }
 
     let config = {};
     let apiCalls = [
@@ -100,7 +106,7 @@ class Mapping extends Component {
 
     if (isLoggedIn) {
       config.headers = {
-        Authorization: `Bearer ${cookies.get('jwt')}`,
+        Authorization: `Bearer ${jwt}`,
       };
 
       apiCalls.push(
@@ -229,7 +235,7 @@ class Mapping extends Component {
       },
     };
 
-    axios.post(apiURI, {}, config)
+    axios.post(apiURI, { dummy: true }, config)
       .then(response => {
         this.setState({
           addLabelMode: false
@@ -387,7 +393,7 @@ class Mapping extends Component {
         <div className="input-group-button">
           <div className="button-group">
             <button className="button button--primary" onClick={this.addLabel}>Add</button>
-            <button className="button button--secondary" onClick={this.disableAddLabelMode}>Cencel</button>
+            <button className="button button--secondary" onClick={this.disableAddLabelMode}>Cancel</button>
           </div>
         </div>
       </div>
@@ -428,7 +434,7 @@ class Mapping extends Component {
             </div>
             </div>
             <div className="row column medium-12">
-              {labels.map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
+              {labels.map(label => <Label text={label.label} key={label.text} isLoggedIn={isLoggedIn} />)}
               {(isLoggedIn) ? (addLabelMode)
                   ? <AddLabelControl />
                   : <button href="#" onClick={this.enableAddLabelMode}>Add label</button>
