@@ -22,7 +22,6 @@ class Mapping extends Component {
     labels: null,
     labelsAvailable: null,
     addLabelMode: false,
-    draftLabel: null,
     isLoggedIn: null,
     mappingId: null,
   }
@@ -38,7 +37,7 @@ class Mapping extends Component {
 
   constructor(props) {
     super(props);
-    this.labelTextInputRef = React.createRef();
+    this.labelsListRef = React.createRef();
   }
 
   componentDidMount() {
@@ -93,19 +92,27 @@ class Mapping extends Component {
   getMappingDetails = (mappingId, isLoggedIn) => {
     const { history, cookies } = this.props;
 
-    const config = {
-      headers: { Authorization: `Bearer ${cookies.get('jwt')}` },
-    };
+    let config = {};
+    let apiCalls = [
+      axios.get(`${API_URL}/mapping/${mappingId}/?format=json`, config),
+      axios.get(`${API_URL}/mapping/${mappingId}/labels/?format=json`, config),
+    ];
+
+    if (isLoggedIn) {
+      config.headers = {
+        Authorization: `Bearer ${cookies.get('jwt')}`,
+      };
+
+      apiCalls.push(
+        axios.get(`${API_URL}/mapping/${mappingId}/comments/?format=json`, config)
+      );
+    }
 
     axios
-      .all([
-        axios.get(`${API_URL}/mapping/${mappingId}/?format=json`, config),
-        axios.get(`${API_URL}/mapping/${mappingId}/comments/?format=json`, config),
-        axios.get(`${API_URL}/mapping/${mappingId}/labels/?format=json`, config),
-      ])
-      .then(axios.spread((mappingResponse, commentsResponse, labelsResponse) => {
+      .all(apiCalls)
+      .then(axios.spread((mappingResponse, labelsResponse, commentsResponse) => {
         const details = mappingResponse.data;
-        const { comments } = commentsResponse.data;
+        const comments = (commentsResponse && commentsResponse.data.comments) || [];
         const { labels } = labelsResponse.data;
         const { status } = details.mapping;
 
@@ -207,39 +214,13 @@ class Mapping extends Component {
     return false;
   }
 
-  onLabelEnter = e => {
-    const { draftLabel } = this.state;
-
-    if (e.keyCode === 13 || e.which === 13 || e.key === 'Enter') {
-      this.addLabel(draftLabel);
-    }
-  }
-
-  onLabelTextInputChange = ({ target }) => {
-    this.setState({
-      draftLabel: target.value.replace(/\s+/g, '-').toLowerCase(),
-    });
-  }
-
-  addLabel = label => {
+  addLabel = () => {
     const {
       draftLabel, labels, details, mappingId,
     } = this.state;
     const { history, cookies } = this.props;
-
-    // labels.push(draftLabel);
-
-    // this.setState({
-    //   addLabelMode: false,
-    //   draftLabel: '',
-    //   labels
-    // });
-
-    const apiURI = `${API_URL}/mapping/${mappingId}/labels/`;
-
-    const newLabel = {
-      label,
-    };
+    const labelId = this.labelsListRef.current.value;
+    const apiURI = `${API_URL}/mapping/${mappingId}/labels/${labelId}/`;
 
     const config = {
       headers: {
@@ -248,14 +229,13 @@ class Mapping extends Component {
       },
     };
 
-    axios.post(apiURI, newLabel, config)
+    axios.post(apiURI, {}, config)
       .then(response => {
         this.setState({
-          addLabelMode: false,
-          draftLabel: '',
+          addLabelMode: false
         });
 
-        this.getMappingCommentsAndLabels(mappingId);
+        // this.getMappingCommentsAndLabels(mappingId);
       })
       .catch(e => {
         console.log(e.response);
@@ -400,13 +380,13 @@ class Mapping extends Component {
 
     const AddLabelControl = () => (
       <div className="input-group">
-        <select className="input-group-field">
+        <select className="input-group-field" ref={this.labelsListRef}>
           <option>&nbsp;</option>
-          {labelsAvailable.map(label => <option key={`label-${label.id}`}>{label.label}</option>)}
+          {labelsAvailable.map(label => <option value={`${label.id}`} key={`label-${label.id}`}>{label.label}</option>)}
         </select>
         <div className="input-group-button">
           <div className="button-group">
-            <button className="button button--primary">Add</button>
+            <button className="button button--primary" onClick={this.addLabel}>Add</button>
             <button className="button button--secondary" onClick={this.disableAddLabelMode}>Cencel</button>
           </div>
         </div>
