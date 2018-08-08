@@ -5,8 +5,8 @@ function getClassName(status) {
   switch (status) {
     case 'UNDER_REVIEW':
       return 'status status--under-review';
-    case 'ACCEPTED':
-      return 'status status--accepted';
+    case 'REVIEWED':
+      return 'status status--reviewed';
     case 'REJECTED':
       return 'status status--rejected';
     default:
