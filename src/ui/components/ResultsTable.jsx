@@ -9,6 +9,7 @@ import Status from './Status';
 import Filters from './Filters';
 import ProteinReviewStatus from './ProteinReviewStatus';
 import AlignmentIndicator from './AlignmentIndicator';
+import { formatLargeNumber } from '../util/util';
 
 import '../../styles/ResultsTable.css';
 
@@ -36,8 +37,6 @@ class ResultsTable extends Component {
       this.loadResults();
     }
   }
-
-  formatLargeNumber = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   loadResults = () => {
     const { history, cookies } = this.props;
@@ -81,7 +80,7 @@ class ResultsTable extends Component {
     return (
       <Fragment>
         <div className="row column medium-12">
-          <h2>{this.formatLargeNumber(+this.state.totalCount)} Mapping(s)</h2>
+          <h2>{formatLargeNumber(+this.state.totalCount)} Mapping(s)</h2>
         </div>
         <div className="row">
           <div className="column medium-2">
@@ -135,10 +134,10 @@ class ResultsTable extends Component {
                         </div>
                         <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
                         <div className="table-cell table-cell--number">
-                          {this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}
+                          {formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}
                         </div>
                         <div className="table-cell table-cell--number">
-                          {this.formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}
+                          {formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}
                         </div>
                         <div className="table-cell">{row.taxonomy.species}</div>
                         <div className="table-cell">

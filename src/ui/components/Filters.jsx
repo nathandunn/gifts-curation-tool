@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Status from './Status';
 
 import '../../styles/Filters.css';
+import AlignmentIndicator from './AlignmentIndicator';
 
 class Filters extends Component {
   static formatLabel(item, facet) {
@@ -11,6 +12,12 @@ class Filters extends Component {
       return (
         <span>
           <Status status={item.name} /> {item.label}
+        </span>
+      );
+    } else if (facet.name === 'sequence') {
+      return (
+        <span>
+          <AlignmentIndicator differenceName={item.name} /> {item.label}
         </span>
       );
     }

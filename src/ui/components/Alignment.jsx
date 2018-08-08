@@ -242,7 +242,7 @@ class Alignment extends Component {
             <span role="img" aria-label="party">
               🎉
             </span>{' '}
-            Perfect sequence match!{' '}
+            Sequences are identical{' '}
             <span role="img" aria-label="party">
               🎉
             </span>
