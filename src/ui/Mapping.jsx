@@ -392,12 +392,14 @@ class Mapping extends Component {
     );
 
     const AddLabelControl = () => (
-      <div className="input-group">
-        <select className="input-group-field" ref={this.labelsListRef}>
-          <option>&nbsp;</option>
-          {labelsAvailable.map(label => <option value={`${label.id}`} key={`label-${label.id}`}>{label.label}</option>)}
-        </select>
-        <div className="input-group-button">
+      <div className="row">
+        <div className="column medium-4">
+          <select className="input-group-field" ref={this.labelsListRef}>
+            <option>&nbsp;</option>
+            {labelsAvailable.map(label => <option value={`${label.id}`} key={`label-${label.id}`}>{label.label}</option>)}
+          </select>
+        </div>
+        <div className="column medium-8">
           <div className="button-group">
             <button className="button button--primary" onClick={this.addLabel}>Add</button>
             <button className="button button--secondary" onClick={this.disableAddLabelMode}>Cancel</button>
