@@ -5,6 +5,7 @@ import axios from 'axios';
 import { withCookies } from 'react-cookie';
 import SimpleMED from 'simplemde';
 
+import { isTokenExpired } from './util/util';
 import LoadingSpinner from './components/LoadingSpinner';
 import Alignment from './components/Alignment';
 import Comment from './components/Comment';
@@ -91,6 +92,11 @@ class Mapping extends Component {
 
   getMappingDetails = (mappingId, isLoggedIn) => {
     const { history, cookies } = this.props;
+    const jwt = cookies.get('jwt');
+
+    if (isTokenExpired(jwt)) {
+      console.log("<<<<<< token is expired >>>>>");
+    }
 
     let config = {};
     let apiCalls = [
@@ -100,7 +106,7 @@ class Mapping extends Component {
 
     if (isLoggedIn) {
       config.headers = {
-        Authorization: `Bearer ${cookies.get('jwt')}`,
+        Authorization: `Bearer ${jwt}`,
       };
 
       apiCalls.push(
@@ -216,7 +222,9 @@ class Mapping extends Component {
 
   addLabel = () => {
     const {
-      draftLabel, labels, details, mappingId,
+      labels,
+      mappingId,
+      isLoggedIn,
     } = this.state;
     const { history, cookies } = this.props;
     const labelId = this.labelsListRef.current.value;
@@ -229,13 +237,14 @@ class Mapping extends Component {
       },
     };
 
-    axios.post(apiURI, {}, config)
+    axios
+      .post(apiURI, {}, config)
       .then(response => {
         this.setState({
           addLabelMode: false
         });
 
-        // this.getMappingCommentsAndLabels(mappingId);
+        this.getMappingDetails(mappingId, isLoggedIn);
       })
       .catch(e => {
         console.log(e.response);
@@ -243,11 +252,13 @@ class Mapping extends Component {
       });
   }
 
-  deleteLabel = label => {
-    const { mappingId } = this.state;
+  deleteLabel = labelId => {
+    const {
+      mappingId,
+      isLoggedIn,
+    } = this.state;
     const { history, cookies } = this.props;
-
-    const apiURI = `${API_URL}/mapping/${mappingId}/labels/${label}/`;
+    const apiURI = `${API_URL}/mapping/${mappingId}/labels/${labelId}/`;
 
     const config = {
       headers: {
@@ -259,7 +270,7 @@ class Mapping extends Component {
     axios
       .delete(apiURI, config)
       .then(response => {
-        this.getMappingCommentsAndLabels(mappingId);
+        this.getMappingDetails(mappingId, isLoggedIn);
       })
       .catch(e => {
         console.log(e.response);
@@ -320,9 +331,11 @@ class Mapping extends Component {
     const Label = props =>
       (<span className="label primary">
         {props.text}
-        <button onClick={() => this.deleteLabel(props.text)}>
-          {(props.isLoggedIn) ? <span style={{ marginLeft: '0.3rem', color: '#FEFEFE', cursor: 'pointer' }}>&times;</span> : null }
-        </button>
+        {(props.isLoggedIn) ?
+          <button onClick={() => this.deleteLabel(props.id)}>
+            <span style={{ marginLeft: '0.3rem', color: '#FEFEFE', cursor: 'pointer' }}>&times;</span>
+          </button>
+          : null }
        </span>);
 
     const mappingIdStyles = {
@@ -387,7 +400,7 @@ class Mapping extends Component {
         <div className="input-group-button">
           <div className="button-group">
             <button className="button button--primary" onClick={this.addLabel}>Add</button>
-            <button className="button button--secondary" onClick={this.disableAddLabelMode}>Cencel</button>
+            <button className="button button--secondary" onClick={this.disableAddLabelMode}>Cancel</button>
           </div>
         </div>
       </div>
@@ -428,7 +441,7 @@ class Mapping extends Component {
             </div>
             </div>
             <div className="row column medium-12">
-              {labels.map(label => <Label text={label.text} key={label.text} isLoggedIn={isLoggedIn} />)}
+              {labels.map(label => <Label text={label.label} key={label.text} id={label.id} isLoggedIn={isLoggedIn} />)}
               {(isLoggedIn) ? (addLabelMode)
                   ? <AddLabelControl />
                   : <button href="#" onClick={this.enableAddLabelMode}>Add label</button>
