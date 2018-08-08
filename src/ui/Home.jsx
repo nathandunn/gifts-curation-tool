@@ -43,13 +43,14 @@ class Home extends Component {
             <h4>{this.state.stats ? formatLargeNumber(this.state.stats.totalMappingCount) : 0}</h4>
           </div>
           <div className="column medium-8">
+            <h3>Mappings by status</h3>
             {this.state.stats
               ? this.state.stats.statusMappingCount.map(statusCount => (
                 <div>
-                  <h4>
+                  <h5>
                     <Status status={statusCount.status} />
                     {formatStatusName(statusCount.status)}: {formatLargeNumber(statusCount.count)}
-                  </h4>
+                  </h5>
                 </div>
                 ))
               : null}
