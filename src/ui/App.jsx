@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withCookies } from 'react-cookie';
 import queryString from 'query-string';
@@ -35,6 +35,7 @@ class App extends Component {
     this.setState(
       {
         authenticated: true,
+        validToken: true,
         readonly,
         user,
       },
@@ -90,6 +91,7 @@ class App extends Component {
       name: 'Guest',
     },
     message: null,
+    validToken: null,
   };
 
   clearMessage = () => {
@@ -98,8 +100,19 @@ class App extends Component {
     });
   };
 
+  tokenIsExpired = () => {
+    this.setState({
+      validToken: false,
+      authenticated: false,
+      user: {
+        id: 'guest',
+        name: 'Guest',
+      },
+    })
+  };
+
   render() {
-    const { authenticated, message } = this.state;
+    const { authenticated, message, validToken } = this.state;
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
     );
@@ -109,13 +122,21 @@ class App extends Component {
       ...this.state,
       handleSearchSubmit: this.handleSearchSubmit,
       exploreMappingsAction: this.exploreMappingsAction,
+      tokenIsExpired: this.tokenIsExpired,
+    };
+
+    const tokenIsExpiredMessage = {
+      isError: true,
+      title: 'Your login token is expired',
+      text: <Link to='/login'>Click here to login again.</Link>,
     };
 
     return (
       <Layout {...appProps}>
         <section id="main-content-area" role="main">
           <div id="root">
-            {message !== null ? <Message details={message} onClose={this.clearMessage} /> : null}
+            {(message !== null) ? <Message details={message} onClose={this.clearMessage} /> : null}
+            {(validToken === false) ? <Message details={tokenIsExpiredMessage} /> : null}
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
               <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />

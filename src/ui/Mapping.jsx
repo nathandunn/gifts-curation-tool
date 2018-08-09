@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withCookies } from 'react-cookie';
 import SimpleMED from 'simplemde';
+import decode from 'jwt-decode';
 
 import { isTokenExpired } from './util/util';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -73,6 +74,21 @@ class Mapping extends Component {
     }
   }
 
+  forceLoginIfTokenIsExpired = () => {
+    const { history, cookies, tokenIsExpired } = this.props;
+    const decoded = decode(cookies.get('jwt'));
+    const utcNow = parseInt(new Date().getTime() / 1000, 10);
+
+    if (decoded.exp - utcNow <= 0) {
+      console.log("<<<<<< token is expired >>>>>");
+
+      cookies.remove('authenticated', { path: '/' });
+      cookies.remove('jwt', { path: '/' });
+
+      tokenIsExpired();
+    }
+  }
+
   createTextEditor = () => {
     const { draftComment } = this.state;
     const element = document.getElementById('text-editor');
@@ -92,11 +108,8 @@ class Mapping extends Component {
 
   getMappingDetails = (mappingId, isLoggedIn) => {
     const { history, cookies } = this.props;
-    const jwt = cookies.get('jwt');
 
-    if (isTokenExpired(jwt)) {
-      console.log("<<<<<< token is expired >>>>>");
-    }
+    this.forceLoginIfTokenIsExpired();
 
     let config = {};
     let apiCalls = [
@@ -106,7 +119,7 @@ class Mapping extends Component {
 
     if (isLoggedIn) {
       config.headers = {
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${cookies.get('jwt')}`,
       };
 
       apiCalls.push(
@@ -306,7 +319,6 @@ class Mapping extends Component {
           onChange={this.onStatusChange}
           value={status}
         >
-          <option value="" />
           {statusList}
         </select>
         <div className="input-group-button">
@@ -394,7 +406,6 @@ class Mapping extends Component {
     const AddLabelControl = () => (
       <div className="input-group">
         <select className="input-group-field" ref={this.labelsListRef}>
-          <option>&nbsp;</option>
           {labelsAvailable.map(label => <option value={`${label.id}`} key={`label-${label.id}`}>{label.label}</option>)}
         </select>
         <div className="input-group-button">
@@ -444,8 +455,7 @@ class Mapping extends Component {
               {labels.map(label => <Label text={label.label} key={label.text} id={label.id} isLoggedIn={isLoggedIn} />)}
               {(isLoggedIn) ? (addLabelMode)
                   ? <AddLabelControl />
-                  : <button href="#" onClick={this.enableAddLabelMode}>Add label</button>
-                  // ? <input type="text" onKeyDown={this.onLabelEnter} onChange={this.onLabelTextInputChange} ref={this.labelTextInputRef} style={{ width: '10rem', display: 'inline-block' }} />
+                  : <button className="button button--primary" href="#" onClick={this.enableAddLabelMode}>Add label</button>
                 : null }
             </div>
             <div className="row column medium-12">
