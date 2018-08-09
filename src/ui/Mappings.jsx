@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import ResultsTable from './components/ResultsTable';
@@ -56,6 +57,7 @@ class Mappings extends Component {
         limit: this.state.limit,
         format: 'json',
       },
+      history: this.props.history,
       initialPage: this.state.initialPage,
     };
     return <ResultsTable {...propsToPass} />;
@@ -70,4 +72,4 @@ Mappings.defaultProps = {
   searchTerm: '',
 };
 
-export default Mappings;
+export default withRouter(Mappings);

@@ -20,6 +20,15 @@ const AlignmentIndicator = (props) => {
         S
       </span>
     );
+  } else if (+props.difference > 5 || props.differenceName === 'large') {
+    return (
+      <span
+        className="alignment-indicator alignment-indicator--large"
+        title="Large difference between sequences"
+      >
+        L
+      </span>
+    );
   }
   return null;
 };
