@@ -39,23 +39,23 @@ class Home extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="column medium-4">
+          <div className="column medium-3">
             <h3>Total mappings</h3>
-            <h4>{this.state.stats ? formatLargeNumber(this.state.stats.totalMappingCount) : 0}</h4>
+            <span className="stat">
+              {this.state.stats ? formatLargeNumber(this.state.stats.totalMappingCount) : 0}
+            </span>
           </div>
-          <div className="column medium-8">
-            <h3>Mappings by status</h3>
-            {this.state.stats
-              ? this.state.stats.statusMappingCount.map((statusCount, index) => (
-                <div key={`status-${index}`}>
-                  <h5>
-                    <Status status={statusCount.status} />
-                    {formatStatusName(statusCount.status)}: {formatLargeNumber(statusCount.count)}
-                  </h5>
-                </div>
-                ))
-              : null}
-          </div>
+          {this.state.stats
+            ? this.state.stats.statusMappingCount.map((statusCount, index) => (
+              <div key={`status-${index}`} className="column medium-2">
+                <h3>{formatStatusName(statusCount.status)}</h3>
+                <span className="stat">
+                  <Status status={statusCount.status} />
+                  {formatLargeNumber(statusCount.count)}
+                </span>
+              </div>
+              ))
+            : null}
         </div>
       </main>
     );

@@ -1,6 +1,5 @@
 .home-banner {
     padding-top: 5vh;
-    height: 40vh;
     background-color: #192B38;
     color: #ffffff;
     min-height: 18em;
@@ -11,6 +10,8 @@
     margin-top: 5vh;
 }
 
-.home-banner h2, .home-banner h5 {
+.home-banner h2,
+.home-banner h3,
+.home-banner h5 {
     color: #ffffff;
 }
