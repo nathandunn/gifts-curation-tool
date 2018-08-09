@@ -13,3 +13,7 @@
 .alignment-indicator--small {
     background-color: #ffa500;
 }
+
+.alignment-indicator--large {
+    background-color: red;
+}
