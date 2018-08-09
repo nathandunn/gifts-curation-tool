@@ -31,7 +31,7 @@ class App extends Component {
 
   onLoginSuccess = (user, readonly) => {
     const { history, cookies } = this.props;
-
+console.log("--- on login success called");
     this.setState(
       {
         authenticated: true,
@@ -101,17 +101,20 @@ class App extends Component {
   };
 
   tokenIsExpired = () => {
+    console.log("app.tokenIsExpired called.");
     this.setState({
       validToken: false,
       authenticated: false,
+      readonly: true,
       user: {
         id: 'guest',
         name: 'Guest',
       },
-    })
+    });
   };
 
   render() {
+console.log("app state:", this.state);
     const { authenticated, message, validToken } = this.state;
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
@@ -144,7 +147,7 @@ class App extends Component {
               <Route exact path="/logout" component={LogoutComponent} />
               <Route
                 path="/mapping/:mappingId"
-                render={({ match }) => <Mapping match={match} isLoggedIn={authenticated} />}
+                render={({ match }) => <Mapping match={match} isLoggedIn={authenticated} {...appProps} />}
               />
               <Route exact path="/error" render={() => <Broken {...appProps} />} />
             </Switch>

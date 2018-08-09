@@ -64,12 +64,14 @@ class Filters extends Component {
 
 Filters.propTypes = {
   data: PropTypes.array,
-  activeFacets: PropTypes.array,
+  activeFacets: PropTypes.object,
+  removeFilter: PropTypes.func.isRequired,
+  addFilter: PropTypes.func.isRequired,
 };
 
 Filters.defaultProps = {
   data: [],
-  activeFacets: [],
+  activeFacets: {},
 };
 
 export default Filters;

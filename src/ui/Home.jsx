@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { formatStatusName, formatLargeNumber } from './util/util';
@@ -45,8 +46,8 @@ class Home extends Component {
           <div className="column medium-8">
             <h3>Mappings by status</h3>
             {this.state.stats
-              ? this.state.stats.statusMappingCount.map(statusCount => (
-                <div>
+              ? this.state.stats.statusMappingCount.map((statusCount, index) => (
+                <div key={`status-${index}`}>
                   <h5>
                     <Status status={statusCount.status} />
                     {formatStatusName(statusCount.status)}: {formatLargeNumber(statusCount.count)}
@@ -60,5 +61,9 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  exploreMappingsAction: PropTypes.func.isRequired,
+};
 
 export default Home;

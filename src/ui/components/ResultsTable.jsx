@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import isEqual from 'lodash-es/isEqual';
@@ -161,8 +162,16 @@ class ResultsTable extends Component {
         </div>
       </Fragment>
     );
-
-    return null;
   }
 }
+
+ResultsTable.propTypes = {
+  params: PropTypes.object.isRequired,
+  addFilter: PropTypes.func.isRequired,
+  removeFilter: PropTypes.func.isRequired,
+  activeFacets: PropTypes.object.isRequired,
+  handlePageClick: PropTypes.func.isRequired,
+  initialPage: PropTypes.number.isRequired,
+};
+
 export default ResultsTable;

@@ -12,7 +12,7 @@ class Login extends Component {
     componentDidMount() {
       window.addEventListener('message', this.onElixirResponse);
       this.windowRef = window
-        .open(`https://explore.api.aai.ebi.ac.uk/sso?from=${AUTH_CALLBACK_URL}`, 'elixir')
+        .open(`https://explore.api.aai.ebi.ac.uk/sso?from=${AUTH_CALLBACK_URL}&ttl=2`, 'elixir')
         .focus();
     }
 

@@ -53,15 +53,16 @@ class Mapping extends Component {
     this.setState({
       mappingId,
     });
-
+console.log("isLoggedIn0:", isLoggedIn);
     this.getMappingDetails(mappingId, isLoggedIn);
   }
 
   componentDidUpdate(prevProps) {
-    const { match: { params } } = this.props;
+    const { match: { params }, isLoggedIn } = this.props;
     const { mappingId } = params;
-    const { isLoggedIn, draftComment } = this.state;
-
+    // const { isLoggedIn, draftComment } = this.state;
+    const { draftComment } = this.state;
+console.log("isLoggedIn1:", isLoggedIn);
     if (this.textEditor === null && isLoggedIn) {
       this.createTextEditor();
     }
@@ -75,8 +76,18 @@ class Mapping extends Component {
   }
 
   forceLoginIfTokenIsExpired = () => {
+    console.log("props:", this.props);
     const { history, cookies, tokenIsExpired } = this.props;
-    const decoded = decode(cookies.get('jwt'));
+    const jwt = cookies.get('jwt') || undefined;
+    let decoded = { exp: 0 };
+
+    if ('undefined' !== typeof jwt) {
+      // tokenIsExpired();
+      // return false;
+      decoded = decode(jwt);
+    }
+
+    // const decoded = decode(jwt);
     const utcNow = parseInt(new Date().getTime() / 1000, 10);
 
     if (decoded.exp - utcNow <= 0) {
@@ -86,7 +97,11 @@ class Mapping extends Component {
       cookies.remove('jwt', { path: '/' });
 
       tokenIsExpired();
+
+      return false;
     }
+
+    return true;
   }
 
   createTextEditor = () => {
@@ -109,15 +124,14 @@ class Mapping extends Component {
   getMappingDetails = (mappingId, isLoggedIn) => {
     const { history, cookies } = this.props;
 
-    this.forceLoginIfTokenIsExpired();
-
+    const tokenIsNotExpired = this.forceLoginIfTokenIsExpired();
     let config = {};
     let apiCalls = [
       axios.get(`${API_URL}/mapping/${mappingId}/?format=json`, config),
       axios.get(`${API_URL}/mapping/${mappingId}/labels/?format=json`, config),
     ];
 
-    if (isLoggedIn) {
+    if (isLoggedIn && tokenIsNotExpired) {
       config.headers = {
         Authorization: `Bearer ${cookies.get('jwt')}`,
       };
@@ -134,7 +148,7 @@ class Mapping extends Component {
         const comments = (commentsResponse && commentsResponse.data.comments) || [];
         const { labels } = labelsResponse.data;
         const { status } = details.mapping;
-
+console.log("isLoggedIn2:", isLoggedIn);
         this.setState({
           isLoggedIn,
           details,
@@ -295,7 +309,7 @@ class Mapping extends Component {
     if (this.state.details === null) {
       return <LoadingSpinner />;
     }
-
+console.log("mapping props:", this.props);
     const {
       details,
       status,
@@ -404,11 +418,13 @@ class Mapping extends Component {
     );
 
     const AddLabelControl = () => (
-      <div className="input-group">
-        <select className="input-group-field" ref={this.labelsListRef}>
-          {labelsAvailable.map(label => <option value={`${label.id}`} key={`label-${label.id}`}>{label.label}</option>)}
-        </select>
-        <div className="input-group-button">
+      <div className="row">
+        <div className="column medium-4">
+          <select className="input-group-field" ref={this.labelsListRef}>
+            {labelsAvailable.map(label => <option value={`${label.id}`} key={`label-${label.id}`}>{label.label}</option>)}
+          </select>
+        </div>
+        <div className="column medium-8">
           <div className="button-group">
             <button className="button button--primary" onClick={this.addLabel}>Add</button>
             <button className="button button--secondary" onClick={this.disableAddLabelMode}>Cancel</button>
