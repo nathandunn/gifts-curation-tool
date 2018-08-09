@@ -90,7 +90,6 @@ console.log("isLoggedIn1:", isLoggedIn);
       console.log("<<<<<< token is expired >>>>>");
 
       cookies.remove('authenticated', { path: '/' });
-      // cookies.remove('jwt', { path: '/' });
       cookies.set('jwt', 'EXPIRED', { path: '/' });
 
       tokenIsExpired();
@@ -169,7 +168,7 @@ console.log("isLoggedIn2:", isLoggedIn);
 
   updateStatus = () => {
     const { mappingId, status } = this.state;
-    const { history, cookies } = this.props;
+    const { history, cookies, setMessage } = this.props;
     const apiURI = `${API_URL}/mapping/${mappingId}/status/`;
     const changes = {
       status,
@@ -182,8 +181,11 @@ console.log("isLoggedIn2:", isLoggedIn);
     axios
       .put(apiURI, changes, config)
       .then(response => {
-        // should roll-back the state here if changes weren't saved
-        console.log('-response:', response);
+        setMessage(
+          'Status updated',
+          'A new status for this mapping is set now.',
+          false,
+        );
       })
       .catch(e => {
         console.log(e.response);
@@ -198,7 +200,7 @@ console.log("isLoggedIn2:", isLoggedIn);
 
   saveComment = () => {
     const { mappingId } = this.state;
-    const { history, cookies } = this.props;
+    const { history, cookies, setMessage, isLoggedIn } = this.props;
 
     const apiURI = `${API_URL}/mapping/${mappingId}/comments/`;
     const comment = {
@@ -214,8 +216,14 @@ console.log("isLoggedIn2:", isLoggedIn);
 
     axios.post(apiURI, comment, config)
       .then(response => {
+        setMessage(
+          'New comment added',
+          'Your comment is now added to the mapping.',
+          false,
+        );
+
         this.textEditor.value('');
-        this.getMappingCommentsAndLabels(mappingId);
+        this.getMappingDetails(mappingId, isLoggedIn);
       })
       .catch(e => {
         console.log(e.response);
@@ -249,7 +257,7 @@ console.log("isLoggedIn2:", isLoggedIn);
       mappingId,
       isLoggedIn,
     } = this.state;
-    const { history, cookies } = this.props;
+    const { history, cookies, setMessage } = this.props;
     const labelId = this.labelsListRef.current.value;
     const apiURI = `${API_URL}/mapping/${mappingId}/labels/${labelId}/`;
 
@@ -263,6 +271,12 @@ console.log("isLoggedIn2:", isLoggedIn);
     axios
       .post(apiURI, {}, config)
       .then(response => {
+        setMessage(
+          'New label added',
+          'A new label is assigned to this mapping.',
+          false,
+        );
+
         this.setState({
           addLabelMode: false
         });
@@ -280,7 +294,7 @@ console.log("isLoggedIn2:", isLoggedIn);
       mappingId,
       isLoggedIn,
     } = this.state;
-    const { history, cookies } = this.props;
+    const { history, cookies, setMessage } = this.props;
     const apiURI = `${API_URL}/mapping/${mappingId}/labels/${labelId}/`;
 
     const config = {
@@ -293,6 +307,12 @@ console.log("isLoggedIn2:", isLoggedIn);
     axios
       .delete(apiURI, config)
       .then(response => {
+        setMessage(
+          'Label deleted',
+          'Label was successfuly unassigned.',
+          false,
+        );
+
         this.getMappingDetails(mappingId, isLoggedIn);
       })
       .catch(e => {

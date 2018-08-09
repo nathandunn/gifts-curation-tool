@@ -59,11 +59,11 @@ console.log("--- on login success called");
     history.push('/');
   };
 
-  setMessage = (title, message, isError) => {
+  setMessage = (title, text, isError) => {
     this.setState({
       message: {
         title,
-        message,
+        text,
         isError,
       },
     });
@@ -134,6 +134,7 @@ console.log("app state:", this.state);
       handleSearchSubmit: this.handleSearchSubmit,
       exploreMappingsAction: this.exploreMappingsAction,
       tokenIsExpired: this.tokenIsExpired,
+      setMessage: this.setMessage,
     };
 
     const tokenIsExpiredMessage = {
