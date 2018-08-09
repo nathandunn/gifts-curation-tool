@@ -40,7 +40,7 @@ class ResultsTable extends Component {
   }
 
   loadResults = () => {
-    const { history, cookies } = this.props;
+    const { history } = this.props;
     const apiURI = `${API_URL}/mappings`;
 
     // fetch(apiURI, {
@@ -58,6 +58,10 @@ class ResultsTable extends Component {
       // .get(apiURI, { params: this.props.params, headers: { 'Authorization': 'TEST' } })
       // .get(apiURI, { params: this.props.params, auth: {'user': 'TEST'}, withCredentials: true })
       .then((d) => {
+        if (d.status === 204) {
+          history.push('/no-results');
+          return;
+        }
         this.setState({
           params: this.props.params,
           facets: d.data.facets,

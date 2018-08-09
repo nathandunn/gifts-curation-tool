@@ -12,6 +12,7 @@ import Logout from './Logout';
 import Mapping from './Mapping';
 import Broken from './Broken';
 import Message from './components/Message';
+import NoResults from './NoResults';
 
 import '../styles/Gifts.css';
 
@@ -118,6 +119,7 @@ class App extends Component {
             {message !== null ? <Message details={message} onClose={this.clearMessage} /> : null}
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
+              <Route exact path="/no-results" component={NoResults} />
               <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />
               <Route exact path="/login" component={LoginComponent} />
               <Route exact path="/logout" component={LogoutComponent} />
