@@ -6,7 +6,6 @@ import { withCookies } from 'react-cookie';
 import SimpleMED from 'simplemde';
 import decode from 'jwt-decode';
 
-import { isTokenExpired } from './util/util';
 import LoadingSpinner from './components/LoadingSpinner';
 import Alignment from './components/Alignment';
 import Comment from './components/Comment';
@@ -76,28 +75,25 @@ console.log("isLoggedIn1:", isLoggedIn);
   }
 
   forceLoginIfTokenIsExpired = () => {
-    console.log("props:", this.props);
+    console.log("force login props:", this.props);
     const { history, cookies, tokenIsExpired } = this.props;
     const jwt = cookies.get('jwt') || undefined;
-    let decoded = { exp: 0 };
+    let decoded = {};
 
-    if ('undefined' !== typeof jwt) {
-      // tokenIsExpired();
-      // return false;
+    if ('undefined' !== typeof jwt && 'EXPIRED' !== jwt) {
       decoded = decode(jwt);
     }
 
-    // const decoded = decode(jwt);
     const utcNow = parseInt(new Date().getTime() / 1000, 10);
 
-    if (decoded.exp - utcNow <= 0) {
+    if ('undefined' !== typeof decoded.exp && decoded.exp - utcNow <= 0) {
       console.log("<<<<<< token is expired >>>>>");
 
       cookies.remove('authenticated', { path: '/' });
-      cookies.remove('jwt', { path: '/' });
+      // cookies.remove('jwt', { path: '/' });
+      cookies.set('jwt', 'EXPIRED', { path: '/' });
 
       tokenIsExpired();
-
       return false;
     }
 
@@ -150,7 +146,7 @@ console.log("isLoggedIn1:", isLoggedIn);
         const { status } = details.mapping;
 console.log("isLoggedIn2:", isLoggedIn);
         this.setState({
-          isLoggedIn,
+          isLoggedIn: isLoggedIn && tokenIsNotExpired,
           details,
           status,
           comments: comments.reverse(),
@@ -309,7 +305,8 @@ console.log("isLoggedIn2:", isLoggedIn);
     if (this.state.details === null) {
       return <LoadingSpinner />;
     }
-console.log("mapping props:", this.props);
+console.log("--mapping props:", this.props);
+console.log("++mapping state:", this.state);
     const {
       details,
       status,

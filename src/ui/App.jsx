@@ -96,11 +96,7 @@ console.log("--- on login success called");
     validToken: null,
   };
 
-  clearMessage = () => {
-    this.setState({
-      message: null,
-    });
-  };
+  clearMessage = () => this.setState({ message: null });
 
   tokenIsExpired = () => {
     console.log("app.tokenIsExpired called.");
@@ -114,6 +110,16 @@ console.log("--- on login success called");
       },
     });
   };
+
+  clearExpiredLoginMessage = () => {
+    const { cookies } = this.props;
+
+    this.setState({
+      validToken: true
+    });
+
+    cookies.remove('jwt', { path: '/' });
+  }
 
   render() {
 console.log("app state:", this.state);
@@ -141,7 +147,7 @@ console.log("app state:", this.state);
         <section id="main-content-area" role="main">
           <div id="root">
             {(message !== null) ? <Message details={message} onClose={this.clearMessage} /> : null}
-            {(validToken === false) ? <Message details={tokenIsExpiredMessage} /> : null}
+            {(validToken === false) ? <Message details={tokenIsExpiredMessage} onClose={this.clearExpiredLoginMessage} /> : null}
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
               <Route exact path="/no-results" component={NoResults} />
