@@ -13,6 +13,7 @@ import Mapping from './Mapping';
 import Broken from './Broken';
 import Message from './components/Message';
 import NoResults from './NoResults';
+import Feedback from './Feedback';
 
 import '../styles/Gifts.css';
 
@@ -128,6 +129,7 @@ class App extends Component {
                 render={({ match }) => <Mapping match={match} isLoggedIn={authenticated} />}
               />
               <Route exact path="/error" render={() => <Broken {...appProps} />} />
+              <Route exact path="/feedback" component={Feedback} />
             </Switch>
           </div>
         </section>

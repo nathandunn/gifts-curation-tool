@@ -38,7 +38,9 @@ function Header(props) {
               <li>
                 <Link to="../../mappings">Mappings</Link>
               </li>
-
+              <li>
+                <Link to="../../feedback">Feedback</Link>
+              </li>
               {authenticated ? (
                 <li>
                   <Link to="../../logout">Logout</Link>
