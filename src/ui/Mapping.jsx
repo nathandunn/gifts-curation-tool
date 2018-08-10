@@ -181,11 +181,11 @@ console.log("isLoggedIn2:", isLoggedIn);
     axios
       .put(apiURI, changes, config)
       .then(response => {
-        setMessage(
-          'Status updated',
-          'A new status for this mapping is set now.',
-          false,
-        );
+        // setMessage(
+        //   'Status updated',
+        //   'A new status for this mapping is set now.',
+        //   false,
+        // );
       })
       .catch(e => {
         console.log(e.response);
@@ -216,11 +216,11 @@ console.log("isLoggedIn2:", isLoggedIn);
 
     axios.post(apiURI, comment, config)
       .then(response => {
-        setMessage(
-          'New comment added',
-          'Your comment is now added to the mapping.',
-          false,
-        );
+        // setMessage(
+        //   'New comment added',
+        //   'Your comment is now added to the mapping.',
+        //   false,
+        // );
 
         this.textEditor.value('');
         this.getMappingDetails(mappingId, isLoggedIn);
@@ -271,11 +271,11 @@ console.log("isLoggedIn2:", isLoggedIn);
     axios
       .post(apiURI, {}, config)
       .then(response => {
-        setMessage(
-          'New label added',
-          'A new label is assigned to this mapping.',
-          false,
-        );
+        // setMessage(
+        //   'New label added',
+        //   'A new label is assigned to this mapping.',
+        //   false,
+        // );
 
         this.setState({
           addLabelMode: false
@@ -307,11 +307,11 @@ console.log("isLoggedIn2:", isLoggedIn);
     axios
       .delete(apiURI, config)
       .then(response => {
-        setMessage(
-          'Label deleted',
-          'Label was successfuly unassigned.',
-          false,
-        );
+        // setMessage(
+        //   'Label deleted',
+        //   'Label was successfuly unassigned.',
+        //   false,
+        // );
 
         this.getMappingDetails(mappingId, isLoggedIn);
       })
