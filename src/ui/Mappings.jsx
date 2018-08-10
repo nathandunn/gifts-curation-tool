@@ -59,6 +59,7 @@ class Mappings extends Component {
       },
       history: this.props.history,
       initialPage: this.state.initialPage,
+      clearSearchTerm: this.props.clearSearchTerm,
     };
     return <ResultsTable {...propsToPass} />;
   }

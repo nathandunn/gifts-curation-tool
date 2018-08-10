@@ -33,7 +33,7 @@ class App extends Component {
 
   onLoginSuccess = (user, readonly) => {
     const { history, cookies } = this.props;
-console.log("--- on login success called");
+
     this.setState(
       {
         authenticated: true,
@@ -81,6 +81,8 @@ console.log("--- on login success called");
     history.push(`/mappings?searchTerm=${input}`);
     e.preventDefault();
   };
+
+  clearSearchTerm = callback => this.setState({ searchTerm: '' }, callback);
 
   defaultState = {
     searchTerm: queryString.parse(this.props.location.search).searchTerm
@@ -135,6 +137,7 @@ console.log("app state:", this.state);
       exploreMappingsAction: this.exploreMappingsAction,
       tokenIsExpired: this.tokenIsExpired,
       setMessage: this.setMessage,
+      clearSearchTerm: this.clearSearchTerm,
     };
 
     const tokenIsExpiredMessage = {

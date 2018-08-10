@@ -40,28 +40,20 @@ class ResultsTable extends Component {
   }
 
   loadResults = () => {
-    const { history } = this.props;
+    const { history, clearSearchTerm } = this.props;
     const apiURI = `${API_URL}/mappings`;
-
-    // fetch(apiURI, {
-    //   method: 'GET',
-    //   mode: "cors",
-    //   headers: {
-    //     'Authorization': '--TEST--'
-    //   }
-    // })
-    // .then(response => response.json())
-    // .catch(error => console.error(`Fetch Error =\n`, error));
-
+console.log("RESULTS props:", this.props);
     axios
       .get(apiURI, { params: this.props.params })
-      // .get(apiURI, { params: this.props.params, headers: { 'Authorization': 'TEST' } })
-      // .get(apiURI, { params: this.props.params, auth: {'user': 'TEST'}, withCredentials: true })
       .then((d) => {
-        if (d.status === 204) {
-          history.push('/no-results');
+        if (204 === d.status ) {
+          clearSearchTerm(() => {
+            history.push('/no-results');
+          });
+
           return;
         }
+
         this.setState({
           params: this.props.params,
           facets: d.data.facets,
