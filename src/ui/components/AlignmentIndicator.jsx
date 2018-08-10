@@ -3,7 +3,7 @@ import React from 'react';
 import '../../styles/AlignmentIndicator.css';
 
 const AlignmentIndicator = (props) => {
-  if (props.difference === null && props.differenceName === null) {
+  if (props.difference === null) {
     return null;
   } else if (+props.difference === 0 || props.differenceName === 'identical') {
     return (
