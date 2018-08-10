@@ -10,6 +10,7 @@ import LoadingSpinner from './components/LoadingSpinner';
 import Alignment from './components/Alignment';
 import Comment from './components/Comment';
 import ProteinReviewStatus from './components/ProteinReviewStatus';
+import Status from './components/Status';
 
 import '../styles/Mapping.css';
 import '../../node_modules/simplemde/dist/simplemde.min.css';
@@ -52,7 +53,7 @@ class Mapping extends Component {
     this.setState({
       mappingId,
     });
-console.log("isLoggedIn0:", isLoggedIn);
+
     this.getMappingDetails(mappingId, isLoggedIn);
   }
 
@@ -61,7 +62,7 @@ console.log("isLoggedIn0:", isLoggedIn);
     const { mappingId } = params;
     // const { isLoggedIn, draftComment } = this.state;
     const { draftComment } = this.state;
-console.log("isLoggedIn1:", isLoggedIn);
+
     if (this.textEditor === null && isLoggedIn) {
       this.createTextEditor();
     }
@@ -143,7 +144,7 @@ console.log("isLoggedIn1:", isLoggedIn);
         const comments = (commentsResponse && commentsResponse.data.comments) || [];
         const { labels } = labelsResponse.data;
         const { status } = details.mapping;
-console.log("isLoggedIn2:", isLoggedIn);
+
         this.setState({
           isLoggedIn: isLoggedIn && tokenIsNotExpired,
           details,
@@ -325,8 +326,7 @@ console.log("isLoggedIn2:", isLoggedIn);
     if (this.state.details === null) {
       return <LoadingSpinner />;
     }
-console.log("--mapping props:", this.props);
-console.log("++mapping state:", this.state);
+
     const {
       details,
       status,
@@ -361,15 +361,6 @@ console.log("++mapping state:", this.state);
     );
 
     const StatusIndicator = () => <span id="status-indicator">{this.statusOptions[status]}</span>;
-
-    let statusColour;
-
-    switch (status) {
-      case 'NOT_REVIEWED': statusColour = 'unreviewed'; break;
-      case 'UNDER_REVIEW': statusColour = 'under-review'; break;
-      case 'REVIEWED': statusColour = 'accepted'; break;
-      case 'REJECTED': statusColour = 'rejected'; break;
-    }
 
     const Label = props =>
       (<span className="label primary">
@@ -479,7 +470,7 @@ console.log("++mapping state:", this.state);
             </div>
             <div className="column medium-3">
               <div className="status-wrapper">
-                <div className={`status status--${statusColour}`} />
+                <Status status={status} />
                 {(isLoggedIn) ? <StatusChangeControl /> : <StatusIndicator />}
               </div>
             </div>
@@ -519,12 +510,7 @@ console.log("++mapping state:", this.state);
   }
 }
 
-Mapping.propTypes = {
-  // searchTerm: PropTypes.string,
-};
-
-Mapping.defaultProps = {
-  // searchTerm: '',
-};
+// Mapping.propTypes = {};
+// Mapping.defaultProps = {};
 
 export default withCookies(withRouter(Mapping));

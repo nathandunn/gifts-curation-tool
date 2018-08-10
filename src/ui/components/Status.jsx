@@ -14,8 +14,6 @@ function getClassName(status) {
   }
 }
 
-function Status(props) {
-  return <div className={getClassName(props.status)} />;
-}
+const Status = props => <div className={getClassName(props.status)} />;
 
 export default Status;
