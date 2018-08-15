@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { formatStatusName, formatLargeNumber } from './util/util';
 import SearchField from './components/SearchField';
-import Status from './components/Status';
+import StatusIndicator from './components/StatusIndicator';
 
 import '../styles/Home.css';
 
@@ -52,7 +52,7 @@ class Home extends Component {
               <div key={`status-${index}`} className="column medium-3">
                 <h4>{formatStatusName(statusCount.status)}</h4>
                 <span className="stat">
-                  <Status status={statusCount.status} />
+                  <StatusIndicator status={statusCount.status} />
                   {formatLargeNumber(statusCount.count)}
                 </span>
               </div>

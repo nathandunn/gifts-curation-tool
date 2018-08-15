@@ -6,7 +6,7 @@ import ReactPaginate from 'react-paginate';
 import isEqual from 'lodash-es/isEqual';
 
 import LoadingSpinner from './LoadingSpinner';
-import Status from './Status';
+import StatusIndicator from './StatusIndicator';
 import Filters from './Filters';
 import ProteinReviewStatus from './ProteinReviewStatus';
 import AlignmentIndicator from './AlignmentIndicator';
@@ -40,13 +40,13 @@ class ResultsTable extends Component {
   }
 
   loadResults = () => {
-    const { history, clearSearchTerm } = this.props;
+    const { params, history, clearSearchTerm } = this.props;
     const apiURI = `${API_URL}/mappings`;
-console.log("RESULTS props:", this.props);
+
     axios
-      .get(apiURI, { params: this.props.params })
-      .then((d) => {
-        if (204 === d.status ) {
+      .get(apiURI, { params })
+      .then(({ data, status }) => {
+        if (204 === status ) {
           clearSearchTerm(() => {
             history.push('/no-results');
           });
@@ -56,13 +56,13 @@ console.log("RESULTS props:", this.props);
 
         this.setState({
           params: this.props.params,
-          facets: d.data.facets,
-          results: d.data.results,
-          totalCount: d.data.count,
+          facets: data.facets,
+          results: data.results,
+          totalCount: data.count,
         });
       })
-      .catch((e) => {
-        console.log(e.response);
+      .catch(e => {
+        console.log(e);
         history.push('/error');
       });
   };
@@ -71,8 +71,6 @@ console.log("RESULTS props:", this.props);
     if (this.state.totalCount <= 0) {
       return <LoadingSpinner />;
     }
-
-    // if (this.state.totalCount > 0) {
 
     return (
       <Fragment>
@@ -118,7 +116,7 @@ console.log("RESULTS props:", this.props);
                     return (
                       <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
                         <div className="table-cell">
-                          <Status status={mapping.status} />
+                          <StatusIndicator status={mapping.status} />
                         </div>
                         <div className="table-cell">
                           <strong>

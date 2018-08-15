@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Status from './Status';
+import StatusIndicator from './StatusIndicator';
 
 import '../../styles/Filters.css';
 import AlignmentIndicator from './AlignmentIndicator';
@@ -11,7 +11,7 @@ class Filters extends Component {
     if (facet.name === 'status') {
       return (
         <span>
-          <Status status={item.name} /> {item.label}
+          <StatusIndicator status={item.name} /> {item.label}
         </span>
       );
     } else if (facet.name === 'sequence') {

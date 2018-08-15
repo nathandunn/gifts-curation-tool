@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/Status.css';
+import '../../styles/StatusIndicator.css';
 
 function getClassName(status) {
   switch (status) {
@@ -14,6 +14,6 @@ function getClassName(status) {
   }
 }
 
-const Status = props => <div className={getClassName(props.status)} />;
+const StatusIndicator = props => <div className={getClassName(props.status)} />;
 
-export default Status;
+export default StatusIndicator;

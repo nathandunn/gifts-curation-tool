@@ -38,10 +38,13 @@ class Mappings extends Component {
     });
   };
 
-  handlePageClick = (data) => {
+  handlePageClick = data => {
     const initialPage = data.selected;
     const offset = Math.ceil(initialPage * this.state.limit);
-    this.setState({ offset, initialPage });
+    this.setState({
+      offset,
+      initialPage
+    });
   };
 
   render() {
