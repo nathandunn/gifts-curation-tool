@@ -1,0 +1,9 @@
+
+.status-change-form {
+  display: flex;
+}
+
+.status-change-form select {
+  flex-grow: 1;
+  width: 200px;
+}

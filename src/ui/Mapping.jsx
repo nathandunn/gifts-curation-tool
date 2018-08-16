@@ -139,7 +139,7 @@ class Mapping extends Component {
     return (
       <Fragment>
           <div className="row">
-            <div className="column medium-9">
+            <div className="column medium-8">
               <MappingIds
                 enstId={mapping.ensemblTranscript.enstId}
                 enstVersion={mapping.ensemblTranscript.enstVersion}
@@ -147,7 +147,7 @@ class Mapping extends Component {
                 sequenceVersion={mapping.uniprotEntry.sequenceVersion}
               />
             </div>
-            <div className="column medium-3">
+            <div className="column medium-4">
               <div className="status-wrapper">
                 <StatusSection
                   mappingId={mappingId}

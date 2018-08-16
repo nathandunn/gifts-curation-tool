@@ -22,7 +22,7 @@ const StatusSection = props => {
             options={statusOptions}
             onChange={onChange}
           />
-        : <span id="status-indicator">{statusOptions[status]}</span>
+        : <span>{statusOptions[status]}</span>
       }
     </Fragment>
   );
