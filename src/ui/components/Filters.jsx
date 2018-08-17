@@ -29,9 +29,13 @@ class Filters extends Component {
   }
 
   render() {
+    const { data } = this.props;
+
     return (
       <div className="filters">
-        {this.props.data.map(facet => (
+        {data
+          .filter(facet => 0 < facet.items.length)
+          .map(facet => (
           <Fragment key={facet.name}>
             <h3>{facet.label}</h3>
             <ul className="no-bullet">

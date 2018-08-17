@@ -26,6 +26,17 @@
   border-bottom: none;
 }
 
+.related-mapping .status {
+  margin-top: 0.9rem;
+  margin-right: 0.5rem;
+}
+
+.related-mapping .alignment-indicator {
+  margin-top: 0.8rem;
+  line-height: 1.2rem;
+  margin-right: 0.5rem;
+}
+
 #status-indicator {
   margin-left: 1rem;
 }

@@ -121,11 +121,11 @@ class ResultsTable extends Component {
                         <div className="table-cell">
                           <strong>
                             <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
-                            {mapping.uniprotEntry.uniprotAccession}
+                            {mapping.uniprotEntry.uniprotAccession} (v{mapping.uniprotEntry.sequenceVersion})
                           </strong>
                         </div>
                         <div className="table-cell">
-                          <strong>{mapping.ensemblTranscript.enstId}</strong>
+                          <strong>{mapping.ensemblTranscript.enstId} (v{mapping.ensemblTranscript.enstVersion})</strong>
                         </div>
                         <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
                         <div className="table-cell table-cell--number">

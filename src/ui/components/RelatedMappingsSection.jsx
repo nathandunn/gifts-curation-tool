@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 
 import ProteinReviewStatus from './ProteinReviewStatus';
 import Arrow from './Arrow';
+import StatusIndicator from './StatusIndicator';
+import AlignmentIndicator from './AlignmentIndicator';
 
 const RelatedMapping = props => (
   <div className="related-mapping">
+    <StatusIndicator status={props.status} />
+    <AlignmentIndicator difference={props.alignment_difference} />
     <Link to={`/mapping/${props.id}`}>
       <span>{props.enstId}</span>
       <Arrow />
@@ -23,6 +27,8 @@ const RelatedMappingsSection = props => (
       enstId={item.ensemblTranscript.enstId}
       uniprotAccession={item.uniprotEntry.uniprotAccession}
       entryType={item.uniprotEntry.entryType}
+      status={item.status}
+      alignment_difference={item.alignment_difference}
       key={item.mappingId}
     />))}
   </div>
