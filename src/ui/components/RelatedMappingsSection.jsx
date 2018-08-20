@@ -9,13 +9,13 @@ import AlignmentIndicator from './AlignmentIndicator';
 const RelatedMapping = props => (
   <div className="related-mapping">
     <StatusIndicator status={props.status} />
-    <AlignmentIndicator difference={props.alignment_difference} />
     <Link to={`/mapping/${props.id}`}>
-      <span>{props.enstId}</span>
-      <Arrow />
       <span>
         <ProteinReviewStatus entryType={props.entryType}/>{props.uniprotAccession}
       </span>
+      <Arrow />
+      <span>{props.enstId}</span>
+      <AlignmentIndicator difference={props.alignment_difference} />
     </Link>
   </div>
 );
