@@ -39,6 +39,9 @@ function Header(props) {
                 <Link to="../../mappings">Mappings</Link>
               </li>
               <li>
+                <Link to="../../statistics">Statistics</Link>
+              </li>
+              <li>
                 <Link to="../../feedback">Feedback</Link>
               </li>
               {authenticated ? (

@@ -24,6 +24,7 @@ class Mapping extends Component {
     isLoggedIn: null,
     mappingId: null,
     labels: null,
+    activeRelatedMapping: null,
   }
 
   componentDidMount() {
@@ -119,6 +120,23 @@ class Mapping extends Component {
     });
   }
 
+  loadRelatedMapping = relatedMappingId => {
+    const { activeRelatedMapping } = this.state;
+    
+    this.setState({
+      activeRelatedMapping: (relatedMappingId !== activeRelatedMapping)
+        ? parseInt(relatedMappingId)
+        : null
+    }, () => {
+      // load the original alignment when no related mapping is selected
+      const { mappingId, activeRelatedMapping, isLoggedIn } = this.state;
+
+      if (null === activeRelatedMapping) {
+        this.getMappingDetails(mappingId, isLoggedIn);
+      }
+    });
+  }
+
   render() {
     if (this.state.details === null) {
       return <LoadingSpinner />;
@@ -130,6 +148,7 @@ class Mapping extends Component {
       comments,
       isLoggedIn,
       labels,
+      activeRelatedMapping,
     } = this.state;
     const { mapping, relatedMappings } = details;
     const { mappingId } = mapping;
@@ -168,12 +187,19 @@ class Mapping extends Component {
             </div>
             <div className="row column medium-12">
               <h3>Related Mappings</h3>
-              <RelatedMappingsSection mappings={relatedMappings} />
+              <RelatedMappingsSection
+                mappings={relatedMappings}
+                active={activeRelatedMapping}
+                onChange={this.loadRelatedMapping}
+              />
             </div>
 
         <div className="row column medium-12">
           <h3>Alignment</h3>
-          <Alignment mappingId={this.state.mappingId} />
+          {(null === activeRelatedMapping)
+            ? <Alignment mappingId={this.state.mappingId} />
+            : <Alignment mappingId={activeRelatedMapping} />
+          }
         </div>
 
         <div className="row mapping__comments__wrapper">

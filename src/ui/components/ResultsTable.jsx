@@ -93,9 +93,9 @@ class ResultsTable extends Component {
                   <div className="table-cell" />
                   <div className="table-cell">Protein</div>
                   <div className="table-cell">Transcript</div>
-                  <div className="table-cell">Gene</div>
-                  <div className="table-cell table-cell--number">Start</div>
-                  <div className="table-cell table-cell--number">End</div>
+                  <div className="table-cell">Gene Name</div>
+                  <div className="table-cell">Gene ID</div>
+                  <div className="table-cell">Position</div>
                   <div className="table-cell">Organism</div>
                   <div className="table-cell">&nbsp;</div>
                 </div>
@@ -113,6 +113,11 @@ class ResultsTable extends Component {
                     const key = `${mapping.ensemblTranscript.enstId}_${
                       mapping.uniprotEntry.uniprotAccession
                     }`;
+
+                    const position = mapping.ensemblTranscript.chromosome + ':' +
+                      formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart) + '-' +
+                      formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd);
+
                     return (
                       <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
                         <div className="table-cell">
@@ -127,13 +132,9 @@ class ResultsTable extends Component {
                         <div className="table-cell">
                           <strong>{mapping.ensemblTranscript.enstId} (v{mapping.ensemblTranscript.enstVersion})</strong>
                         </div>
+                        <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
                         <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-                        <div className="table-cell table-cell--number">
-                          {formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}
-                        </div>
-                        <div className="table-cell table-cell--number">
-                          {formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}
-                        </div>
+                        <div className="table-cell">{position}</div>
                         <div className="table-cell">{row.taxonomy.species}</div>
                         <div className="table-cell">
                           <AlignmentIndicator difference={mapping.alignment_difference} />

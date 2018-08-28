@@ -14,6 +14,7 @@ import Broken from './Broken';
 import Message from './components/Message';
 import NoResults from './NoResults';
 import Feedback from './Feedback';
+import Statistics from './Statistics';
 
 import '../styles/Gifts.css';
 
@@ -154,8 +155,8 @@ console.log("app state:", this.state);
             {(validToken === false) ? <Message details={tokenIsExpiredMessage} onClose={this.clearExpiredLoginMessage} /> : null}
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
-              <Route exact path="/no-results" component={NoResults} />
               <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />
+              <Route exact path="/statistics" render={() => <Statistics {...appProps} />} />
               <Route exact path="/login" component={LoginComponent} />
               <Route exact path="/logout" component={LogoutComponent} />
               <Route
@@ -164,6 +165,7 @@ console.log("app state:", this.state);
               />
               <Route exact path="/error" render={() => <Broken {...appProps} />} />
               <Route exact path="/feedback" component={Feedback} />
+              <Route exact path="/no-results" component={NoResults} />
             </Switch>
           </div>
         </section>

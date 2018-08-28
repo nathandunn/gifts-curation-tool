@@ -18,6 +18,16 @@ class Alignment extends Component {
     this.getAlignments(mappingId);
   }
 
+  componentDidUpdate(prevProps) {
+    const { mappingId } = this.props;
+
+    if (mappingId === prevProps.mappingId) {
+      return false;
+    }
+
+    this.getAlignments(mappingId);
+  }
+
   getAlignments = (mappingId) => {
     const { history } = this.props;
     const apiURI = `${API_URL}/mapping/${mappingId}/pairwise/?format=json`;
@@ -235,7 +245,7 @@ class Alignment extends Component {
           <em>No alignments have been run for this mapping</em>
         </div>
       );
-    } else if (isPerfectMatch) {
+    } /* else if (isPerfectMatch) {
       return (
         <div className="callout">
           <em>
@@ -249,7 +259,7 @@ class Alignment extends Component {
           </em>
         </div>
       );
-    }
+    }  */
 
     return (
       <div className="row mapping__alignment__wrapper">

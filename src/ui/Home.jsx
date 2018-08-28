@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import { formatStatusName, formatLargeNumber } from './util/util';
 import SearchField from './components/SearchField';
-import StatusIndicator from './components/StatusIndicator';
+import TotalMappingsStats from './components/TotalMappingsStats';
+import MappingStatusStats from './components/MappingStatusStats';
 
 import '../styles/Home.css';
 
@@ -25,6 +25,8 @@ class Home extends Component {
   };
 
   render() {
+    const { stats } = this.state;
+
     return (
       <main>
         <div className="home-banner">
@@ -40,24 +42,11 @@ class Home extends Component {
         </div>
         <div className="row">
           <div className="column medium-3">
-            <h3>Total mappings</h3>
-            <span className="stat">
-              {this.state.stats ? formatLargeNumber(this.state.stats.totalMappingCount) : 0}
-            </span>
+            <TotalMappingsStats total={stats && stats.mapping.total} />
           </div>
         </div>
         <div className="row">
-          {this.state.stats
-            ? this.state.stats.statusMappingCount.map((statusCount, index) => (
-              <div key={`status-${index}`} className="column medium-3">
-                <h4>{formatStatusName(statusCount.status)}</h4>
-                <span className="stat">
-                  <StatusIndicator status={statusCount.status} />
-                  {formatLargeNumber(statusCount.count)}
-                </span>
-              </div>
-              ))
-            : null}
+          <MappingStatusStats stats={stats && stats.status} />
         </div>
       </main>
     );
