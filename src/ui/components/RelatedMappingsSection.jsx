@@ -37,8 +37,9 @@ const RelatedMapping = props => (
     <td>{props.geneId}</td>
     <td>{props.geneName}</td>
     <td>
-      {`${props.chromosome}:${props.start}-${props.end}`}
+      {`${(props.chromosome || 'NA')}:${props.start}-${props.end}`}
     </td>
+    <td>--</td>
     <td>
       <AlignmentIndicator difference={props.alignment_difference} />
     </td>
@@ -47,6 +48,19 @@ const RelatedMapping = props => (
 
 const RelatedMappingsSection = props => (
   <table className="related-mappings">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Status</th>
+        <th>Protein</th>
+        <th>Transcript</th>
+        <th>Gene ID</th>
+        <th>Gene Name</th>
+        <th>Position</th>
+        <th>Length</th>
+        <th></th>
+      </tr>
+    </thead>
     <tbody>
       {props.mappings.map(item => (<RelatedMapping
         id={item.mappingId}

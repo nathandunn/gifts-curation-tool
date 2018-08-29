@@ -164,6 +164,7 @@ class Mapping extends Component {
                 enstVersion={mapping.ensemblTranscript.enstVersion}
                 uniprotAccession={mapping.uniprotEntry.uniprotAccession}
                 sequenceVersion={mapping.uniprotEntry.sequenceVersion}
+                geneName={mapping.ensemblTranscript.ensgName}
               />
             </div>
             <div className="column medium-4">

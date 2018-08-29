@@ -6,10 +6,20 @@ import Arrow from './Arrow';
 import '../../styles/MappingIds.css';
 
 const MappingIds = props => {
-  const { enstId, enstVersion, uniprotAccession, sequenceVersion } = props;
+  const {
+    enstId,
+    enstVersion,
+    uniprotAccession,
+    sequenceVersion,
+    geneName,
+  } = props;
 
   return (
     <div className="mapping-ids">
+      <span className="mapping-ids__id">
+        {geneName}
+      </span>
+      <Arrow />
       <span className="mapping-ids__id">
         <Link to={`//www.ensembl.org/id/${enstId}`} target="_blank">{`${enstId} (v${enstVersion})`}</Link>
       </span>

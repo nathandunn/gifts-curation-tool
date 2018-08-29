@@ -96,6 +96,7 @@ class ResultsTable extends Component {
                   <div className="table-cell">Gene Name</div>
                   <div className="table-cell">Gene ID</div>
                   <div className="table-cell">Position</div>
+                  <div className="table-cell">Length</div>
                   <div className="table-cell">Organism</div>
                   <div className="table-cell">&nbsp;</div>
                 </div>
@@ -114,7 +115,7 @@ class ResultsTable extends Component {
                       mapping.uniprotEntry.uniprotAccession
                     }`;
 
-                    const position = mapping.ensemblTranscript.chromosome + ':' +
+                    const position = (mapping.ensemblTranscript.chromosome || 'NA') + ':' +
                       formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart) + '-' +
                       formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd);
 
@@ -135,6 +136,7 @@ class ResultsTable extends Component {
                         <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
                         <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
                         <div className="table-cell">{position}</div>
+                        <div className="table-cell">--</div>
                         <div className="table-cell">{row.taxonomy.species}</div>
                         <div className="table-cell">
                           <AlignmentIndicator difference={mapping.alignment_difference} />
