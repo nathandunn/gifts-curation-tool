@@ -8,21 +8,6 @@ import AlignmentIndicator from './AlignmentIndicator';
 
 const RelatedMapping = props => (
   <tr className="related-mapping">
-    {/* <td>
-      <div className="switch tiny">
-        <input
-          className="switch-input"
-          id={`switch-${props.id}`}
-          type="checkbox"
-          checked={(props.active) ? 'checked' : ''}
-          name="related-mapping-toggles"
-          onChange={() => props.onChange(props.id)}
-        />
-        <label className="switch-paddle" htmlFor={`switch-${props.id}`}>
-          <span className="show-for-sr">Tiny Sandwiches Enabled</span>
-        </label>
-      </div>
-    </td> */}
     <td>
       <StatusIndicator status={props.status} />
     </td>
@@ -40,7 +25,6 @@ const RelatedMapping = props => (
     <td>{props.geneId}</td>
     <td>{props.geneName}</td>
     <td>{`${props.chromosome || 'NA'}:${props.start}-${props.end}`}</td>
-    <td>--</td>
     <td>
       <AlignmentIndicator difference={props.alignment_difference} />
     </td>
@@ -52,13 +36,11 @@ const RelatedMappingsSection = props => (
     <thead>
       <tr>
         <th />
-        <th>Status</th>
         <th>Protein</th>
         <th>Transcript</th>
         <th>Gene ID</th>
         <th>Gene Name</th>
         <th>Position</th>
-        <th>Length</th>
         <th />
       </tr>
     </thead>

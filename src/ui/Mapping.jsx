@@ -11,7 +11,7 @@ import CommentsSection from './components/CommentsSection';
 import LabelsSection from './components/LabelsSection';
 import RelatedMappingsSection from './components/RelatedMappingsSection';
 import StatusSection from './components/StatusSection';
-import MappingIds from './components/MappingIds';
+import MappingHeader from './components/MappingHeader';
 
 import '../styles/Mapping.css';
 import '../../node_modules/simplemde/dist/simplemde.min.css';
@@ -139,25 +139,15 @@ class Mapping extends Component {
     return (
       <Fragment>
         <div className="row">
-          <div className="column medium-8">
-            <MappingIds
-              enstId={mapping.ensemblTranscript.enstId}
-              enstVersion={mapping.ensemblTranscript.enstVersion}
-              uniprotAccession={mapping.uniprotEntry.uniprotAccession}
-              sequenceVersion={mapping.uniprotEntry.sequenceVersion}
-              geneName={mapping.ensemblTranscript.ensgName}
+          <div className="status-wrapper">
+            <StatusSection
+              mappingId={mappingId}
+              isLoggedIn={isLoggedIn}
+              status={status}
+              onChange={this.onStatusChange}
             />
           </div>
-          <div className="column medium-4">
-            <div className="status-wrapper">
-              <StatusSection
-                mappingId={mappingId}
-                isLoggedIn={isLoggedIn}
-                status={status}
-                onChange={this.onStatusChange}
-              />
-            </div>
-          </div>
+          <MappingHeader mapping={mapping} />
         </div>
         <div className="row column medium-12">
           <LabelsSection
