@@ -138,7 +138,7 @@ class Mapping extends Component {
 
     return (
       <Fragment>
-        <div className="row">
+        <div className="row column medium-12">
           <div className="status-wrapper">
             <StatusSection
               mappingId={mappingId}
@@ -157,14 +157,15 @@ class Mapping extends Component {
             afterChangeCallback={this.getMappingDetails}
           />
         </div>
-        <div className="row column medium-12">
-          <h3>Related Mappings</h3>
-          <RelatedMappingsSection mappings={relatedMappings} />
-        </div>
 
         <div className="row column medium-12">
           <h3>Alignment</h3>
           <Alignment mappingId={this.state.mappingId} />
+        </div>
+
+        <div className="row column medium-12">
+          <h3>Related Mappings</h3>
+          <RelatedMappingsSection mappings={relatedMappings} />
         </div>
 
         <div className="row mapping__comments__wrapper">
