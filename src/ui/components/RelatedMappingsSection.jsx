@@ -8,7 +8,7 @@ import AlignmentIndicator from './AlignmentIndicator';
 
 const RelatedMapping = props => (
   <tr className="related-mapping">
-    <td>
+    {/* <td>
       <div className="switch tiny">
         <input
           className="switch-input"
@@ -22,23 +22,24 @@ const RelatedMapping = props => (
           <span className="show-for-sr">Tiny Sandwiches Enabled</span>
         </label>
       </div>
-    </td>
+    </td> */}
     <td>
       <StatusIndicator status={props.status} />
     </td>
     <td>
       <Link to={`/mapping/${props.id}`}>
         <span>
-          <ProteinReviewStatus entryType={props.entryType}/>{props.uniprotAccession} (v{props.sequenceVersion})
+          <ProteinReviewStatus entryType={props.entryType} />
+          {props.uniprotAccession} (v{props.sequenceVersion})
         </span>
       </Link>
     </td>
-    <td>{props.enstId} (v{props.enstVersion})</td>
+    <td>
+      {props.enstId} (v{props.enstVersion})
+    </td>
     <td>{props.geneId}</td>
     <td>{props.geneName}</td>
-    <td>
-      {`${(props.chromosome || 'NA')}:${props.start}-${props.end}`}
-    </td>
+    <td>{`${props.chromosome || 'NA'}:${props.start}-${props.end}`}</td>
     <td>--</td>
     <td>
       <AlignmentIndicator difference={props.alignment_difference} />
@@ -50,7 +51,7 @@ const RelatedMappingsSection = props => (
   <table className="related-mappings">
     <thead>
       <tr>
-        <th></th>
+        <th />
         <th>Status</th>
         <th>Protein</th>
         <th>Transcript</th>
@@ -58,28 +59,30 @@ const RelatedMappingsSection = props => (
         <th>Gene Name</th>
         <th>Position</th>
         <th>Length</th>
-        <th></th>
+        <th />
       </tr>
     </thead>
     <tbody>
-      {props.mappings.map(item => (<RelatedMapping
-        id={item.mappingId}
-        enstId={item.ensemblTranscript.enstId}
-        geneId={item.ensemblTranscript.ensgId}
-        geneName={item.ensemblTranscript.ensgName}
-        enstVersion={item.ensemblTranscript.enstVersion}
-        sequenceVersion={item.uniprotEntry.sequenceVersion}
-        uniprotAccession={item.uniprotEntry.uniprotAccession}
-        entryType={item.uniprotEntry.entryType}
-        status={item.status}
-        alignment_difference={item.alignment_difference}
-        chromosome={item.ensemblTranscript.chromosome}
-        start={item.ensemblTranscript.seqRegionStart}
-        end={item.ensemblTranscript.seqRegionEnd}
-        active={(props.active === item.mappingId)}
-        onChange={props.onChange}
-        key={item.mappingId}
-      />))}
+      {props.mappings.map(item => (
+        <RelatedMapping
+          id={item.mappingId}
+          enstId={item.ensemblTranscript.enstId}
+          geneId={item.ensemblTranscript.ensgId}
+          geneName={item.ensemblTranscript.ensgName}
+          enstVersion={item.ensemblTranscript.enstVersion}
+          sequenceVersion={item.uniprotEntry.sequenceVersion}
+          uniprotAccession={item.uniprotEntry.uniprotAccession}
+          entryType={item.uniprotEntry.entryType}
+          status={item.status}
+          alignment_difference={item.alignment_difference}
+          chromosome={item.ensemblTranscript.chromosome}
+          start={item.ensemblTranscript.seqRegionStart}
+          end={item.ensemblTranscript.seqRegionEnd}
+          active={props.active === item.mappingId}
+          onChange={props.onChange}
+          key={item.mappingId}
+        />
+      ))}
     </tbody>
   </table>
 );
