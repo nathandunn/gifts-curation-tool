@@ -43,5 +43,28 @@ exports[`HomePage component should render 1`] = `
       </div>
     </div>
   </div>
+  <div
+    className="loading-spinner"
+  >
+    <div
+      className="css-1d8ny0s"
+    >
+      <div
+        className="css-1hs6dmj"
+      />
+      <div
+        className="css-1apkdvz"
+      />
+      <div
+        className="css-ruz37k"
+      />
+      <div
+        className="css-1vy4sx6"
+      />
+      <div
+        className="css-p5zwuv"
+      />
+    </div>
+  </div>
 </main>
 `;
