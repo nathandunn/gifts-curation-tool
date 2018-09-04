@@ -14,7 +14,6 @@ import Broken from './Broken';
 import Message from './components/Message';
 import NoResults from './NoResults';
 import Feedback from './Feedback';
-import Statistics from './Statistics';
 
 import '../styles/Gifts.css';
 
@@ -102,7 +101,7 @@ class App extends Component {
   clearMessage = () => this.setState({ message: null });
 
   tokenIsExpired = () => {
-    console.log("app.tokenIsExpired called.");
+    console.log('app.tokenIsExpired called.');
     this.setState({
       validToken: false,
       authenticated: false,
@@ -118,14 +117,14 @@ class App extends Component {
     const { cookies } = this.props;
 
     this.setState({
-      validToken: true
+      validToken: true,
     });
 
     cookies.remove('jwt', { path: '/' });
-  }
+  };
 
   render() {
-console.log("app state:", this.state);
+    console.log('app state:', this.state);
     const { authenticated, message, validToken } = this.state;
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
@@ -144,24 +143,27 @@ console.log("app state:", this.state);
     const tokenIsExpiredMessage = {
       isError: true,
       title: 'Your login token is expired',
-      text: <Link to='/login'>Click here to login again.</Link>,
+      text: <Link to="/login">Click here to login again.</Link>,
     };
 
     return (
       <Layout {...appProps}>
         <section id="main-content-area" role="main">
           <div id="root">
-            {(message !== null) ? <Message details={message} onClose={this.clearMessage} /> : null}
-            {(validToken === false) ? <Message details={tokenIsExpiredMessage} onClose={this.clearExpiredLoginMessage} /> : null}
+            {message !== null ? <Message details={message} onClose={this.clearMessage} /> : null}
+            {validToken === false ? (
+              <Message details={tokenIsExpiredMessage} onClose={this.clearExpiredLoginMessage} />
+            ) : null}
             <Switch>
               <Route exact path="/" render={() => <Home {...appProps} />} />
               <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />
-              <Route exact path="/statistics" render={() => <Statistics {...appProps} />} />
               <Route exact path="/login" component={LoginComponent} />
               <Route exact path="/logout" component={LogoutComponent} />
               <Route
                 path="/mapping/:mappingId"
-                render={({ match }) => <Mapping match={match} isLoggedIn={authenticated} {...appProps} />}
+                render={({ match }) => (
+                  <Mapping match={match} isLoggedIn={authenticated} {...appProps} />
+                )}
               />
               <Route exact path="/error" render={() => <Broken {...appProps} />} />
               <Route exact path="/feedback" component={Feedback} />

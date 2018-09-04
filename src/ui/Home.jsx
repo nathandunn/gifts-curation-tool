@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import SearchField from './components/SearchField';
-import TotalMappingsStats from './components/TotalMappingsStats';
-import MappingStatusStats from './components/MappingStatusStats';
+import Statistics from './components/Statistics';
 
 import '../styles/Home.css';
 
@@ -40,14 +39,7 @@ class Home extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="column medium-3">
-            <TotalMappingsStats total={stats && stats.mapping.total} />
-          </div>
-        </div>
-        <div className="row">
-          <MappingStatusStats stats={stats && stats.status} />
-        </div>
+        <Statistics />
       </main>
     );
   }

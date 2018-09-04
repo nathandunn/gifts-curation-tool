@@ -3,10 +3,8 @@ import { formatLargeNumber } from '../util/util';
 
 const TotalMappingsStats = props => (
   <Fragment>
-    <h3>Total mappings</h3>
-    <span className="stat">
-      {props.total ? formatLargeNumber(props.total) : 0}
-    </span>
+    <h3>Total mappings:</h3>
+    <span className="stat">{props.total ? formatLargeNumber(props.total) : 0}</span>
   </Fragment>
 );
 

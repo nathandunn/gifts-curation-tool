@@ -1,27 +1,45 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import StatusIndicator from '../components/StatusIndicator';
+
+import DoughnutChart from './DoughnutChart';
+
 import { formatStatusName, formatLargeNumber } from '../util/util';
 
-const MappingStatusStats = props => {
-  const { stats } = props;
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'UNDER_REVIEW':
+      return 'blue';
+    case 'REVIEWED':
+      return 'green';
+    case 'REJECTED':
+      return 'red';
+    default:
+      return 'grey';
+  }
+};
 
-  if (null === stats || 'undefined' === typeof stats) {
+const MappingStatusStats = (props) => {
+  const { stats, total } = props;
+
+  if (stats === null || typeof stats === 'undefined') {
     return null;
   }
 
   return (
-    <Fragment>
+    <div className="text-center">
+      <h2>Status</h2>
       {stats.map((statusCount, index) => (
-        <div key={`status-${index}`} className="column medium-3">
-          <h4>{formatStatusName(statusCount.status)}</h4>
-          <span className="stat">
-            <StatusIndicator status={statusCount.status} />
-            {formatLargeNumber(statusCount.count)}
-          </span>
+        <div key={`status-${index}`} className="stats-item">
+          <h5>{formatStatusName(statusCount.status)}</h5>
+          <DoughnutChart
+            color={getStatusColor(statusCount.status)}
+            percent={((statusCount.count / total) * 100).toFixed(4)}
+          />
+          <span className="stat">{formatLargeNumber(statusCount.count)}</span>
         </div>
-        ))}
-    </Fragment>
+      ))}
+    </div>
   );
-}
+};
 
 export default MappingStatusStats;
