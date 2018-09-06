@@ -91,12 +91,11 @@ class ResultsTable extends Component {
               <div className="table-head">
                 <div className="table-row">
                   <div className="table-cell" />
-                  <div className="table-cell">Protein</div>
-                  <div className="table-cell">Transcript</div>
                   <div className="table-cell">Gene Name</div>
                   <div className="table-cell">Gene ID</div>
                   <div className="table-cell">Position</div>
-                  <div className="table-cell">Length</div>
+                  <div className="table-cell">Transcript</div>
+                  <div className="table-cell">Protein</div>
                   <div className="table-cell">Organism</div>
                   <div className="table-cell">&nbsp;</div>
                 </div>
@@ -115,17 +114,19 @@ class ResultsTable extends Component {
                       mapping.uniprotEntry.uniprotAccession
                     }`;
 
-                    const position =
-                      `${mapping.ensemblTranscript.chromosome || 'NA'
-                      }:${
-                      formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)
-                      }-${
-                      formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
+                    const position = `${mapping.ensemblTranscript.chromosome ||
+                      'NA'}:${formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}-${formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
 
                     return (
                       <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
                         <div className="table-cell">
                           <StatusIndicator status={mapping.status} />
+                        </div>
+                        <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
+                        <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
+                        <div className="table-cell">{position}</div>
+                        <div className="table-cell">
+                          <strong>{mapping.ensemblTranscript.enstId}</strong>
                         </div>
                         <div className="table-cell">
                           <strong>
@@ -133,13 +134,6 @@ class ResultsTable extends Component {
                             {mapping.uniprotEntry.uniprotAccession}
                           </strong>
                         </div>
-                        <div className="table-cell">
-                          <strong>{mapping.ensemblTranscript.enstId}</strong>
-                        </div>
-                        <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
-                        <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-                        <div className="table-cell">{position}</div>
-                        <div className="table-cell">--</div>
                         <div className="table-cell">{row.taxonomy.species}</div>
                         <div className="table-cell">
                           <AlignmentIndicator difference={mapping.alignment_difference} />
