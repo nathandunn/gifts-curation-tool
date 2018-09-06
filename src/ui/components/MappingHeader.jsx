@@ -14,7 +14,7 @@ const MappingHeader = (props) => {
       <div className="mapping-ids">
         <h2>
           <Link to={`//www.ensembl.org/id/${mapping.ensemblTranscript.enstId}`} target="_blank">
-            {`${mapping.ensemblTranscript.enstId} (v${mapping.ensemblTranscript.enstVersion})`}
+            {mapping.ensemblTranscript.enstId}
           </Link>
         </h2>
         <div>
@@ -37,6 +37,9 @@ const MappingHeader = (props) => {
         <div>
           <strong>Biotype:</strong> {mapping.ensemblTranscript.biotype}
         </div>
+        <div>
+          <strong>ENST version:</strong> {mapping.ensemblTranscript.enstVersion}
+        </div>
       </div>
       <Arrow />
       <div className="mapping-ids">
@@ -47,7 +50,7 @@ const MappingHeader = (props) => {
           >
             <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
 
-            {`${mapping.uniprotEntry.uniprotAccession} (v${mapping.uniprotEntry.sequenceVersion})`}
+            {mapping.uniprotEntry.uniprotAccession}
           </Link>
         </h2>
         <div>
@@ -55,6 +58,9 @@ const MappingHeader = (props) => {
         </div>
         <div>
           <strong>Ensembl derived:</strong> {mapping.uniprotEntry.ensemblDerived ? 'Yes' : 'No'}
+        </div>
+        <div>
+          <strong>Sequence version:</strong> {mapping.uniprotEntry.sequenceVersion}
         </div>
       </div>
     </div>

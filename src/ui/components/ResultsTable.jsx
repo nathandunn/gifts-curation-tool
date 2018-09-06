@@ -46,7 +46,7 @@ class ResultsTable extends Component {
     axios
       .get(apiURI, { params })
       .then(({ data, status }) => {
-        if (204 === status ) {
+        if (status === 204) {
           clearSearchTerm(() => {
             history.push('/no-results');
           });
@@ -61,7 +61,7 @@ class ResultsTable extends Component {
           totalCount: data.count,
         });
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         history.push('/error');
       });
@@ -115,9 +115,12 @@ class ResultsTable extends Component {
                       mapping.uniprotEntry.uniprotAccession
                     }`;
 
-                    const position = (mapping.ensemblTranscript.chromosome || 'NA') + ':' +
-                      formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart) + '-' +
-                      formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd);
+                    const position =
+                      `${mapping.ensemblTranscript.chromosome || 'NA'
+                      }:${
+                      formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)
+                      }-${
+                      formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
 
                     return (
                       <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
@@ -127,11 +130,11 @@ class ResultsTable extends Component {
                         <div className="table-cell">
                           <strong>
                             <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
-                            {mapping.uniprotEntry.uniprotAccession} (v{mapping.uniprotEntry.sequenceVersion})
+                            {mapping.uniprotEntry.uniprotAccession}
                           </strong>
                         </div>
                         <div className="table-cell">
-                          <strong>{mapping.ensemblTranscript.enstId} (v{mapping.ensemblTranscript.enstVersion})</strong>
+                          <strong>{mapping.ensemblTranscript.enstId}</strong>
                         </div>
                         <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
                         <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
