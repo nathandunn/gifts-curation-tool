@@ -27,7 +27,9 @@ class ResultsTable extends Component {
     return null;
   }
 
-  state = {};
+  state = {
+    displayIsoforms: false,
+  };
 
   componentDidMount() {
     this.loadResults();
@@ -67,16 +69,63 @@ class ResultsTable extends Component {
       });
   };
 
+  groupByIsoform = results =>
+    results.map(row => ({
+      taxonomy: row.taxonomy,
+      canonical: row.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === true),
+      isoforms: row.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === false),
+    }));
+
+  toggleShowIsoforms = () => {
+    this.setState({ displayIsoforms: !this.state.displayIsoforms });
+  }
+
+  renderRows = (items, taxonomy) => {
+    return items.map((mapping) => {
+      const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
+
+      const position = `${mapping.ensemblTranscript.chromosome || 'NA'}:${formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}-${formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
+
+      return (
+        <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
+          <div className="table-cell">{!mapping.uniprotEntry.isCanonical && <span className="tree-indent" />}</div>
+          <div className="table-cell">
+            <StatusIndicator status={mapping.status} />
+          </div>
+          <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
+          <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
+          <div className="table-cell">{position}</div>
+          <div className="table-cell">
+            <strong>{mapping.ensemblTranscript.enstId}</strong>
+          </div>
+          <div className="table-cell">
+            <strong>
+              <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
+              {mapping.uniprotEntry.uniprotAccession}
+            </strong>
+          </div>
+          <div className="table-cell">{taxonomy.species}</div>
+          <div className="table-cell">
+            <AlignmentIndicator difference={mapping.alignment_difference} />
+          </div>
+        </Link>
+      );
+    });
+  }
+
   render() {
     if (this.state.totalCount <= 0) {
       return <LoadingSpinner />;
     }
 
+    const groupedResults = this.groupByIsoform(this.state.results);
+
     return (
       <Fragment>
-        <div className="row column medium-12">
+        {/* <div className="row column medium-12">
           <h2>{formatLargeNumber(+this.state.totalCount)} Mapping(s)</h2>
-        </div>
+          This is confusing as it shows the number of hits, not the number of mappings shown.
+        </div> */}
         <div className="row">
           <div className="column medium-2">
             <Filters
@@ -87,9 +136,11 @@ class ResultsTable extends Component {
             />
           </div>
           <div className="column medium-10">
+            <button className="button" onClick={e => this.toggleShowIsoforms()}>{this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms</button>
             <div className="table tbody-zebra">
               <div className="table-head">
                 <div className="table-row">
+                  <div className="table-cell" />
                   <div className="table-cell" />
                   <div className="table-cell">Gene Name</div>
                   <div className="table-cell">Gene ID</div>
@@ -100,47 +151,17 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              {this.state.results.map(row => (
+              {groupedResults.map(row => (
                 <div
                   className="table-body"
-                  key={row.entryMappings.reduce(
+                  key={row.canonical.reduce(
                     (total, mapping) =>
                       (total ? `${total}_${mapping.mappingId}` : mapping.mappingId),
                     undefined,
                   )}
                 >
-                  {row.entryMappings.map((mapping) => {
-                    const key = `${mapping.ensemblTranscript.enstId}_${
-                      mapping.uniprotEntry.uniprotAccession
-                    }`;
-
-                    const position = `${mapping.ensemblTranscript.chromosome ||
-                      'NA'}:${formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}-${formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
-
-                    return (
-                      <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
-                        <div className="table-cell">
-                          <StatusIndicator status={mapping.status} />
-                        </div>
-                        <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
-                        <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-                        <div className="table-cell">{position}</div>
-                        <div className="table-cell">
-                          <strong>{mapping.ensemblTranscript.enstId}</strong>
-                        </div>
-                        <div className="table-cell">
-                          <strong>
-                            <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
-                            {mapping.uniprotEntry.uniprotAccession}
-                          </strong>
-                        </div>
-                        <div className="table-cell">{row.taxonomy.species}</div>
-                        <div className="table-cell">
-                          <AlignmentIndicator difference={mapping.alignment_difference} />
-                        </div>
-                      </Link>
-                    );
-                  })}
+                  {this.renderRows(row.canonical, row.taxonomy)}
+                  {this.state.displayIsoforms && this.renderRows(row.isoforms, row.taxonomy)}
                 </div>
               ))}
             </div>
