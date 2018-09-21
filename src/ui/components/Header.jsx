@@ -41,15 +41,17 @@ function Header(props) {
               <li>
                 <Link to="../../feedback">Feedback</Link>
               </li>
-              {authenticated ? (
-                <li>
-                  <Link to="../../logout">Logout</Link>
-                </li>
-              ) : (
-                <li>
-                  <Link to="../../login">Login</Link>
-                </li>
-              )}
+              {(READ_ONLY === false) ?
+                authenticated ? (
+                  <li>
+                    <Link to="../../logout">Logout</Link>
+                  </li>
+                ) : (
+                  <li>
+                    <Link to="../../login">Login</Link>
+                  </li>
+                )
+              : null}
             </ul>
           </nav>
           {/* <!-- /local-nav --> */}

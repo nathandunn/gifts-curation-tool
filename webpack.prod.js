@@ -15,8 +15,8 @@ module.exports = merge(common, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      API_URL: JSON.stringify('http://193.62.52.185:5000/gifts'),
-      AUTH_CALLBACK_URL: JSON.stringify('http%3A%2F%2F193.62.52.185%3A5000%2Flogin')
+      API_URL: JSON.stringify('/gifts/api'),
+      AUTH_CALLBACK_URL: JSON.stringify('http://wp-np2-81:5000/gifts/login')
     }),
     new HtmlWebPackPlugin({
       template: __dirname + '/public/index.html',
