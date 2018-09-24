@@ -7,11 +7,6 @@ module.exports = {
     app: ['babel-polyfill', __dirname + '/src/ui/index.jsx'],
     vendor: ['react', 'react-dom', 'simplemde']
   },
-  output: {
-    path: __dirname + '/build',
-    filename: '[name].[chunkhash].js',
-    publicPath: '/'
-  },
   resolve: {
     extensions: [".jsx", ".js"]
   },

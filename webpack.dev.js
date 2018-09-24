@@ -8,6 +8,11 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   mode: 'development',
+  output: {
+    path: __dirname + '/build',
+    filename: '[name].[chunkhash].js',
+    publicPath: '/'
+  },
   devtool: 'inline-source-map',
   plugins: [
     new webpack.DefinePlugin({
