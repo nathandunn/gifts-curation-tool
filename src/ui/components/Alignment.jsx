@@ -16,6 +16,14 @@ class Alignment extends Component {
     const { mappingId } = this.props;
 
     this.getAlignments(mappingId);
+
+    window.addEventListener('scroll', () => {
+      this.hidePosition();
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', () => null);
   }
 
   componentDidUpdate(prevProps) {
@@ -40,6 +48,7 @@ class Alignment extends Component {
       .get(apiURI)
       .then((response) => {
         const details = response.data;
+        let isTooLong = false;
 
         let alignments = null;
         let isPerfectMatch = false;
@@ -49,11 +58,16 @@ class Alignment extends Component {
             details.alignments[0].ensembl_alignment,
           ];
           isPerfectMatch = details.alignments[0].alignment_type === 'perfect_match';
+
+          if (10000 < alignments[0].length) {
+            isTooLong = true;
+          }
         }
 
         this.setState({
           alignments,
           isPerfectMatch,
+          isTooLong,
           loading: false,
         });
       })
@@ -228,15 +242,26 @@ class Alignment extends Component {
   hidePosition = () => {
     this.hidePositionTooltip = window.setTimeout(() => {
       const tooltip = document.getElementById('alignment-hover-tooltip');
+      if (null === tooltip) {
+        return;
+      }
       tooltip.style.display = 'none';
     }, 20);
   };
 
   render() {
-    const { alignments, loading, isPerfectMatch } = this.state;
+    const { alignments, loading, isPerfectMatch, isTooLong } = this.state;
 
     if (loading) {
       return <LoadingSpinner />;
+    }
+
+    if (isTooLong) {
+      return (
+        <div className="callout">
+          Sorry, this alignment is too big to display here.
+        </div>
+      );
     }
 
     if (alignments === null) {
