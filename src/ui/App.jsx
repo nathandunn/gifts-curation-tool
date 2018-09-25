@@ -126,6 +126,7 @@ class App extends Component {
   render() {
     console.log('app state:', this.state);
     const { authenticated, message, validToken } = this.state;
+    const { match } = this.props;
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
     );
@@ -145,7 +146,7 @@ class App extends Component {
       title: 'Your login token is expired',
       text: <Link to="/login">Click here to login again.</Link>,
     };
-
+console.log("relative url path:", match);
     return (
       <Layout {...appProps}>
         <section id="main-content-area" role="main">
@@ -155,19 +156,19 @@ class App extends Component {
               <Message details={tokenIsExpiredMessage} onClose={this.clearExpiredLoginMessage} />
             ) : null}
             <Switch>
-              <Route exact path="/" render={() => <Home {...appProps} />} />
-              <Route exact path="/mappings" render={() => <Mappings {...appProps} />} />
-              <Route exact path="/login" component={LoginComponent} />
-              <Route exact path="/logout" component={LogoutComponent} />
+              <Route exact path={`${match.path}`} render={() => <Home {...appProps} />} />
+              <Route exact path={`${match.path}mappings`} render={() => <Mappings {...appProps} />} />
+              <Route exact path={`${match.path}login`} component={LoginComponent} />
+              <Route exact path={`${match.path}logout`} component={LogoutComponent} />
               <Route
-                path="/mapping/:mappingId"
+                path={`${match.path}mapping/:mappingId`}
                 render={({ match }) => (
                   <Mapping match={match} isLoggedIn={authenticated} {...appProps} />
                 )}
               />
-              <Route exact path="/error" render={() => <Broken {...appProps} />} />
-              <Route exact path="/feedback" component={Feedback} />
-              <Route exact path="/no-results" component={NoResults} />
+              <Route exact path={`${match.path}error`} render={() => <Broken {...appProps} />} />
+              <Route exact path={`${match.path}feedback`} component={Feedback} />
+              <Route exact path={`${match.path}no-results`} component={NoResults} />
             </Switch>
           </div>
         </section>
