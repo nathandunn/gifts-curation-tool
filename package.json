@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev-server": "webpack --config webpack.dev.js --mode development && webpack-dev-server --config webpack.dev.js --mode development --open",
-    "dev-build": "webpack --config webpack.dev.js",
+    "dev-build": "webpack --config webpack.prod.js",
     "prod-build": "webpack --config webpack.prod.js",
     "fallback-build": "webpack --config webpack.prod.js --READ_ONLY",
     "jslint": "./node_modules/.bin/eslint -c .eslintrc.json --ext .js --ext .jsx src/** __tests__/** __mocks__/**",
