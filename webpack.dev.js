@@ -11,7 +11,7 @@ module.exports = merge(common, {
   output: {
     path: __dirname + '/build',
     filename: '[name].[chunkhash].js',
-    publicPath: '/gifts'
+    publicPath: '/'
   },
   devtool: 'inline-source-map',
   plugins: [
@@ -28,8 +28,6 @@ module.exports = merge(common, {
     new BrowserSyncPlugin({
       host: 'localhost',
       port: 3100,
-      // server: { baseDir: ['build'] },
-      // proxy: 'http://localhost:39093/gifts/',
       open: false,
       ui: false
     })
@@ -40,7 +38,6 @@ module.exports = merge(common, {
     host: 'localhost',
     port: 39093,
     historyApiFallback: true,
-    // publicPath: '/gifts1/',
     openPage: 'gifts/'
   }
 });
