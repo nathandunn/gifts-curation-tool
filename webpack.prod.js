@@ -12,7 +12,7 @@ module.exports = merge(common, {
   output: {
     path: __dirname + '/build',
     filename: '[name].[chunkhash].js',
-    publicPath: '/'
+    publicPath: '/gifts'
   },
   // devtool: 'source-map',
   optimization: {
