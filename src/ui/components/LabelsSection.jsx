@@ -89,7 +89,7 @@ class LabelsSection extends Component {
       })
       .catch(e => {
         console.log(e);
-        history.push('/error');
+        history.push(`${BASE_URL}/error`);
       });
   }
 
@@ -118,7 +118,7 @@ class LabelsSection extends Component {
       })
       .catch(e => {
         console.log(e);
-        history.push('/error');
+        history.push(`${BASE_URL}/error`);
       });
   }
 

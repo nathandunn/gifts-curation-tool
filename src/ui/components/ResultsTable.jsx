@@ -50,7 +50,7 @@ class ResultsTable extends Component {
       .then(({ data, status }) => {
         if (status === 204) {
           clearSearchTerm(() => {
-            history.push('/no-results');
+            history.push(`${BASE_URL}/no-results`);
           });
 
           return;
@@ -65,7 +65,7 @@ class ResultsTable extends Component {
       })
       .catch((e) => {
         console.log(e);
-        history.push('/error');
+        history.push(`${BASE_URL}/error`);
       });
   };
 
@@ -87,7 +87,7 @@ class ResultsTable extends Component {
       const position = `${mapping.ensemblTranscript.chromosome || 'NA'}:${formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}-${formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
 
       return (
-        <Link to={`/mapping/${mapping.mappingId}`} key={key} className="table-row">
+        <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
           <div className="table-cell">{!mapping.uniprotEntry.isCanonical && <span className="tree-indent" />}</div>
           <div className="table-cell">
             <StatusIndicator status={mapping.status} />

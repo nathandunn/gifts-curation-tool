@@ -39,7 +39,7 @@ class StatusChangeControl extends Component {
       .then(response => {})
       .catch(e => {
         console.log(e);
-        history.push('/error');
+        history.push(`${BASE_URL}/error`);
       });
   }
 

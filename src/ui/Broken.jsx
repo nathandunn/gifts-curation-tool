@@ -12,7 +12,7 @@ const Broken = () => (
         We are probably already working hard on solving this issue, but just in case you could
         always submit a bug using Feedback form....
       </p>
-      <Link to="/" className="button">
+      <Link to={`${BASE_URL}/`} className="button">
         Go back
       </Link>
     </div>

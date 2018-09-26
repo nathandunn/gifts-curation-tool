@@ -27,7 +27,7 @@ class Statistics extends Component {
       .then(response => this.setState({ stats: response.data }))
       .catch((e) => {
         console.log(e);
-        history.push('/error');
+        history.push(`${BASE_URL}/error`);
       });
   };
 

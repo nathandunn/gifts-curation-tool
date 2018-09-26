@@ -20,7 +20,7 @@ function Header(props) {
           {/* <!-- local-title --> */}
           <div className="columns medium-6" id="local-title">
             <h1>
-              <Link to="../../" title="Back to GIFTs homepage">
+              <Link to={`${BASE_URL}/`} title="Back to GIFTs homepage">
                 GIFTs
               </Link>
             </h1>
@@ -33,22 +33,22 @@ function Header(props) {
           <nav>
             <ul id="local-nav" className="dropdown menu float-left" data-description="navigational">
               <li>
-                <Link to="../../">Home</Link>
+                <Link to={`${BASE_URL}/`}>Home</Link>
               </li>
               <li>
-                <Link to="../../mappings">Mappings</Link>
+                <Link to={`${BASE_URL}/mappings`}>Mappings</Link>
               </li>
               <li>
-                <Link to="../../feedback">Feedback</Link>
+                <Link to={`${BASE_URL}/feedback`}>Feedback</Link>
               </li>
               {(READ_ONLY === false) ?
                 authenticated ? (
                   <li>
-                    <Link to="../../logout">Logout</Link>
+                    <Link to={`${BASE_URL}/logout`}>Logout</Link>
                   </li>
                 ) : (
                   <li>
-                    <Link to="../../login">Login</Link>
+                    <Link to={`${BASE_URL}/login`}>Login</Link>
                   </li>
                 )
               : null}

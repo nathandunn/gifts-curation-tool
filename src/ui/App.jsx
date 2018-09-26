@@ -42,7 +42,7 @@ class App extends Component {
         user,
       },
       () => {
-        history.push('/');
+        history.push(`${BASE_URL}/`);
         cookies.set('authenticated', '1', { path: '/' });
       },
     );
@@ -56,7 +56,7 @@ class App extends Component {
     const { history } = this.props;
 
     this.setState(this.defaultState);
-    history.push('/');
+    history.push(`${BASE_URL}/`);
   };
 
   setMessage = (title, text, isError) => {
@@ -72,13 +72,13 @@ class App extends Component {
   exploreMappingsAction = () => {
     const { history } = this.props;
     this.setState({ searchTerm: '' });
-    history.push('/mappings');
+    history.push(`${BASE_URL}/mappings`);
   };
 
   handleSearchSubmit = (e, input) => {
     const { history } = this.props;
     this.setState({ searchTerm: input });
-    history.push(`/mappings?searchTerm=${input}`);
+    history.push(`${BASE_URL}/mappings?searchTerm=${input}`);
     e.preventDefault();
   };
 
@@ -126,7 +126,6 @@ class App extends Component {
   render() {
     console.log('app state:', this.state);
     const { authenticated, message, validToken } = this.state;
-    const { pathname } = this.props.location;
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
     );
@@ -144,10 +143,8 @@ class App extends Component {
     const tokenIsExpiredMessage = {
       isError: true,
       title: 'Your login token is expired',
-      text: <Link to="/login">Click here to login again.</Link>,
+      text: <Link to={`${BASE_URL}/login`}>Click here to login again.</Link>,
     };
-// console.log("relative url path:", match);
-console.log("props:", this.props);
     return (
       <Layout {...appProps}>
         <section id="main-content-area" role="main">
@@ -157,19 +154,19 @@ console.log("props:", this.props);
               <Message details={tokenIsExpiredMessage} onClose={this.clearExpiredLoginMessage} />
             ) : null}
             <Switch>
-              <Route exact path={`${pathname}`} render={() => <Home {...appProps} />} />
-              <Route exact path={`${pathname}mappings`} render={() => <Mappings {...appProps} />} />
-              <Route exact path={`${pathname}login`} component={LoginComponent} />
-              <Route exact path={`${pathname}logout`} component={LogoutComponent} />
+              <Route exact path={`${BASE_URL}/`} render={() => <Home {...appProps} />} />
+              <Route exact path={`${BASE_URL}/mappings`} render={() => <Mappings {...appProps} />} />
+              <Route exact path={`${BASE_URL}/login`} component={LoginComponent} />
+              <Route exact path={`${BASE_URL}/logout`} component={LogoutComponent} />
               <Route
-                path={`${pathname}mapping/:mappingId`}
+                path={`${BASE_URL}/mapping/:mappingId`}
                 render={({ match }) => (
                   <Mapping match={match} isLoggedIn={authenticated} {...appProps} />
                 )}
               />
-              <Route exact path={`${pathname}error`} render={() => <Broken {...appProps} />} />
-              <Route exact path={`${pathname}feedback`} component={Feedback} />
-              <Route exact path={`${pathname}no-results`} component={NoResults} />
+              <Route exact path={`${BASE_URL}/error`} render={() => <Broken {...appProps} />} />
+              <Route exact path={`${BASE_URL}/feedback`} component={Feedback} />
+              <Route exact path={`${BASE_URL}/no-results`} component={NoResults} />
             </Switch>
           </div>
         </section>

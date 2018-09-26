@@ -9,7 +9,7 @@ const NoResults = props => (
         🥛
       </span>
       <p className="lead">You could try a different search term or</p>
-      <Link to="./mappings" className="button">
+      <Link to={`${BASE_URL}/mappings`} className="button">
         Explore mappings
       </Link>
     </div>

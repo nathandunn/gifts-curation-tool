@@ -12,7 +12,7 @@ const RelatedMapping = props => (
       <StatusIndicator status={props.status} />
     </td>
     <td>
-      <Link to={`/mapping/${props.id}`}>
+      <Link to={`${BASE_URL}/mapping/${props.id}`}>
         <span>
           <ProteinReviewStatus entryType={props.entryType} />
           {props.uniprotAccession} (v{props.sequenceVersion})
