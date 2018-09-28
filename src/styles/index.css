@@ -4,7 +4,11 @@ body {
   font-family: sans-serif;
 }
 
-#main-content-area .row {
+#main-content-area {
   margin-top: 3rem;
+}
+
+#main-content-area .row {
+  margin-top: 0;
   margin-bottom: 1rem;
 }
