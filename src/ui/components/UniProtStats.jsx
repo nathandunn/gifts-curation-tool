@@ -20,7 +20,7 @@ const UniProtStats = (props) => {
         <span className="stat">{mapped ? formatLargeNumber(mapped) : 'NA'}</span>
       </div>
       <div className="stats-item  column medium-6">
-        <h5>Not Mapped (Swiss-Prot)</h5>
+        <h5>Swiss-Prot unmapped</h5>
         <DoughnutChart
           percent={Math.floor((props.uniprot_entries_unmapped_sp / props.uniprot_entries_total) * 100)}
         />
