@@ -39,9 +39,12 @@ function Header(props) {
                 <Link to={`${BASE_URL}/mappings`}>Mappings</Link>
               </li>
               <li>
+                <Link to={`${BASE_URL}/unmapped`}>Unmapped</Link>
+              </li>
+              <li>
                 <Link to={`${BASE_URL}/feedback`}>Feedback</Link>
               </li>
-              {(READ_ONLY === false) ?
+              {READ_ONLY === false ? (
                 authenticated ? (
                   <li>
                     <Link to={`${BASE_URL}/logout`}>Logout</Link>
@@ -51,7 +54,7 @@ function Header(props) {
                     <Link to={`${BASE_URL}/login`}>Login</Link>
                   </li>
                 )
-              : null}
+              ) : null}
             </ul>
           </nav>
           {/* <!-- /local-nav --> */}

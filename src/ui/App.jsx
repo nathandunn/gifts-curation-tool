@@ -7,6 +7,7 @@ import queryString from 'query-string';
 import Layout from './Layout';
 import Home from './Home';
 import Mappings from './Mappings';
+import Unmapped from './Unmapped';
 import Login from './Login';
 import Logout from './Logout';
 import Mapping from './Mapping';
@@ -155,7 +156,16 @@ class App extends Component {
             ) : null}
             <Switch>
               <Route exact path={`${BASE_URL}/`} render={() => <Home {...appProps} />} />
-              <Route exact path={`${BASE_URL}/mappings`} render={() => <Mappings {...appProps} />} />
+              <Route
+                exact
+                path={`${BASE_URL}/mappings`}
+                render={() => <Mappings {...appProps} />}
+              />
+              <Route
+                exact
+                path={`${BASE_URL}/unmapped`}
+                render={() => <Unmapped {...appProps} />}
+              />
               <Route exact path={`${BASE_URL}/login`} component={LoginComponent} />
               <Route exact path={`${BASE_URL}/logout`} component={LogoutComponent} />
               <Route
