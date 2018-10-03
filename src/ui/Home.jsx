@@ -13,8 +13,12 @@ const Home = props => (
         <h5>Search for a mapping:</h5>
         <SearchField {...props} />
         <div className="home-banner__actions">
-          <button className="button" onClick={props.exploreMappingsAction}>
-            Explore Mappings
+          <button className="button" onClick={() => props.exploreMappingsByOrganism(9606)}>
+            Explore Human
+          </button>
+          &nbsp;
+          <button className="button" onClick={() => props.exploreMappingsByOrganism(10090)}>
+            Explore Mouse
           </button>
         </div>
       </div>

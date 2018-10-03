@@ -12,7 +12,9 @@ class Mappings extends Component {
     this.state = {
       offset: 0,
       limit: 15,
-      activeFacets: {},
+      activeFacets: (props.defaultOrganism)
+        ? { organism: props.defaultOrganism }
+        : {},
       initialPage: 0,
     };
   }

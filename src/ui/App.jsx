@@ -97,6 +97,7 @@ class App extends Component {
     },
     message: null,
     validToken: null,
+    exploreMappingsByOrganism: null,
   };
 
   clearMessage = () => this.setState({ message: null });
@@ -124,9 +125,17 @@ class App extends Component {
     cookies.remove('jwt', { path: '/' });
   };
 
+  exploreMappingsByOrganism = organimsId => {
+    this.setState({
+      exploreMappingsByOrganism: organimsId
+    }, () => {
+      this.exploreMappingsAction();
+    });
+  }
+
   render() {
     console.log('app state:', this.state);
-    const { authenticated, message, validToken } = this.state;
+    const { authenticated, message, validToken, exploreMappingsByOrganism } = this.state;
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
     );
@@ -139,6 +148,7 @@ class App extends Component {
       tokenIsExpired: this.tokenIsExpired,
       setMessage: this.setMessage,
       clearSearchTerm: this.clearSearchTerm,
+      exploreMappingsByOrganism: this.exploreMappingsByOrganism,
     };
 
     const tokenIsExpiredMessage = {
@@ -159,7 +169,7 @@ class App extends Component {
               <Route
                 exact
                 path={`${BASE_URL}/mappings`}
-                render={() => <Mappings {...appProps} />}
+                render={() => <Mappings {...appProps} defaultOrganism={exploreMappingsByOrganism}/>}
               />
               <Route
                 exact

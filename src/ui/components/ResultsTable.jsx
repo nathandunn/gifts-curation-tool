@@ -117,7 +117,6 @@ class ResultsTable extends Component {
     if (this.state.totalCount <= 0) {
       return <LoadingSpinner />;
     }
-
     const groupedResults = this.groupByIsoform(this.state.results);
 
     return (
