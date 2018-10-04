@@ -110,7 +110,7 @@ class Unmapped extends Component {
             <tr key={row.uniprotAccession}>
               <td>
                 <ProteinReviewStatus entryType={row.entryType} />
-                <Link to={`//www.uniprot.org/uniprotkb/${row.uniprotAccession}`}>
+                <Link to={`//www.uniprot.org/uniprot/${row.uniprotAccession}`} target="_blank">
                   {row.uniprotAccession}
                 </Link>
               </td>
