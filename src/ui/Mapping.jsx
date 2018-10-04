@@ -131,7 +131,7 @@ class Mapping extends Component {
     const {
       details, status, comments, isLoggedIn, labels,
     } = this.state;
-    const { mapping, relatedMappings } = details;
+    const { mapping, relatedMappings, taxonomy } = details;
     const { mappingId } = mapping;
 
     console.log('mapping state:', this.state);
@@ -147,7 +147,7 @@ class Mapping extends Component {
               onChange={this.onStatusChange}
             />
           </div>
-          <MappingHeader mapping={mapping} />
+          <MappingHeader mapping={mapping} taxonomy={taxonomy} />
         </div>
         <div className="row column medium-12">
           <LabelsSection
