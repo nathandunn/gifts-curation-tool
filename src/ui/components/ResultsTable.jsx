@@ -105,6 +105,7 @@ class ResultsTable extends Component {
               {mapping.uniprotEntry.uniprotAccession}
             </strong>
           </div>
+          <div className="table-cell">{mapping.uniprotEntry.length}</div>
           <div className="table-cell">{taxonomy.species}</div>
           <div className="table-cell">
             <AlignmentIndicator difference={mapping.alignment_difference} />
@@ -148,6 +149,7 @@ class ResultsTable extends Component {
                   <div className="table-cell">Position</div>
                   <div className="table-cell">Transcript</div>
                   <div className="table-cell">Protein</div>
+                  <div className="table-cell">Length</div>
                   <div className="table-cell">Organism</div>
                   <div className="table-cell">&nbsp;</div>
                 </div>

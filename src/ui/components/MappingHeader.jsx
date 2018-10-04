@@ -65,6 +65,9 @@ const MappingHeader = (props) => {
           </div>
         )}
         <div>
+          <strong>Length</strong> {mapping.uniprotEntry.length}
+        </div>
+        <div>
           <strong>Ensembl derived:</strong> {mapping.uniprotEntry.ensemblDerived ? 'Yes' : 'No'}
         </div>
       </div>
