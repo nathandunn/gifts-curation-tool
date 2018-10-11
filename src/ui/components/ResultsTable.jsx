@@ -93,6 +93,7 @@ class ResultsTable extends Component {
             <StatusIndicator status={mapping.status} />
           </div>
           <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
+          <div className="table-cell">{mapping.uniprotEntry.gene_symbol}</div>
           <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
           <div className="table-cell">{position}</div>
           <div className="table-cell">
@@ -104,6 +105,7 @@ class ResultsTable extends Component {
               {mapping.uniprotEntry.uniprotAccession}
             </strong>
           </div>
+          <div className="table-cell">{mapping.uniprotEntry.length}</div>
           <div className="table-cell">{taxonomy.species}</div>
           <div className="table-cell">
             <AlignmentIndicator difference={mapping.alignment_difference} />
@@ -142,10 +144,12 @@ class ResultsTable extends Component {
                   <div className="table-cell" />
                   <div className="table-cell" />
                   <div className="table-cell">Gene Name</div>
+                  <div className="table-cell">HGNC</div>
                   <div className="table-cell">Gene ID</div>
                   <div className="table-cell">Position</div>
                   <div className="table-cell">Transcript</div>
                   <div className="table-cell">Protein</div>
+                  <div className="table-cell">Length</div>
                   <div className="table-cell">Organism</div>
                   <div className="table-cell">&nbsp;</div>
                 </div>

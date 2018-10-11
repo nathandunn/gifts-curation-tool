@@ -7,7 +7,7 @@ import ProteinReviewStatus from './ProteinReviewStatus';
 import '../../styles/MappingHeader.css';
 
 const MappingHeader = (props) => {
-  const { mapping } = props;
+  const { mapping, taxonomy } = props;
 
   return (
     <div className="mapping-header">
@@ -17,6 +17,9 @@ const MappingHeader = (props) => {
             {mapping.ensemblTranscript.enstId}
           </Link>
         </h2>
+        <div>
+          <strong>Release:</strong> {mapping.ensemblRelease}
+        </div>
         <div>
           <strong>Gene Id:</strong>
           &nbsp;<Link
@@ -37,9 +40,6 @@ const MappingHeader = (props) => {
         <div>
           <strong>Biotype:</strong> {mapping.ensemblTranscript.biotype}
         </div>
-        <div>
-          <strong>ENST version:</strong> {mapping.ensemblTranscript.enstVersion}
-        </div>
       </div>
       <Arrow />
       <div className="mapping-ids">
@@ -54,13 +54,21 @@ const MappingHeader = (props) => {
           </Link>
         </h2>
         <div>
+          <strong>Release:</strong> {mapping.uniprotRelease}
+        </div>
+        <div>
           <strong>Canonical:</strong> {mapping.uniprotEntry.isCanonical ? 'Yes' : 'No'}
+        </div>
+        {taxonomy.uniprotTaxId === 9606 && (
+          <div>
+            <strong>HGNC:</strong> {mapping.uniprotEntry.gene_symbol}
+          </div>
+        )}
+        <div>
+          <strong>Length</strong> {mapping.uniprotEntry.length}
         </div>
         <div>
           <strong>Ensembl derived:</strong> {mapping.uniprotEntry.ensemblDerived ? 'Yes' : 'No'}
-        </div>
-        <div>
-          <strong>Sequence version:</strong> {mapping.uniprotEntry.sequenceVersion}
         </div>
       </div>
     </div>
