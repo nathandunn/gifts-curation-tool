@@ -5,8 +5,8 @@
   "homepage": "http://ebi-uniprot.github.io/gifts-curation-tool",
   "license": "MIT",
   "scripts": {
-    "dev-server": "webpack --config webpack.dev.js --mode development && webpack-dev-server --config webpack.dev.js --mode development --open",
-    "dev-build": "webpack --config webpack.prod.js",
+    "local-server": "webpack --config webpack.local.js --mode development && webpack-dev-server --config webpack.local.js --mode development --open",
+    "dev-build": "webpack --config webpack.dev.js",
     "prod-build": "webpack --config webpack.prod.js",
     "fallback-build": "webpack --config webpack.prod.js --READ_ONLY",
     "jslint": "./node_modules/.bin/eslint -c .eslintrc.json --ext .js --ext .jsx src/** __tests__/** __mocks__/**",
@@ -16,7 +16,7 @@
     "remove-obsolete-snapshots": "yarn test -u",
     "build-css": "node-sass-chokidar src/styles -o src/styles",
     "watch-css": "npm run build-css && node-sass-chokidar src/styles -o src/styles --watch --recursive",
-    "start-dev": "npm-run-all -p watch-css dev-server",
+    "start-local": "npm-run-all -p watch-css local-server",
     "profile": "webpack  --config webpack.prod.js --profile --json > stats.json"
   },
   "jest": {
