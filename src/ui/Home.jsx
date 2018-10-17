@@ -28,7 +28,7 @@ const Home = props => (
 );
 
 Home.propTypes = {
-  exploreMappingsAction: PropTypes.func.isRequired,
+  exploreMappingsByOrganism: PropTypes.func.isRequired,
 };
 
 export default Home;
