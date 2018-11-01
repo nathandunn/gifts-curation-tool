@@ -11,6 +11,10 @@
   color: #c39b00;
 }
 
+.protein-review-status--ensembl-select {
+  color: #336;
+}
+
 .protein-review-status--unreviewd {
   color: #93cffa;
 }

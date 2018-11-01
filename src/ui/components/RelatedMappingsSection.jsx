@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import ProteinReviewStatus from './ProteinReviewStatus';
+import ReviewStatus from './ReviewStatus';
 import Arrow from './Arrow';
 import StatusIndicator from './StatusIndicator';
 import AlignmentIndicator from './AlignmentIndicator';
@@ -14,7 +14,7 @@ const RelatedMapping = props => (
     <td>
       <Link to={`${BASE_URL}/mapping/${props.id}`}>
         <span>
-          <ProteinReviewStatus entryType={props.entryType} />
+          <ReviewStatus entryType={props.entryType} />
           {props.uniprotAccession} (v{props.sequenceVersion})
         </span>
       </Link>

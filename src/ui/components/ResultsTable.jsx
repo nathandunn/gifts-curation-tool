@@ -8,7 +8,7 @@ import isEqual from 'lodash-es/isEqual';
 import LoadingSpinner from './LoadingSpinner';
 import StatusIndicator from './StatusIndicator';
 import Filters from './Filters';
-import ProteinReviewStatus from './ProteinReviewStatus';
+import ReviewStatus from './ReviewStatus';
 import AlignmentIndicator from './AlignmentIndicator';
 import { formatLargeNumber } from '../util/util';
 
@@ -97,11 +97,14 @@ class ResultsTable extends Component {
           <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
           <div className="table-cell">{position}</div>
           <div className="table-cell">
-            <strong>{mapping.ensemblTranscript.enstId}</strong>
+            <strong>
+              <ReviewStatus entryType={mapping.ensemblTranscript.select? 'Ensembl' : ''} />
+              {mapping.ensemblTranscript.enstId}
+            </strong>
           </div>
           <div className="table-cell">
             <strong>
-              <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
+              <ReviewStatus entryType={mapping.uniprotEntry.entryType} />
               {mapping.uniprotEntry.uniprotAccession}
             </strong>
           </div>

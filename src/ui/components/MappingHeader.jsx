@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 import Arrow from './Arrow';
-import ProteinReviewStatus from './ProteinReviewStatus';
+import ReviewStatus from './ReviewStatus';
 
 import '../../styles/MappingHeader.css';
 
@@ -14,6 +14,8 @@ const MappingHeader = (props) => {
       <div className="mapping-ids">
         <h2>
           <Link to={`//www.ensembl.org/id/${mapping.ensemblTranscript.enstId}`} target="_blank">
+            <ReviewStatus entryType={mapping.ensemblTranscript.select ? 'Ensembl' : ''} />
+
             {mapping.ensemblTranscript.enstId}
           </Link>
         </h2>
@@ -22,10 +24,8 @@ const MappingHeader = (props) => {
         </div>
         <div>
           <strong>Gene Id:</strong>
-          &nbsp;<Link
-            to={`//www.ensembl.org/id/${mapping.ensemblTranscript.ensgId}`}
-            target="_blank"
-          >
+          &nbsp;
+          <Link to={`//www.ensembl.org/id/${mapping.ensemblTranscript.ensgId}`} target="_blank">
             {mapping.ensemblTranscript.ensgId}
           </Link>
         </div>
@@ -33,9 +33,8 @@ const MappingHeader = (props) => {
           <strong>Gene:</strong> {mapping.ensemblTranscript.ensgName}
         </div>
         <div>
-          <strong>Position:</strong> {mapping.ensemblTranscript.chromosome}:{
-            mapping.ensemblTranscript.seqRegionStart
-          }-{mapping.ensemblTranscript.seqRegionEnd}
+          <strong>Position:</strong> {mapping.ensemblTranscript.chromosome}:
+          {mapping.ensemblTranscript.seqRegionStart}-{mapping.ensemblTranscript.seqRegionEnd}
         </div>
         <div>
           <strong>Biotype:</strong> {mapping.ensemblTranscript.biotype}
@@ -48,7 +47,7 @@ const MappingHeader = (props) => {
             to={`//www.uniprot.org/uniprot/${mapping.uniprotEntry.uniprotAccession}`}
             target="_blank"
           >
-            <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
+            <ReviewStatus entryType={mapping.uniprotEntry.entryType} />
 
             {mapping.uniprotEntry.uniprotAccession}
           </Link>

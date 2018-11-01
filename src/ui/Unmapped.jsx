@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import LoadingSpinner from './components/LoadingSpinner';
-import ProteinReviewStatus from './components/ProteinReviewStatus';
+import ReviewStatus from './components/ReviewStatus';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -109,7 +109,7 @@ class Unmapped extends Component {
           {this.state.data.results.map(row => (
             <tr key={row.uniprotAccession}>
               <td>
-                <ProteinReviewStatus entryType={row.entryType} />
+                <ReviewStatus entryType={row.entryType} />
                 <Link to={`//www.uniprot.org/uniprot/${row.uniprotAccession}`} target="_blank">
                   {row.uniprotAccession}
                 </Link>
