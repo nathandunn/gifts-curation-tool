@@ -9,7 +9,7 @@ const UniProtStats = (props) => {
   return (
     <div className="column medium-6">
       <h3 style={{ color }} className="column medium-12">
-        UniProt
+        UniProt <small>{props.uniprot}</small>
       </h3>
       <div className="stats-item column medium-6">
         <h5>Mapped</h5>

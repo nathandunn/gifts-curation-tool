@@ -26,7 +26,8 @@ class Statistics extends Component {
     const promises = [];
     promises.push(axios.get(`${API_URL}/mappings/stats/${humanTaxid}/?format=json`));
     promises.push(axios.get(`${API_URL}/mappings/stats/${mouseTaxid}/?format=json`));
-
+    promises.push(axios.get(`${API_URL}/mappings/release/${humanTaxid}/?format=json`));
+    promises.push(axios.get(`${API_URL}/mappings/release/${mouseTaxid}/?format=json`));
     axios
       .all(promises)
       .then((response) => {
@@ -34,6 +35,8 @@ class Statistics extends Component {
           stats: {
             mouse: response[0].data,
             human: response[1].data,
+            humanRel: response[2].data,
+            mouseRel: response[3].data,
           },
         });
       })
@@ -64,17 +67,19 @@ class Statistics extends Component {
           <div className="column medium-10">
             <div className="row">
               <h2 className="column medium-12">
-                Human<span className="icon icon-species" data-icon="H" />
+                Human
+                <span className="icon icon-species" data-icon="H" />
               </h2>
-              <UniProtStats {...stats.human} />
-              <EnsemblStats {...stats.human} />
+              <UniProtStats {...stats.human} {...stats.humanRel} />
+              <EnsemblStats {...stats.human} {...stats.humanRel} />
             </div>
             <div className="row">
               <h2 className="column medium-12">
-                Mouse<span className="icon icon-species" data-icon="M" />
+                Mouse
+                <span className="icon icon-species" data-icon="M" />
               </h2>
-              <UniProtStats {...stats.mouse} />
-              <EnsemblStats {...stats.mouse} />
+              <UniProtStats {...stats.mouse} {...stats.mouseRel} />
+              <EnsemblStats {...stats.mouse} {...stats.mouseRel} />
             </div>
           </div>
         </div>
