@@ -11,6 +11,7 @@ import Filters from './Filters';
 import ReviewStatus from './ReviewStatus';
 import AlignmentIndicator from './AlignmentIndicator';
 import { formatLargeNumber } from '../util/util';
+import Position from './Position';
 
 import '../../styles/ResultsTable.css';
 
@@ -95,7 +96,7 @@ class ResultsTable extends Component {
           <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
           <div className="table-cell">{mapping.uniprotEntry.gene_symbol}</div>
           <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-          <div className="table-cell">{position}</div>
+          <div className="table-cell"><Position transcript={mapping.ensemblTranscript} /></div>
           <div className="table-cell">
             <strong>
               <ReviewStatus entryType={mapping.ensemblTranscript.select? 'Ensembl' : ''} />

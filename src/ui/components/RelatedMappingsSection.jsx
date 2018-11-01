@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import ReviewStatus from './ReviewStatus';
-import Arrow from './Arrow';
 import StatusIndicator from './StatusIndicator';
 import AlignmentIndicator from './AlignmentIndicator';
+import Position from './Position';
 
 const RelatedMapping = props => (
   <tr className="related-mapping">
@@ -15,16 +15,20 @@ const RelatedMapping = props => (
       <Link to={`${BASE_URL}/mapping/${props.id}`}>
         <span>
           <ReviewStatus entryType={props.entryType} />
-          {props.uniprotAccession} (v{props.sequenceVersion})
+          {props.uniprotAccession} (v
+          {props.sequenceVersion})
         </span>
       </Link>
     </td>
     <td>
-      {props.enstId} (v{props.enstVersion})
+      {props.enstId} (v
+      {props.enstVersion})
     </td>
     <td>{props.geneId}</td>
     <td>{props.geneName}</td>
-    <td>{`${props.chromosome || 'NA'}:${props.start}-${props.end}`}</td>
+    <td>
+      <Position transcript={props.transcript} />
+    </td>
     <td>
       <AlignmentIndicator difference={props.alignment_difference} />
     </td>
@@ -57,7 +61,7 @@ const RelatedMappingsSection = props => (
           entryType={item.uniprotEntry.entryType}
           status={item.status}
           alignment_difference={item.alignment_difference}
-          chromosome={item.ensemblTranscript.chromosome}
+          transcript={item.ensemblTranscript}
           start={item.ensemblTranscript.seqRegionStart}
           end={item.ensemblTranscript.seqRegionEnd}
           active={props.active === item.mappingId}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Arrow from './Arrow';
 import ReviewStatus from './ReviewStatus';
+import Position from './Position';
 
 import '../../styles/MappingHeader.css';
 
@@ -33,8 +34,7 @@ const MappingHeader = (props) => {
           <strong>Gene:</strong> {mapping.ensemblTranscript.ensgName}
         </div>
         <div>
-          <strong>Position:</strong> {mapping.ensemblTranscript.chromosome}:
-          {mapping.ensemblTranscript.seqRegionStart}-{mapping.ensemblTranscript.seqRegionEnd}
+          <strong>Position:</strong> <Position transcript={mapping.ensemblTranscript} />
         </div>
         <div>
           <strong>Biotype:</strong> {mapping.ensemblTranscript.biotype}
