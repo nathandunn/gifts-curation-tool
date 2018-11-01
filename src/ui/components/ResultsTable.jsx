@@ -57,11 +57,17 @@ class ResultsTable extends Component {
           return;
         }
 
+        const onlyIsoforms = data.results.every((d) => {
+          console.log(d.entryMappings);
+          return d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical);
+        });
+
         this.setState({
           params: this.props.params,
           facets: data.facets,
           results: data.results,
           totalCount: data.count,
+          displayIsoforms: onlyIsoforms,
         });
       })
       .catch((e) => {
@@ -79,27 +85,31 @@ class ResultsTable extends Component {
 
   toggleShowIsoforms = () => {
     this.setState({ displayIsoforms: !this.state.displayIsoforms });
-  }
+  };
 
-  renderRows = (items, taxonomy) => {
-    return items.map((mapping) => {
+  renderRows = (items, taxonomy) =>
+    items.map((mapping) => {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
 
       const position = `${mapping.ensemblTranscript.chromosome || 'NA'}:${formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}-${formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
 
       return (
         <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
-          <div className="table-cell">{!mapping.uniprotEntry.isCanonical && <span className="tree-indent" />}</div>
+          <div className="table-cell">
+            {!mapping.uniprotEntry.isCanonical && <span className="tree-indent" />}
+          </div>
           <div className="table-cell">
             <StatusIndicator status={mapping.status} />
           </div>
           <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
           <div className="table-cell">{mapping.uniprotEntry.gene_symbol}</div>
           <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-          <div className="table-cell"><Position transcript={mapping.ensemblTranscript} /></div>
+          <div className="table-cell">
+            <Position transcript={mapping.ensemblTranscript} />
+          </div>
           <div className="table-cell">
             <strong>
-              <ReviewStatus entryType={mapping.ensemblTranscript.select? 'Ensembl' : ''} />
+              <ReviewStatus entryType={mapping.ensemblTranscript.select ? 'Ensembl' : ''} />
               {mapping.ensemblTranscript.enstId}
             </strong>
           </div>
@@ -117,7 +127,6 @@ class ResultsTable extends Component {
         </Link>
       );
     });
-  }
 
   render() {
     if (this.state.totalCount <= 0) {
@@ -141,7 +150,9 @@ class ResultsTable extends Component {
             />
           </div>
           <div className="column medium-10">
-            <button className="button" onClick={e => this.toggleShowIsoforms()}>{this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms</button>
+            <button className="button" onClick={e => this.toggleShowIsoforms()}>
+              {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
+            </button>
             <div className="table tbody-zebra">
               <div className="table-head">
                 <div className="table-row">
