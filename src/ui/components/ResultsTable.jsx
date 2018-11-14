@@ -9,7 +9,7 @@ import LoadingSpinner from './LoadingSpinner';
 import StatusIndicator from './StatusIndicator';
 import Filters from './Filters';
 import ReviewStatus from './ReviewStatus';
-import AlignmentIndicator from './AlignmentIndicator';
+import AlignmentIndicator from './alignment/AlignmentIndicator';
 import { formatLargeNumber } from '../util/util';
 import Position from './Position';
 
@@ -57,15 +57,15 @@ class ResultsTable extends Component {
           return;
         }
 
-        const onlyIsoforms = data.results.every((d) => {
-          console.log(d.entryMappings);
-          return d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical);
-        });
+        const onlyIsoforms = data.results.every(d =>
+          d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical));
+
+        const groupedResults = this.groupByIsoform(data.results);
 
         this.setState({
           params: this.props.params,
           facets: data.facets,
-          results: data.results,
+          results: groupedResults,
           totalCount: data.count,
           displayIsoforms: onlyIsoforms,
         });
@@ -132,8 +132,6 @@ class ResultsTable extends Component {
     if (this.state.totalCount <= 0) {
       return <LoadingSpinner />;
     }
-    const groupedResults = this.groupByIsoform(this.state.results);
-
     return (
       <Fragment>
         {/* <div className="row column medium-12">
@@ -169,7 +167,7 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              {groupedResults.map(row => (
+              {this.state.results.map(row => (
                 <div
                   className="table-body"
                   key={row.canonical.reduce(

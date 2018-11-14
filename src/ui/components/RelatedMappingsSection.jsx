@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import ReviewStatus from './ReviewStatus';
 import StatusIndicator from './StatusIndicator';
-import AlignmentIndicator from './AlignmentIndicator';
+import AlignmentIndicator from './alignment/AlignmentIndicator';
 import Position from './Position';
 
 const RelatedMapping = props => (

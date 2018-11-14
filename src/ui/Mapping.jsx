@@ -6,9 +6,9 @@ import { withCookies } from 'react-cookie';
 import decode from 'jwt-decode';
 
 import LoadingSpinner from './components/LoadingSpinner';
-import Alignment from './components/Alignment';
-import CommentsSection from './components/CommentsSection';
-import LabelsSection from './components/LabelsSection';
+import Alignment from './components/alignment/Alignment';
+import CommentsSection from './components/comments/CommentsSection';
+import LabelsSection from './components/label/LabelsSection';
 import RelatedMappingsSection from './components/RelatedMappingsSection';
 import StatusSection from './components/StatusSection';
 import MappingHeader from './components/MappingHeader';

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { formatLargeNumber } from '../util/util';
+import { formatLargeNumber } from '../../util/util';
 import DoughnutChart from './DoughnutChart';
 
 const UniProtStats = (props) => {

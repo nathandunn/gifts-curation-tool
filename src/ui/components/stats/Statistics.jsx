@@ -5,9 +5,9 @@ import axios from 'axios';
 
 import UniProtStats from './UniProtStats';
 import EnsemblStats from './EnsemblStats';
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../LoadingSpinner';
 
-import '../../styles/Statistics.css';
+import '../../../styles/Statistics.css';
 
 const mouseTaxid = '10090';
 const humanTaxid = '9606';
