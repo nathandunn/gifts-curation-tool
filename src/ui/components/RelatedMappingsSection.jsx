@@ -49,7 +49,7 @@ const RelatedMappingsSection = props => (
       </tr>
     </thead>
     <tbody>
-      {props.mappings.map(item => (
+      {props.mappings.mapped.map(item => (
         <RelatedMapping
           id={item.mappingId}
           enstId={item.ensemblTranscript.enstId}

@@ -127,8 +127,9 @@ class Mapping extends Component {
     const {
       details, status, comments, isLoggedIn, labels,
     } = this.state;
-    const { mapping, relatedMappings, taxonomy } = details;
+    const { mapping, relatedEntries, taxonomy } = details;
     const { mappingId } = mapping;
+    console.log(relatedEntries);
 
     return (
       <Fragment>
@@ -159,7 +160,7 @@ class Mapping extends Component {
 
         <div className="row column medium-12">
           <h3>Related Mappings</h3>
-          <RelatedMappingsSection mappings={relatedMappings} />
+          <RelatedMappingsSection mappings={relatedEntries} />
         </div>
 
         <div className="row mapping__comments__wrapper">
