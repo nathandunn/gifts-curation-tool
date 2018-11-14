@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NoResults = props => (
+const NoResults = () => (
   <div className="row column medium-8 medium-offset-2">
     <div className="callout text-center">
       <h2>No results!</h2>

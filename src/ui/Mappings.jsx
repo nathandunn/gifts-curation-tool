@@ -12,9 +12,7 @@ class Mappings extends Component {
     this.state = {
       offset: 0,
       limit: 15,
-      activeFacets: (props.defaultOrganism)
-        ? { organism: props.defaultOrganism }
-        : {},
+      activeFacets: props.defaultOrganism ? { organism: props.defaultOrganism } : {},
       initialPage: 0,
     };
   }
@@ -40,12 +38,12 @@ class Mappings extends Component {
     });
   };
 
-  handlePageClick = data => {
+  handlePageClick = (data) => {
     const initialPage = data.selected;
     const offset = Math.ceil(initialPage * this.state.limit);
     this.setState({
       offset,
-      initialPage
+      initialPage,
     });
   };
 
@@ -72,6 +70,9 @@ class Mappings extends Component {
 
 Mappings.propTypes = {
   searchTerm: PropTypes.string,
+  defaultOrganism: PropTypes.number.isRequired,
+  history: PropTypes.object.isRequired,
+  clearSearchTerm: PropTypes.func.isRequired,
 };
 
 Mappings.defaultProps = {

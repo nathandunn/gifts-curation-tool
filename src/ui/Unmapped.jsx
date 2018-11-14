@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
 import LoadingSpinner from './components/LoadingSpinner';
 import ReviewStatus from './components/ReviewStatus';
-import PropTypes from 'prop-types';
-import axios from 'axios';
 
 import { formatLargeNumber } from './util/util';
 
@@ -172,9 +171,8 @@ class Unmapped extends Component {
           <div className="column medium-10">
             {this.state.source.value === 'swissprot' && this.renderUniProtTable()}
             {this.state.source.value === 'ensembl' && this.renderEnsemblTable()}
-            <a onClick={() => this.paginate(this.state.offset - this.state.limit)}>
-              Previous
-            </a>&nbsp;
+            <a onClick={() => this.paginate(this.state.offset - this.state.limit)}>Previous</a>
+            &nbsp;
             <a onClick={() => this.paginate(this.state.offset + this.state.limit)}>Next</a>
           </div>
         </div>
@@ -182,9 +180,5 @@ class Unmapped extends Component {
     );
   }
 }
-
-Unmapped.propTypes = {};
-
-Unmapped.defaultProps = {};
 
 export default withRouter(Unmapped);

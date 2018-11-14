@@ -103,7 +103,6 @@ class App extends Component {
   clearMessage = () => this.setState({ message: null });
 
   tokenIsExpired = () => {
-    console.log('app.tokenIsExpired called.');
     this.setState({
       validToken: false,
       authenticated: false,
@@ -137,7 +136,6 @@ class App extends Component {
   };
 
   render() {
-    console.log('app state:', this.state);
     const {
       authenticated, message, validToken, exploreMappingsByOrganism,
     } = this.state;
