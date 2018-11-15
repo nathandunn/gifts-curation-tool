@@ -72,12 +72,13 @@ Mappings.propTypes = {
   searchTerm: PropTypes.string,
   defaultOrganism: PropTypes.number,
   history: PropTypes.object.isRequired,
-  clearSearchTerm: PropTypes.func.isRequired,
+  clearSearchTerm: PropTypes.func,
 };
 
 Mappings.defaultProps = {
   searchTerm: '',
   defaultOrganism: null,
+  clearSearchTerm: null,
 };
 
 export default withRouter(Mappings);
