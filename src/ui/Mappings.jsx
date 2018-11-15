@@ -70,13 +70,14 @@ class Mappings extends Component {
 
 Mappings.propTypes = {
   searchTerm: PropTypes.string,
-  defaultOrganism: PropTypes.number.isRequired,
+  defaultOrganism: PropTypes.number,
   history: PropTypes.object.isRequired,
   clearSearchTerm: PropTypes.func.isRequired,
 };
 
 Mappings.defaultProps = {
   searchTerm: '',
+  defaultOrganism: null,
 };
 
 export default withRouter(Mappings);

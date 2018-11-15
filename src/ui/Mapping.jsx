@@ -129,7 +129,6 @@ class Mapping extends Component {
     } = this.state;
     const { mapping, relatedEntries, taxonomy } = details;
     const { mappingId } = mapping;
-    console.log(relatedEntries);
 
     return (
       <Fragment>
