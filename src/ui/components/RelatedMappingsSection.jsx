@@ -9,7 +9,7 @@ import Position from './Position';
 
 const RelatedMapping = (props) => {
   const {
-    status, id, ensemblTranscript, uniprotEntry, alignment_difference,
+    status, mappingId, ensemblTranscript, uniprotEntry, alignment_difference,
   } = props.item;
 
   return (
@@ -18,21 +18,32 @@ const RelatedMapping = (props) => {
         <StatusIndicator status={status} />
       </td>
       <td>
-        <Link to={`${BASE_URL}/mapping/${id}`}>
-          <span>
-            <ReviewStatus entryType={uniprotEntry.entryType} />
-            {uniprotEntry.uniprotAccession}
-          </span>
-        </Link>
+        <ReviewStatus entryType={uniprotEntry.entryType} />
+        <a href={`//www.uniprot.org/uniprot/${uniprotEntry.uniprotAccession}`} target="_blank">
+          {uniprotEntry.uniprotAccession}
+        </a>
       </td>
-      <td>{ensemblTranscript.enstId}</td>
-      <td>{ensemblTranscript.ensgId}</td>
+      <td>
+        <a href={`//www.ensembl.org/id/${ensemblTranscript.enstId}`} target="_blank">
+          {ensemblTranscript.enstId}
+        </a>
+      </td>
+      <td>
+        <a href={`//www.ensembl.org/id/${ensemblTranscript.ensgId}`} target="_blank">
+          {ensemblTranscript.ensgId}
+        </a>
+      </td>
       <td>{ensemblTranscript.ensgName}</td>
       <td>
         <Position transcript={ensemblTranscript} />
       </td>
       <td>
         <AlignmentIndicator difference={alignment_difference} />
+      </td>
+      <td>
+        <Link to={`${BASE_URL}/mapping/${mappingId}`}>
+          <span>View</span>
+        </Link>
       </td>
     </tr>
   );
@@ -68,6 +79,7 @@ const Unmapped = (props) => {
       <td>{gene_symbol}</td>
       <td />
       <td />
+      <td />
     </tr>
   );
 };
@@ -91,6 +103,7 @@ const RelatedMappingsSection = props => (
         <th>Gene ID</th>
         <th>Gene Name</th>
         <th>Position</th>
+        <th />
         <th />
       </tr>
     </thead>

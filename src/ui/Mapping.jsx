@@ -50,6 +50,9 @@ class Mapping extends Component {
     if (mappingId !== prevProps.match.params.mappingId) {
       this.getMappingDetails(mappingId, isLoggedIn);
     }
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
   }
 
   onStatusChange = ({ target }) => {
@@ -183,6 +186,7 @@ Mapping.propTypes = {
   tokenIsExpired: PropTypes.func.isRequired,
   cookies: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default withCookies(withRouter(Mapping));
