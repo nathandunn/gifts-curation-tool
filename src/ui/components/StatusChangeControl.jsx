@@ -66,9 +66,9 @@ class StatusChangeControl extends Component {
     const { editMode } = this.state;
     const { options, onChange, status } = this.props;
 
-    const statusList = Object.keys(options).map(key => (
-      <option value={key} key={key}>
-        {options[key]}
+    const statusList = options.map(opt => (
+      <option value={opt.description} key={`status_${opt.id}`}>
+        {opt.description}
       </option>
     ));
 
@@ -90,7 +90,7 @@ class StatusChangeControl extends Component {
 
     const Status = () => (
       <div>
-        <span>{options[status]}</span>
+        <span>{status}</span>
         &nbsp;
         <a href="#" onClick={this.enableEditMode}>
           Edit

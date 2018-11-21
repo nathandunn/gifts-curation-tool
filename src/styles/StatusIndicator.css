@@ -1,26 +1,42 @@
 .status {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    margin-right: 1rem;
-    margin-left: auto;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  margin-right: 1rem;
+  margin-left: auto;
 }
 
 .status--unreviewed {
-    background-color: grey;
+  background-color: grey;
 }
 
 .status--under-review {
-    background-color: blue;
+  background-color: blue;
 }
 
 .status--reviewed {
-    background-color: green;
+  background-color: green;
 }
 
 .status--rejected {
-    background-color: red;
+  background-color: red;
+}
+
+.status--uniprot {
+  background-color: rgb(0, 112, 155);
+}
+
+.status--ensembl {
+  background-color: rgb(51, 51, 102);
+}
+
+.status--refseq {
+  background-color: #42b45a;
+}
+
+.status--hgnc {
+  background-color: #a0fa81;
 }

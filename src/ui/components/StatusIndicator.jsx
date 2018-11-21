@@ -9,6 +9,14 @@ function getClassName(status) {
       return 'status status--reviewed';
     case 'REJECTED':
       return 'status status--rejected';
+    case 'UNIPROT_REVIEW':
+      return 'status status--uniprot';
+    case 'ENSEMBL_REVIEW':
+      return 'status status--ensembl';
+    case 'REFSEQ_REVIEW':
+      return 'status status--refseq';
+    case 'HGNC_REVIEW':
+      return 'status status--hgnc';
     default:
       return 'status status--unreviewed';
   }
