@@ -24,6 +24,9 @@ const MappingHeader = (props) => {
           <strong>Release:</strong> {mapping.ensemblRelease}
         </div>
         <div>
+          <strong>Symbol:</strong> {mapping.ensemblTranscript.ensgSymbol}
+        </div>
+        <div>
           <strong>Gene Id:</strong>
           &nbsp;
           <Link to={`//www.ensembl.org/id/${mapping.ensemblTranscript.ensgId}`} target="_blank">
@@ -31,13 +34,16 @@ const MappingHeader = (props) => {
           </Link>
         </div>
         <div>
-          <strong>Gene:</strong> {mapping.ensemblTranscript.ensgName}
+          <strong>Description:</strong> {mapping.ensemblTranscript.ensgName}
         </div>
         <div>
           <strong>Position:</strong> <Position transcript={mapping.ensemblTranscript} />
         </div>
         <div>
           <strong>Biotype:</strong> {mapping.ensemblTranscript.biotype}
+        </div>
+        <div>
+          <strong>Region:</strong> {mapping.ensemblTranscript.regionAccession}
         </div>
       </div>
       <Arrow />
@@ -58,11 +64,6 @@ const MappingHeader = (props) => {
         <div>
           <strong>Canonical:</strong> {mapping.uniprotEntry.isCanonical ? 'Yes' : 'No'}
         </div>
-        {taxonomy.uniprotTaxId === 9606 && (
-          <div>
-            <strong>HGNC:</strong> {mapping.uniprotEntry.gene_symbol}
-          </div>
-        )}
         <div>
           <strong>Length</strong> {mapping.uniprotEntry.length}
         </div>
