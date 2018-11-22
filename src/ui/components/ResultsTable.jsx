@@ -101,8 +101,7 @@ class ResultsTable extends Component {
           <div className="table-cell">
             <StatusIndicator status={mapping.status} />
           </div>
-          <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
-          <div className="table-cell">{mapping.uniprotEntry.gene_symbol}</div>
+          <div className="table-cell">{mapping.ensemblTranscript.ensgSymbol}</div>
           <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
           <div className="table-cell">
             <Position transcript={mapping.ensemblTranscript} />
@@ -156,8 +155,7 @@ class ResultsTable extends Component {
                 <div className="table-row">
                   <div className="table-cell" />
                   <div className="table-cell" />
-                  <div className="table-cell">Gene Name</div>
-                  <div className="table-cell">HGNC</div>
+                  <div className="table-cell">Gene symbol</div>
                   <div className="table-cell">Gene ID</div>
                   <div className="table-cell">Position</div>
                   <div className="table-cell">Transcript</div>
