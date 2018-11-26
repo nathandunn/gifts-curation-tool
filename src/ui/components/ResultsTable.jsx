@@ -8,9 +8,10 @@ import isEqual from 'lodash-es/isEqual';
 import LoadingSpinner from './LoadingSpinner';
 import StatusIndicator from './StatusIndicator';
 import Filters from './Filters';
-import ProteinReviewStatus from './ProteinReviewStatus';
-import AlignmentIndicator from './AlignmentIndicator';
+import ReviewStatus from './ReviewStatus';
+import AlignmentIndicator from './alignment/AlignmentIndicator';
 import { formatLargeNumber } from '../util/util';
+import Position from './Position';
 
 import '../../styles/ResultsTable.css';
 
@@ -56,11 +57,17 @@ class ResultsTable extends Component {
           return;
         }
 
+        const onlyIsoforms = data.results.every(d =>
+          d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical));
+
+        const groupedResults = this.groupByIsoform(data.results);
+
         this.setState({
           params: this.props.params,
           facets: data.facets,
-          results: data.results,
+          results: groupedResults,
           totalCount: data.count,
+          displayIsoforms: onlyIsoforms,
         });
       })
       .catch((e) => {
@@ -78,30 +85,36 @@ class ResultsTable extends Component {
 
   toggleShowIsoforms = () => {
     this.setState({ displayIsoforms: !this.state.displayIsoforms });
-  }
+  };
 
-  renderRows = (items, taxonomy) => {
-    return items.map((mapping) => {
+  renderRows = (items, taxonomy) =>
+    items.map((mapping) => {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
 
       const position = `${mapping.ensemblTranscript.chromosome || 'NA'}:${formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}-${formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
 
       return (
         <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
-          <div className="table-cell">{!mapping.uniprotEntry.isCanonical && <span className="tree-indent" />}</div>
+          <div className="table-cell">
+            {!mapping.uniprotEntry.isCanonical && <span className="tree-indent" />}
+          </div>
           <div className="table-cell">
             <StatusIndicator status={mapping.status} />
           </div>
-          <div className="table-cell">{mapping.ensemblTranscript.ensgName}</div>
-          <div className="table-cell">{mapping.uniprotEntry.gene_symbol}</div>
+          <div className="table-cell">{mapping.ensemblTranscript.ensgSymbol}</div>
           <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-          <div className="table-cell">{position}</div>
           <div className="table-cell">
-            <strong>{mapping.ensemblTranscript.enstId}</strong>
+            <Position transcript={mapping.ensemblTranscript} />
           </div>
           <div className="table-cell">
             <strong>
-              <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
+              <ReviewStatus entryType={mapping.ensemblTranscript.select ? 'Ensembl' : ''} />
+              {mapping.ensemblTranscript.enstId}
+            </strong>
+          </div>
+          <div className="table-cell">
+            <strong>
+              <ReviewStatus entryType={mapping.uniprotEntry.entryType} />
               {mapping.uniprotEntry.uniprotAccession}
             </strong>
           </div>
@@ -113,14 +126,11 @@ class ResultsTable extends Component {
         </Link>
       );
     });
-  }
 
   render() {
     if (this.state.totalCount <= 0) {
       return <LoadingSpinner />;
     }
-    const groupedResults = this.groupByIsoform(this.state.results);
-
     return (
       <Fragment>
         {/* <div className="row column medium-12">
@@ -137,14 +147,15 @@ class ResultsTable extends Component {
             />
           </div>
           <div className="column medium-10">
-            <button className="button" onClick={e => this.toggleShowIsoforms()}>{this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms</button>
+            <button className="button" onClick={e => this.toggleShowIsoforms()}>
+              {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
+            </button>
             <div className="table tbody-zebra">
               <div className="table-head">
                 <div className="table-row">
                   <div className="table-cell" />
                   <div className="table-cell" />
-                  <div className="table-cell">Gene Name</div>
-                  <div className="table-cell">HGNC</div>
+                  <div className="table-cell">Gene symbol</div>
                   <div className="table-cell">Gene ID</div>
                   <div className="table-cell">Position</div>
                   <div className="table-cell">Transcript</div>
@@ -154,7 +165,7 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              {groupedResults.map(row => (
+              {this.state.results.map(row => (
                 <div
                   className="table-body"
                   key={row.canonical.reduce(

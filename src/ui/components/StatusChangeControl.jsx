@@ -7,10 +7,10 @@ import { withCookies } from 'react-cookie';
 import '../../styles/StatusChangeControl.css';
 
 class StatusChangeControl extends Component {
-  state= {
+  state = {
     editMode: false,
     originalStatus: null,
-  }
+  };
 
   componentDidMount() {
     const { status } = this.props;
@@ -19,10 +19,7 @@ class StatusChangeControl extends Component {
 
   updateStatus = () => {
     const {
-      mappingId,
-      status,
-      history,
-      cookies,
+      mappingId, status, history, cookies,
     } = this.props;
 
     const apiURI = `${API_URL}/mapping/${mappingId}/status/`;
@@ -36,19 +33,21 @@ class StatusChangeControl extends Component {
 
     axios
       .put(apiURI, changes, config)
-      .then(response => {})
-      .catch(e => {
+      .then((response) => {
+        this.setState({ editMode: false });
+      })
+      .catch((e) => {
         console.log(e);
         history.push(`${BASE_URL}/error`);
       });
-  }
+  };
 
-  enableEditMode = e => {
+  enableEditMode = (e) => {
     this.setState({ editMode: true });
 
     e.preventDefault();
     return false;
-  }
+  };
 
   disableEditMode = () => {
     const { originalStatus } = this.state;
@@ -59,32 +58,31 @@ class StatusChangeControl extends Component {
     onChange({
       target: {
         value: originalStatus,
-      }
+      },
     });
-  }
+  };
 
   render() {
     const { editMode } = this.state;
     const { options, onChange, status } = this.props;
 
-    const statusList = Object.keys(options)
-      .map(key => <option value={key} key={key}>{options[key]}</option>);
+    const statusList = options.map(opt => (
+      <option value={opt.description} key={`status_${opt.id}`}>
+        {opt.description}
+      </option>
+    ));
 
     const StatusChangeForm = () => (
       <div className="status-change-form">
-        <select
-          className="status-modifier input-group-field"
-          onChange={onChange}
-          value={status}
-        >
+        <select className="status-modifier input-group-field" onChange={onChange} value={status}>
           {statusList}
         </select>
         <div className="button-group">
           <button className="button button--primary" onClick={this.updateStatus}>
-              Save
+            Save
           </button>
           <button className="button button--primary" onClick={this.disableEditMode}>
-              Cancel
+            Cancel
           </button>
         </div>
       </div>
@@ -92,21 +90,16 @@ class StatusChangeControl extends Component {
 
     const Status = () => (
       <div>
-        <span>{options[status]}</span>
+        <span>{status}</span>
         &nbsp;
-        <a href="#" onClick={this.enableEditMode}>Edit</a>
+        <a href="#" onClick={this.enableEditMode}>
+          Edit
+        </a>
       </div>
     );
 
-    return (
-      <Fragment>
-        {(editMode)
-          ? <StatusChangeForm />
-          : <Status />
-        }
-      </Fragment>
-    )
+    return <Fragment>{editMode ? <StatusChangeForm /> : <Status />}</Fragment>;
   }
-};
+}
 
 export default withRouter(withCookies(StatusChangeControl));

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SearchField from './components/SearchField';
-import Statistics from './components/Statistics';
+import Statistics from './components/stats/Statistics';
 
 import '../styles/Home.css';
 
@@ -28,7 +28,7 @@ const Home = props => (
 );
 
 Home.propTypes = {
-  exploreMappingsAction: PropTypes.func.isRequired,
+  exploreMappingsByOrganism: PropTypes.func.isRequired,
 };
 
 export default Home;

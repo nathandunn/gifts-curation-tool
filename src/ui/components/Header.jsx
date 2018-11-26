@@ -23,12 +23,13 @@ function Header(props) {
               <Link to={`${BASE_URL}/`} title="Back to GIFTs homepage">
                 GIFTs
               </Link>
+              <small> beta</small>
             </h1>
           </div>
           {/* <!-- /local-title --> */}
           {/* <!-- local-nav --> */}
           <div className="columns medium-6">
-            {props.location.pathname != '/' && <SearchField {...props} />}
+            {props.location.pathname != `${BASE_URL}/` && <SearchField {...props} />}
           </div>
           <nav>
             <ul id="local-nav" className="dropdown menu float-left" data-description="navigational">

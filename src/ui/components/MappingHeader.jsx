@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 import Arrow from './Arrow';
-import ProteinReviewStatus from './ProteinReviewStatus';
+import ReviewStatus from './ReviewStatus';
+import Position from './Position';
 
 import '../../styles/MappingHeader.css';
 
@@ -14,6 +15,8 @@ const MappingHeader = (props) => {
       <div className="mapping-ids">
         <h2>
           <Link to={`//www.ensembl.org/id/${mapping.ensemblTranscript.enstId}`} target="_blank">
+            <ReviewStatus entryType={mapping.ensemblTranscript.select ? 'Ensembl' : ''} />
+
             {mapping.ensemblTranscript.enstId}
           </Link>
         </h2>
@@ -21,24 +24,26 @@ const MappingHeader = (props) => {
           <strong>Release:</strong> {mapping.ensemblRelease}
         </div>
         <div>
+          <strong>Symbol:</strong> {mapping.ensemblTranscript.ensgSymbol}
+        </div>
+        <div>
           <strong>Gene Id:</strong>
-          &nbsp;<Link
-            to={`//www.ensembl.org/id/${mapping.ensemblTranscript.ensgId}`}
-            target="_blank"
-          >
+          &nbsp;
+          <Link to={`//www.ensembl.org/id/${mapping.ensemblTranscript.ensgId}`} target="_blank">
             {mapping.ensemblTranscript.ensgId}
           </Link>
         </div>
         <div>
-          <strong>Gene:</strong> {mapping.ensemblTranscript.ensgName}
+          <strong>Description:</strong> {mapping.ensemblTranscript.ensgName}
         </div>
         <div>
-          <strong>Position:</strong> {mapping.ensemblTranscript.chromosome}:{
-            mapping.ensemblTranscript.seqRegionStart
-          }-{mapping.ensemblTranscript.seqRegionEnd}
+          <strong>Position:</strong> <Position transcript={mapping.ensemblTranscript} />
         </div>
         <div>
           <strong>Biotype:</strong> {mapping.ensemblTranscript.biotype}
+        </div>
+        <div>
+          <strong>Region:</strong> {mapping.ensemblTranscript.regionAccession}
         </div>
       </div>
       <Arrow />
@@ -48,7 +53,7 @@ const MappingHeader = (props) => {
             to={`//www.uniprot.org/uniprot/${mapping.uniprotEntry.uniprotAccession}`}
             target="_blank"
           >
-            <ProteinReviewStatus entryType={mapping.uniprotEntry.entryType} />
+            <ReviewStatus entryType={mapping.uniprotEntry.entryType} />
 
             {mapping.uniprotEntry.uniprotAccession}
           </Link>
@@ -59,11 +64,6 @@ const MappingHeader = (props) => {
         <div>
           <strong>Canonical:</strong> {mapping.uniprotEntry.isCanonical ? 'Yes' : 'No'}
         </div>
-        {taxonomy.uniprotTaxId === 9606 && (
-          <div>
-            <strong>HGNC:</strong> {mapping.uniprotEntry.gene_symbol}
-          </div>
-        )}
         <div>
           <strong>Length</strong> {mapping.uniprotEntry.length}
         </div>

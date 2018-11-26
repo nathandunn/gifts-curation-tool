@@ -7,12 +7,10 @@ import SimpleMED from 'simplemde';
 
 import Comment from './Comment';
 
-import '../../styles/CommentsSection.css';
+import '../../../styles/CommentsSection.css';
 
 class CommentsSection extends Component {
-  state= {
-
-  }
+  state = {};
 
   textEditor = null;
 
@@ -51,11 +49,7 @@ class CommentsSection extends Component {
 
   saveComment = () => {
     const {
-      mappingId,
-      isLoggedIn,
-      history,
-      cookies,
-      afterSaveCallback,
+      mappingId, isLoggedIn, history, cookies, afterSaveCallback,
     } = this.props;
 
     const apiURI = `${API_URL}/mapping/${mappingId}/comments/`;
@@ -70,50 +64,48 @@ class CommentsSection extends Component {
       },
     };
 
-    axios.post(apiURI, comment, config)
-      .then(response => {
+    axios
+      .post(apiURI, comment, config)
+      .then((response) => {
         this.textEditor.value('');
         afterSaveCallback(mappingId, isLoggedIn);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         history.push(`${BASE_URL}/error`);
       });
-  }
+  };
 
   render() {
-    const {
-      isLoggedIn,
-      comments,
-      onCommentTextChange,
-    } = this.props;
+    const { isLoggedIn, comments, onCommentTextChange } = this.props;
 
-    if (false === isLoggedIn) {
+    if (isLoggedIn === false) {
       return null;
     }
 
     return (
       <div className="comments-section">
-        {comments.map(comment => <Comment details={comment} key={`${comment.user}-${comment.timeAdded}-${Math.random()}`} />)}
+        {comments.map(comment => (
+          <Comment
+            details={comment}
+            key={`${comment.user}-${comment.timeAdded}-${Math.random()}`}
+          />
+        ))}
 
         <div className="comment row">
           <div className="column medium-12">
-            <div className="comment__avatar">
-                ?
-            </div>
+            <div className="comment__avatar">?</div>
             <div className="comment__details">
               <textarea id="text-editor" />
-              <button
-                className="comments-section__save-button button"
-                onClick={this.saveComment}
-              >Add comment
+              <button className="comments-section__save-button button" onClick={this.saveComment}>
+                Add comment
               </button>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
-};
+}
 
 export default withRouter(withCookies(CommentsSection));

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { withCookies, Cookies } from 'react-cookie';
+import { withCookies } from 'react-cookie';
 
 import '../styles/Home.css';
 
@@ -14,7 +15,12 @@ class Logout extends Component {
     onLogout();
   }
 
-    render = () => null;
+  render = () => null;
 }
+
+Logout.propTypes = {
+  onLogout: PropTypes.func.isRequired,
+  cookies: PropTypes.object.isRequired,
+};
 
 export default withCookies(Logout);

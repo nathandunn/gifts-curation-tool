@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
-import LoadingSpinner from './LoadingSpinner';
-import '../../styles/Alignment.css';
+import LoadingSpinner from '../LoadingSpinner';
+import '../../../styles/Alignment.css';
 
 class Alignment extends Component {
   state = {

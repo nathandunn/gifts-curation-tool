@@ -1,16 +1,16 @@
 export const formatLargeNumber = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-export const formatStatusName = name => {
+export const formatStatusName = (name) => {
   switch (name) {
     case 'UNDER_REVIEW':
-        return 'Under review';
+      return 'Under review';
     case 'NOT_REVIEWED':
-        return 'Not reviewed';
+      return 'Not reviewed';
     case 'REVIEWED':
-        return 'Reviewed';
+      return 'Reviewed';
     case 'REJECTED':
-        return 'Rejected';
+      return 'Rejected';
     default:
-        return 'Not reviewed';
+      return 'Not reviewed';
   }
 };

@@ -36,9 +36,16 @@ exports[`HomePage component should render 1`] = `
       >
         <button
           className="button"
-          onClick={undefined}
+          onClick={[Function]}
         >
-          Explore Mappings
+          Explore Human
+        </button>
+         
+        <button
+          className="button"
+          onClick={[Function]}
+        >
+          Explore Mouse
         </button>
       </div>
     </div>

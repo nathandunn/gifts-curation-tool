@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatLargeNumber } from '../util/util';
+import { formatLargeNumber } from '../../util/util';
 
 import DoughnutChart from './DoughnutChart';
 
@@ -11,7 +11,7 @@ const EnsemblStats = (props) => {
   return (
     <div className="column medium-6">
       <h3 style={{ color }} className="column medium-12">
-        Ensembl
+        Ensembl <small>{props.ensembl}</small>
       </h3>
       <div className="stats-item column medium-6">
         <h5>Genes Mapped</h5>

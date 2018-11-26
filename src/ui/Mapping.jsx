@@ -6,9 +6,9 @@ import { withCookies } from 'react-cookie';
 import decode from 'jwt-decode';
 
 import LoadingSpinner from './components/LoadingSpinner';
-import Alignment from './components/Alignment';
-import CommentsSection from './components/CommentsSection';
-import LabelsSection from './components/LabelsSection';
+import Alignment from './components/alignment/Alignment';
+import CommentsSection from './components/comments/CommentsSection';
+import LabelsSection from './components/label/LabelsSection';
 import RelatedMappingsSection from './components/RelatedMappingsSection';
 import StatusSection from './components/StatusSection';
 import MappingHeader from './components/MappingHeader';
@@ -50,31 +50,15 @@ class Mapping extends Component {
     if (mappingId !== prevProps.match.params.mappingId) {
       this.getMappingDetails(mappingId, isLoggedIn);
     }
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
   }
 
-  forceLoginIfTokenIsExpired = () => {
-    console.log('force login props:', this.props);
-    const { history, cookies, tokenIsExpired } = this.props;
-    const jwt = cookies.get('jwt') || undefined;
-    let decoded = {};
-
-    if (typeof jwt !== 'undefined' && jwt !== 'EXPIRED') {
-      decoded = decode(jwt);
-    }
-
-    const utcNow = parseInt(new Date().getTime() / 1000, 10);
-
-    if (typeof decoded.exp !== 'undefined' && decoded.exp - utcNow <= 0) {
-      console.log('<<<<<< token is expired >>>>>');
-
-      cookies.remove('authenticated', { path: '/' });
-      cookies.set('jwt', 'EXPIRED', { path: '/' });
-
-      tokenIsExpired();
-      return false;
-    }
-
-    return true;
+  onStatusChange = ({ target }) => {
+    this.setState({
+      status: target.value,
+    });
   };
 
   getMappingDetails = (mappingId, isLoggedIn) => {
@@ -111,16 +95,31 @@ class Mapping extends Component {
           isLoggedIn: isLoggedIn && tokenIsNotExpired,
         });
       }))
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         history.push(`${BASE_URL}/error`);
       });
   };
 
-  onStatusChange = ({ target }) => {
-    this.setState({
-      status: target.value,
-    });
+  forceLoginIfTokenIsExpired = () => {
+    const { cookies, tokenIsExpired } = this.props;
+    const jwt = cookies.get('jwt') || undefined;
+    let decoded = {};
+
+    if (typeof jwt !== 'undefined' && jwt !== 'EXPIRED') {
+      decoded = decode(jwt);
+    }
+
+    const utcNow = parseInt(new Date().getTime() / 1000, 10);
+
+    if (typeof decoded.exp !== 'undefined' && decoded.exp - utcNow <= 0) {
+      cookies.remove('authenticated', { path: '/' });
+      cookies.set('jwt', 'EXPIRED', { path: '/' });
+
+      tokenIsExpired();
+      return false;
+    }
+
+    return true;
   };
 
   render() {
@@ -131,10 +130,8 @@ class Mapping extends Component {
     const {
       details, status, comments, isLoggedIn, labels,
     } = this.state;
-    const { mapping, relatedMappings, taxonomy } = details;
+    const { mapping, relatedEntries, taxonomy } = details;
     const { mappingId } = mapping;
-
-    console.log('mapping state:', this.state);
 
     return (
       <Fragment>
@@ -165,7 +162,7 @@ class Mapping extends Component {
 
         <div className="row column medium-12">
           <h3>Related Mappings</h3>
-          <RelatedMappingsSection mappings={relatedMappings} />
+          <RelatedMappingsSection mappings={relatedEntries} />
         </div>
 
         <div className="row mapping__comments__wrapper">
@@ -183,7 +180,13 @@ class Mapping extends Component {
   }
 }
 
-// Mapping.propTypes = {};
-// Mapping.defaultProps = {};
+Mapping.propTypes = {
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  tokenIsExpired: PropTypes.func.isRequired,
+  cookies: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  location: PropTypes.object.isRequired,
+};
 
 export default withCookies(withRouter(Mapping));

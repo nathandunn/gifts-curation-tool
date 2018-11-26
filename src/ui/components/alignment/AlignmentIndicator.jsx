@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../../styles/AlignmentIndicator.css';
+import '../../../styles/AlignmentIndicator.css';
 
 const AlignmentIndicator = (props) => {
   if (props.difference === null) {
