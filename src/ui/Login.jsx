@@ -4,6 +4,7 @@ import { withCookies, Cookies } from 'react-cookie';
 
 const GIFTS_DOMAIN = 'self.gifts';
 const GIFTS_DOMAIN_ID = 'dom-5e831673-a930-49e3-a5a3-e9de307cd449';
+const AAP_ENDPOINT_BASE = 'https://api.aai.ebi.ac.uk';
 
 import '../styles/Home.css';
 
@@ -12,14 +13,14 @@ class Login extends Component {
     componentDidMount() {
       window.addEventListener('message', this.onElixirResponse);
       this.windowRef = window
-        .open(`https://explore.api.aai.ebi.ac.uk/sso?from=${AUTH_CALLBACK_URL}`, 'elixir')
+        .open(`${AAP_ENDPOINT_BASE}/sso?from=${AUTH_CALLBACK_URL}`, 'elixir')
         .focus();
     }
 
     onElixirResponse = (message) => {
       const { onLoginSuccess, onLoginFailure, cookies } = this.props;
 
-      if (message.origin !== 'https://explore.api.aai.ebi.ac.uk') {
+      if (message.origin !== AAP_ENDPOINT_BASE) {
         return false;
       }
 
