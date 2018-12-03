@@ -59,7 +59,41 @@ RelatedMapping.propTypes = {
   }).isRequired,
 };
 
-const Unmapped = (props) => {
+const UnmappedEnsembl = (props) => {
+  const {
+    enstId,
+    ensgId,
+    ensgName,
+    chromosome,
+    seqRegionStart,
+    seqRegionEnd,
+  } = props.item;
+  return (
+    <tr className="related-mapping">
+      <td />
+      <td />
+      <td>{enstId}</td>
+      <td>{ensgId}</td>
+      <td>{ensgName}</td>
+      <td><Position transcript={{ chromosome, seqRegionStart, seqRegionEnd }} /></td>
+      <td />
+      <td />
+    </tr>
+  );
+};
+
+UnmappedEnsembl.propTypes = {
+  item: PropTypes.shape({
+    enstId: PropTypes.string,
+    ensgId: PropTypes.string,
+    ensgName: PropTypes.string,
+    chromosome: PropTypes.string,
+    seqRegionStart: PropTypes.number,
+    seqRegionEnd: PropTypes.number,
+  }).isRequired,
+};
+
+const UnmappedUniProt = (props) => {
   const {
     gene_accession, gene_symbol, uniprotAccession, entryType,
   } = props.item;
@@ -84,7 +118,7 @@ const Unmapped = (props) => {
   );
 };
 
-Unmapped.propTypes = {
+UnmappedUniProt.propTypes = {
   item: PropTypes.shape({
     gene_accession: PropTypes.string,
     gene_symbol: PropTypes.string,
@@ -111,8 +145,11 @@ const RelatedMappingsSection = props => (
       {props.mappings.mapped.map(item => (
         <RelatedMapping item={item} key={item.mappingId} />
       ))}
-      {props.mappings.unmapped.map(item => (
-        <Unmapped item={item} key={`${item.gene_symbol}${item.uniprotAccession}`} />
+      {props.mappings.unmapped.ensembl.map(item => (
+        <UnmappedEnsembl item={item} key={`${item.enstId}-${item.ensgId}`} />
+      ))}
+      {props.mappings.unmapped.uniprot.map(item => (
+        <UnmappedUniProt item={item} key={`${item.gene_symbol}-${item.uniprotAccession}`} />
       ))}
     </tbody>
   </table>
@@ -121,7 +158,7 @@ const RelatedMappingsSection = props => (
 RelatedMappingsSection.propTypes = {
   mappings: PropTypes.shape({
     mapped: PropTypes.array,
-    unmapped: PropTypes.array,
+    unmapped: PropTypes.object,
   }).isRequired,
 };
 
