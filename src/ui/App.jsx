@@ -78,7 +78,15 @@ class App extends Component {
 
   handleSearchSubmit = (e, input) => {
     const { history } = this.props;
-    this.setState({ searchTerm: input });
+
+    this.setState({
+      searchTerm: input,
+      offset: 0,
+      limit: 15,
+      initialPage: 0,
+      activeFacets: {},
+    });
+
     history.push(`${BASE_URL}/mappings?searchTerm=${input}`);
     e.preventDefault();
   };
@@ -98,6 +106,10 @@ class App extends Component {
     message: null,
     validToken: null,
     exploreMappingsByOrganism: null,
+    offset: 0,
+    limit: 15,
+    activeFacets: this.exploreMappingsByOrganism ? { organism: this.exploreMappingsByOrganism } : {},
+    initialPage: 0,
   };
 
   clearMessage = () => this.setState({ message: null });
@@ -135,7 +147,56 @@ class App extends Component {
     );
   };
 
+  removeFilter = (facet) => {
+    const { activeFacets } = this.state;
+    const activeFacetsCopy = {
+      ...activeFacets,
+    }
+    delete activeFacetsCopy[facet];
+
+    this.setState({
+      activeFacets: activeFacetsCopy,
+    });
+  };
+
+  addFilter = (facet, value) => {
+    const { activeFacets } = this.state;
+    const activeFacetsCopy = {
+      ...activeFacets,
+    }
+    activeFacetsCopy[facet] = value;
+
+    this.setState({
+      activeFacets: activeFacetsCopy,
+    });
+  };
+
+  setResults = (data) => {
+    this.setState({
+      params: data.params,
+      facets: data.facets,
+      results: data.results,
+      totalCount: data.totalCount,
+      displayIsoforms: data.displayIsoforms,
+    });
+  }
+
+  changePageParams = (params) => {
+    const { offset, initialPage } = params;
+    console.log("6. changePageParams:", params);
+    console.log("7. state params:", this.state.offset, this.state.initialPage);
+    if (offset === this.state.offset && initialPage === this.state.initialPage) {
+// console.log("8. Returning........");
+      return;
+    }
+    this.setState({
+      offset: params.offset,
+      initialPage: params.initialPage,
+    });
+  }
+
   render() {
+// console.log("1. App Render:", this.state);
     const {
       authenticated, message, validToken, exploreMappingsByOrganism,
     } = this.state;
@@ -151,6 +212,11 @@ class App extends Component {
       setMessage: this.setMessage,
       clearSearchTerm: this.clearSearchTerm,
       exploreMappingsByOrganism: this.exploreMappingsByOrganism,
+      getFacetsAsString: this.getFacetsAsString,
+      removeFilter: this.removeFilter,
+      addFilter: this.addFilter,
+      setResults: this.setResults,
+      changePageParams: this.changePageParams,
     };
 
     const tokenIsExpiredMessage = {
