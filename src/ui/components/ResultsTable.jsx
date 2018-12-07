@@ -72,7 +72,6 @@ class ResultsTable extends Component {
     });
 
   render() {
-// console.log("3. ResultsTable render props:", this.props);
     return (
       <Fragment>
         {/* <div className="row column medium-12">
@@ -90,7 +89,6 @@ class ResultsTable extends Component {
           </div>
           <div className="column medium-10">
             <button className="button" onClick={e => this.toggleShowIsoforms()}>
-              {/* this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms */}
               {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
             </button>
             <div className="table tbody-zebra">
@@ -108,7 +106,6 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              {/* this.state.results.map(row => ( */}
               {this.props.results && this.props.results.map(row => (
                 <div
                   className="table-body"
@@ -119,7 +116,6 @@ class ResultsTable extends Component {
                   )}
                 >
                   {this.renderRows(row.canonical, row.taxonomy)}
-                  {/* this.state.displayIsoforms && this.renderRows(row.isoforms, row.taxonomy) */}
                   {this.state.displayIsoforms && this.renderRows(row.isoforms, row.taxonomy)}
                 </div>
               ))}

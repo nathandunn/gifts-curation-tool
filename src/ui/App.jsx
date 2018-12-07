@@ -183,10 +183,7 @@ class App extends Component {
 
   changePageParams = (params) => {
     const { offset, initialPage } = params;
-    console.log("6. changePageParams:", params);
-    console.log("7. state params:", this.state.offset, this.state.initialPage);
     if (offset === this.state.offset && initialPage === this.state.initialPage) {
-// console.log("8. Returning........");
       return;
     }
     this.setState({
@@ -196,7 +193,6 @@ class App extends Component {
   }
 
   render() {
-// console.log("1. App Render:", this.state);
     const {
       authenticated, message, validToken, exploreMappingsByOrganism,
     } = this.state;

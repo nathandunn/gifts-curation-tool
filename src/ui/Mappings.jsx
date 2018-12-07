@@ -22,7 +22,6 @@ class Mappings extends Component {
     const offset = Math.ceil(this.props.initialPage * this.props.limit);
 
     if (offset === this.props.offset && initialPage === this.props.initialPage) {
-// console.log("9. Returning --- handlePageClick");
       return;
     }
 
@@ -37,12 +36,10 @@ class Mappings extends Component {
   };
 
   componentDidMount() {
-// console.log(">>> Mappings Did Mount");
     this.loadResults();
   }
 
   componentDidUpdate(prevProps) {
-// console.log(">>> Mappings Did Update:", prevProps, this.props);
     if (
       isLoading ||
       null === this.state.results ||
@@ -60,7 +57,6 @@ class Mappings extends Component {
 
   loadResults = () => {
     isLoading = true;
-console.log("4. loadResults props:", this.props);
     const { history, clearSearchTerm } = this.props;
     const apiURI = `${API_URL}/mappings`;
     const params = {
@@ -86,7 +82,7 @@ console.log("4. loadResults props:", this.props);
           d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical));
 
         const groupedResults = this.groupByIsoform(data.results);
-// console.log("3. groupedResults:", groupedResults);
+
         this.setState({
           params: this.props.params,
           facets: data.facets,
@@ -117,27 +113,19 @@ console.log("4. loadResults props:", this.props);
       handlePageClick: this.handlePageClick,
       activeFacets: this.props.activeFacets,
       params: {
-        // searchTerm: this.props.searchTerm,
-        // facets: this.getFacetsAsString(this.state.activeFacets),
         offset: this.state.offset,
         limit: this.state.limit,
         format: 'json',
       },
-
       facets: this.state.facets,
       results: this.state.results,
-      // totalCount: this.props.totalCount,
-      // displayIsoforms: this.props.displayIsoforms,
       loadResults: this.loadResults,
       pageCount: Math.ceil(this.state.totalCount / this.props.limit),
-
       history: this.props.history,
       initialPage: this.props.initialPage,
       clearSearchTerm: this.props.clearSearchTerm,
     };
-    // return <ResultsTable {...propsToPass} />
-    // return (null === this.state.results)
-console.log("2. Mappings render props:", this.props);
+
     return (isLoading || null === this.state.results)
       ? <LoadingSpinner />
       : <ResultsTable {...propsToPass} />;
