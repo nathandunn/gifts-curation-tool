@@ -192,6 +192,28 @@ class App extends Component {
     });
   }
 
+  resetSearchAndFacets = (callback) => {
+    this.setState({
+      searchTerm: '',
+      offset: 0,
+      limit: 15,
+      activeFacets: {},
+      initialPage: 0,
+    }, () => {
+      if ('function' === typeof callback) {
+        callback();
+      }
+    });
+  }
+
+  goToMappingsPage = (e) => {
+    const { history } = this.props;
+
+    const callback = () => history.push(`${BASE_URL}/mappings`);
+    this.resetSearchAndFacets(callback);
+    e.preventDefault();
+  }
+
   render() {
     const {
       authenticated, message, validToken, exploreMappingsByOrganism,
@@ -213,6 +235,8 @@ class App extends Component {
       addFilter: this.addFilter,
       setResults: this.setResults,
       changePageParams: this.changePageParams,
+      resetSearchAndFacets: this.resetSearchAndFacets,
+      goToMappingsPage: this.goToMappingsPage,
     };
 
     const tokenIsExpiredMessage = {
