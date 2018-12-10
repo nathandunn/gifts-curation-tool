@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import isEqual from 'lodash-es/isEqual';
 
-import LoadingSpinner from './LoadingSpinner';
 import StatusIndicator from './StatusIndicator';
 import Filters from './Filters';
 import ReviewStatus from './ReviewStatus';
@@ -20,9 +18,6 @@ class ResultsTable extends Component {
     if (!isEqual(nextProps.params, prevState.params)) {
       return {
         params: nextProps.params,
-        facets: null,
-        results: null,
-        totalCount: 0,
       };
     }
     return null;
@@ -31,57 +26,6 @@ class ResultsTable extends Component {
   state = {
     displayIsoforms: false,
   };
-
-  componentDidMount() {
-    this.loadResults();
-  }
-
-  componentDidUpdate() {
-    if (this.state.results === null) {
-      this.loadResults();
-    }
-  }
-
-  loadResults = () => {
-    const { params, history, clearSearchTerm } = this.props;
-    const apiURI = `${API_URL}/mappings`;
-
-    axios
-      .get(apiURI, { params })
-      .then(({ data, status }) => {
-        if (status === 204) {
-          clearSearchTerm(() => {
-            history.push(`${BASE_URL}/no-results`);
-          });
-
-          return;
-        }
-
-        const onlyIsoforms = data.results.every(d =>
-          d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical));
-
-        const groupedResults = this.groupByIsoform(data.results);
-
-        this.setState({
-          params: this.props.params,
-          facets: data.facets,
-          results: groupedResults,
-          totalCount: data.count,
-          displayIsoforms: onlyIsoforms,
-        });
-      })
-      .catch((e) => {
-        console.log(e);
-        history.push(`${BASE_URL}/error`);
-      });
-  };
-
-  groupByIsoform = results =>
-    results.map(row => ({
-      taxonomy: row.taxonomy,
-      canonical: row.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === true),
-      isoforms: row.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === false),
-    }));
 
   toggleShowIsoforms = () => {
     this.setState({ displayIsoforms: !this.state.displayIsoforms });
@@ -128,9 +72,6 @@ class ResultsTable extends Component {
     });
 
   render() {
-    if (this.state.totalCount <= 0) {
-      return <LoadingSpinner />;
-    }
     return (
       <Fragment>
         {/* <div className="row column medium-12">
@@ -140,7 +81,7 @@ class ResultsTable extends Component {
         <div className="row">
           <div className="column medium-2">
             <Filters
-              data={this.state.facets}
+              data={this.props.facets}
               addFilter={this.props.addFilter}
               removeFilter={this.props.removeFilter}
               activeFacets={this.props.activeFacets}
@@ -165,7 +106,7 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              {this.state.results.map(row => (
+              {this.props.results && this.props.results.map(row => (
                 <div
                   className="table-body"
                   key={row.canonical.reduce(
@@ -180,7 +121,7 @@ class ResultsTable extends Component {
               ))}
             </div>
             <ReactPaginate
-              pageCount={Math.ceil(this.state.totalCount / this.state.params.limit)}
+              pageCount={this.props.pageCount}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               onPageChange={this.props.handlePageClick}
@@ -195,7 +136,6 @@ class ResultsTable extends Component {
 }
 
 ResultsTable.propTypes = {
-  params: PropTypes.object.isRequired,
   addFilter: PropTypes.func.isRequired,
   removeFilter: PropTypes.func.isRequired,
   activeFacets: PropTypes.object.isRequired,

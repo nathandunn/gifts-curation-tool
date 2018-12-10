@@ -38,7 +38,8 @@
     "globals": {
       "API_URL": "http://193.62.52.185:5000/gifts",
       "AUTH_CALLBACK_URL": "http%3A%2F%2Flocalhost%3A39093%2Flogin"
-    }
+    },
+    "testURL": "http://localhost"
   },
   "dependencies": {
     "ajv": "^6.5.0",

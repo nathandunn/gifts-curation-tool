@@ -78,7 +78,15 @@ class App extends Component {
 
   handleSearchSubmit = (e, input) => {
     const { history } = this.props;
-    this.setState({ searchTerm: input });
+
+    this.setState({
+      searchTerm: input,
+      offset: 0,
+      limit: 15,
+      initialPage: 0,
+      activeFacets: {},
+    });
+
     history.push(`${BASE_URL}/mappings?searchTerm=${input}`);
     e.preventDefault();
   };
@@ -97,7 +105,10 @@ class App extends Component {
     },
     message: null,
     validToken: null,
-    exploreMappingsByOrganism: null,
+    offset: 0,
+    limit: 15,
+    activeFacets: {},
+    initialPage: 0,
   };
 
   clearMessage = () => this.setState({ message: null });
@@ -124,16 +135,90 @@ class App extends Component {
     cookies.remove('jwt', { path: '/' });
   };
 
-  exploreMappingsByOrganism = (organimsId) => {
-    this.setState(
-      {
-        exploreMappingsByOrganism: organimsId,
-      },
-      () => {
+  exploreMappingsByOrganism = (organism) => {
+    const { activeFacets } = this.state;
+    const activeFacetsCopy = {
+      activeFacets: {},
+      organism,
+      offset: 0,
+      limit: 15,
+      initialPage: 0,
+      searchTerm: '',
+    }
+
+    this.setState({
+      activeFacets: activeFacetsCopy,
+    }, () => {
         this.exploreMappingsAction();
-      },
-    );
+    });
   };
+
+  removeFilter = (facet) => {
+    const { activeFacets } = this.state;
+    const activeFacetsCopy = {
+      ...activeFacets,
+    }
+    delete activeFacetsCopy[facet];
+
+    this.setState({
+      activeFacets: activeFacetsCopy,
+    });
+  };
+
+  addFilter = (facet, value) => {
+    const { activeFacets } = this.state;
+    const activeFacetsCopy = {
+      ...activeFacets,
+    }
+    activeFacetsCopy[facet] = value;
+
+    this.setState({
+      activeFacets: activeFacetsCopy,
+    });
+  };
+
+  setResults = (data) => {
+    this.setState({
+      params: data.params,
+      facets: data.facets,
+      results: data.results,
+      totalCount: data.totalCount,
+      displayIsoforms: data.displayIsoforms,
+    });
+  }
+
+  changePageParams = (params) => {
+    const { offset, initialPage } = params;
+    if (offset === this.state.offset && initialPage === this.state.initialPage) {
+      return;
+    }
+    this.setState({
+      offset: params.offset,
+      initialPage: params.initialPage,
+    });
+  }
+
+  resetSearchAndFacets = (callback) => {
+    this.setState({
+      searchTerm: '',
+      offset: 0,
+      limit: 15,
+      activeFacets: {},
+      initialPage: 0,
+    }, () => {
+      if ('function' === typeof callback) {
+        callback();
+      }
+    });
+  }
+
+  goToMappingsPage = (e) => {
+    const { history } = this.props;
+
+    const callback = () => history.push(`${BASE_URL}/mappings`);
+    this.resetSearchAndFacets(callback);
+    e.preventDefault();
+  }
 
   render() {
     const {
@@ -151,6 +236,13 @@ class App extends Component {
       setMessage: this.setMessage,
       clearSearchTerm: this.clearSearchTerm,
       exploreMappingsByOrganism: this.exploreMappingsByOrganism,
+      getFacetsAsString: this.getFacetsAsString,
+      removeFilter: this.removeFilter,
+      addFilter: this.addFilter,
+      setResults: this.setResults,
+      changePageParams: this.changePageParams,
+      resetSearchAndFacets: this.resetSearchAndFacets,
+      goToMappingsPage: this.goToMappingsPage,
     };
 
     const tokenIsExpiredMessage = {

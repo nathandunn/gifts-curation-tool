@@ -63,8 +63,10 @@ class Unmapped extends Component {
           <tr>
             <th>Gene Name</th>
             <th>Gene ID</th>
+            <th>Gene Source</th>
             <th>Gene Position</th>
             <th>Transcripts</th>
+            <th>Trans. Source</th>
           </tr>
         </thead>
         <tbody>
@@ -76,18 +78,21 @@ class Unmapped extends Component {
                   {row.gene.ensgId}
                 </Link>
               </td>
+              <td>{row.gene.source}</td>
               <td>
                 {row.gene.chromosome}:{row.gene.seqRegionStart}-{row.gene.seqRegionEnd}
               </td>
               <td>
                 {row.transcripts.map(transcript => (
-                  <div key={transcript}>
-                    <Link to={`//www.ensembl.org/id/${transcript}`} target="_blank">
-                      {transcript}
+                  <div key={transcript.enstId}>
+                    <Link to={`//www.ensembl.org/id/${transcript.enstId}`} target="_blank">
+                      {transcript.enstId}
                     </Link>
                   </div>
                 ))}
               </td>
+              <td>
+                {row.transcripts.map(transcript => <div>{transcript.source}</div>)}</td>
             </tr>
           ))}
         </tbody>

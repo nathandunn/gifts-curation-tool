@@ -37,7 +37,7 @@ function Header(props) {
                 <Link to={`${BASE_URL}/`}>Home</Link>
               </li>
               <li>
-                <Link to={`${BASE_URL}/mappings`}>Mappings</Link>
+                <a href={`${BASE_URL}/mappings`} onClick={(e) => props.goToMappingsPage(e)}>Mappings</a>
               </li>
               <li>
                 <Link to={`${BASE_URL}/unmapped`}>Unmapped</Link>
