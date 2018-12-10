@@ -10,6 +10,14 @@ import '../../styles/MappingHeader.css';
 const MappingHeader = (props) => {
   const { mapping, taxonomy } = props;
 
+  const proteinExistenceValues = {
+    1: 'Evidence at protein level',
+    2: 'Evidence at transcript level',
+    3: 'Inferred from homology',
+    4: 'Predicted',
+    5: 'Uncertain',
+  }
+
   return (
     <div className="mapping-header">
       <div className="mapping-ids">
@@ -72,6 +80,9 @@ const MappingHeader = (props) => {
         </div>
         <div>
           <strong>Ensembl derived:</strong> {mapping.uniprotEntry.ensemblDerived ? 'Yes' : 'No'}
+        </div>
+        <div>
+          <strong>Protein existence:</strong> {proteinExistenceValues[mapping.uniprotEntry.protein_existence_id]}
         </div>
       </div>
     </div>
