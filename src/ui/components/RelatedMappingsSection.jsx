@@ -34,6 +34,7 @@ const RelatedMapping = (props) => {
         </a>
       </td>
       <td>{ensemblTranscript.ensgName}</td>
+      <td>{ensemblTranscript.source}</td>
       <td>
         <Position transcript={ensemblTranscript} />
       </td>
@@ -64,6 +65,7 @@ const UnmappedEnsembl = (props) => {
     enstId,
     ensgId,
     ensgName,
+    source,
     chromosome,
     seqRegionStart,
     seqRegionEnd,
@@ -75,6 +77,7 @@ const UnmappedEnsembl = (props) => {
       <td>{enstId}</td>
       <td>{ensgId}</td>
       <td>{ensgName}</td>
+      <td>{source}</td>
       <td><Position transcript={{ chromosome, seqRegionStart, seqRegionEnd }} /></td>
       <td />
       <td />
@@ -87,6 +90,7 @@ UnmappedEnsembl.propTypes = {
     enstId: PropTypes.string,
     ensgId: PropTypes.string,
     ensgName: PropTypes.string,
+    source: PropTypes.string,
     chromosome: PropTypes.string,
     seqRegionStart: PropTypes.number,
     seqRegionEnd: PropTypes.number,
@@ -136,6 +140,7 @@ const RelatedMappingsSection = props => (
         <th>Transcript</th>
         <th>Gene ID</th>
         <th>Gene Name</th>
+        <th>Source</th>
         <th>Position</th>
         <th />
         <th />

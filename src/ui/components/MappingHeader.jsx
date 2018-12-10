@@ -45,6 +45,9 @@ const MappingHeader = (props) => {
         <div>
           <strong>Region:</strong> {mapping.ensemblTranscript.regionAccession}
         </div>
+        <div>
+          <strong>Source:</strong> {mapping.ensemblTranscript.source}
+        </div>
       </div>
       <Arrow />
       <div className="mapping-ids">
