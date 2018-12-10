@@ -8,6 +8,7 @@
     "local-server": "webpack --config webpack.local.js --mode development && webpack-dev-server --config webpack.local.js --mode development --open",
     "dev-build": "webpack --config webpack.dev.js --mode production",
     "prod-build": "webpack --config webpack.prod.js --mode production",
+    "staging-build": "webpack --config webpack.staging.js --mode production",
     "fallback-build": "webpack --config webpack.prod.js --READ_ONLY --mode production",
     "jslint": "./node_modules/.bin/eslint -c .eslintrc.json --ext .js --ext .jsx src/** __tests__/** __mocks__/**",
     "csslint": "scss-lint ./src/styles/**/*.scss",
