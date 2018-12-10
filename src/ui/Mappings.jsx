@@ -51,7 +51,7 @@ class Mappings extends Component {
   }
 
   getFacetsAsString = () =>
-    Object.keys(this.props.activeFacets)
+    Object.keys(this.props.activeFacets || {})
       .map(key => `${key}:${this.props.activeFacets[key]}`)
       .join(',');
 
