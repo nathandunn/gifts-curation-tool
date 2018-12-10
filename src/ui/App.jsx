@@ -105,10 +105,9 @@ class App extends Component {
     },
     message: null,
     validToken: null,
-    exploreMappingsByOrganism: null,
     offset: 0,
     limit: 15,
-    activeFacets: this.exploreMappingsByOrganism ? { organism: this.exploreMappingsByOrganism } : {},
+    activeFacets: {},
     initialPage: 0,
   };
 
@@ -136,15 +135,18 @@ class App extends Component {
     cookies.remove('jwt', { path: '/' });
   };
 
-  exploreMappingsByOrganism = (organimsId) => {
-    this.setState(
-      {
-        exploreMappingsByOrganism: organimsId,
-      },
-      () => {
+  exploreMappingsByOrganism = (organism) => {
+    const { activeFacets } = this.state;
+    const activeFacetsCopy = {
+      ...activeFacets,
+      organism,
+    }
+
+    this.setState({
+      activeFacets: activeFacetsCopy,
+    }, () => {
         this.exploreMappingsAction();
-      },
-    );
+    });
   };
 
   removeFilter = (facet) => {
