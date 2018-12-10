@@ -28,7 +28,7 @@ class ResultsTable extends Component {
   };
 
   toggleShowIsoforms = () => {
-    this.setState({ displayIsoforms: !this.props.displayIsoforms });
+    this.setState({ displayIsoforms: !this.state.displayIsoforms });
   };
 
   renderRows = (items, taxonomy) =>
@@ -136,7 +136,6 @@ class ResultsTable extends Component {
 }
 
 ResultsTable.propTypes = {
-  // params: PropTypes.object.isRequired,
   addFilter: PropTypes.func.isRequired,
   removeFilter: PropTypes.func.isRequired,
   activeFacets: PropTypes.object.isRequired,
