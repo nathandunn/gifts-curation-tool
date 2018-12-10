@@ -138,8 +138,12 @@ class App extends Component {
   exploreMappingsByOrganism = (organism) => {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
-      ...activeFacets,
+      activeFacets: {},
       organism,
+      offset: 0,
+      limit: 15,
+      initialPage: 0,
+      searchTerm: '',
     }
 
     this.setState({
