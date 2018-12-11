@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import '../../styles/StatusIndicator.css';
 
 function getClassName(status) {
@@ -23,5 +25,13 @@ function getClassName(status) {
 }
 
 const StatusIndicator = props => <div className={getClassName(props.status)} />;
+
+StatusIndicator.propTypes = {
+  status: PropTypes.string,
+};
+
+StatusIndicator.defaultProps = {
+  status: '',
+};
 
 export default StatusIndicator;
