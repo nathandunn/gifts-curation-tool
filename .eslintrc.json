@@ -8,6 +8,7 @@
     "jest": true
   },
   "rules": {
+    "react/sort-comp": 0,
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
