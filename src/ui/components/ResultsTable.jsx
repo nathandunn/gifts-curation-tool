@@ -8,7 +8,6 @@ import StatusIndicator from './StatusIndicator';
 import Filters from './Filters';
 import ReviewStatus from './ReviewStatus';
 import AlignmentIndicator from './alignment/AlignmentIndicator';
-import { formatLargeNumber } from '../util/util';
 import Position from './Position';
 
 import '../../styles/ResultsTable.css';
@@ -34,8 +33,6 @@ class ResultsTable extends Component {
   renderRows = (items, taxonomy) =>
     items.map((mapping) => {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
-
-      const position = `${mapping.ensemblTranscript.chromosome || 'NA'}:${formatLargeNumber(+mapping.ensemblTranscript.seqRegionStart)}-${formatLargeNumber(+mapping.ensemblTranscript.seqRegionEnd)}`;
 
       return (
         <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
@@ -88,7 +85,7 @@ class ResultsTable extends Component {
             />
           </div>
           <div className="column medium-10">
-            <button className="button" onClick={e => this.toggleShowIsoforms()}>
+            <button className="button" onClick={() => this.toggleShowIsoforms()}>
               {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
             </button>
             <div className="table tbody-zebra">
@@ -141,6 +138,16 @@ ResultsTable.propTypes = {
   activeFacets: PropTypes.object.isRequired,
   handlePageClick: PropTypes.func.isRequired,
   initialPage: PropTypes.number.isRequired,
+  facets: PropTypes.object,
+  results: PropTypes.array,
+  // 'results.map': PropTypes.func.isRequired,
+  pageCount: PropTypes.number,
+};
+
+ResultsTable.defaultProps = {
+  facets: {},
+  results: [],
+  pageCount: 0,
 };
 
 export default ResultsTable;
