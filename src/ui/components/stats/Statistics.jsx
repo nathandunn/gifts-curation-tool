@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -40,8 +40,9 @@ class Statistics extends Component {
           },
         });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+      // .catch((e) => {
+      //   console.log(e);
         history.push(`${BASE_URL}/error`);
       });
   };
@@ -87,5 +88,9 @@ class Statistics extends Component {
     );
   }
 }
+
+Statistics.propTypes = {
+  history: PropTypes.func.isRequired,
+};
 
 export default withRouter(Statistics);
