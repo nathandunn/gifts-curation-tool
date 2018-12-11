@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Arrow from './Arrow';
 import ReviewStatus from './ReviewStatus';
@@ -8,7 +9,7 @@ import Position from './Position';
 import '../../styles/MappingHeader.css';
 
 const MappingHeader = (props) => {
-  const { mapping, taxonomy } = props;
+  const { mapping } = props;
 
   const proteinExistenceValues = {
     1: 'Evidence at protein level',
@@ -16,7 +17,7 @@ const MappingHeader = (props) => {
     3: 'Inferred from homology',
     4: 'Predicted',
     5: 'Uncertain',
-  }
+  };
 
   return (
     <div className="mapping-header">
@@ -82,11 +83,16 @@ const MappingHeader = (props) => {
           <strong>Ensembl derived:</strong> {mapping.uniprotEntry.ensemblDerived ? 'Yes' : 'No'}
         </div>
         <div>
-          <strong>Protein existence:</strong> {proteinExistenceValues[mapping.uniprotEntry.protein_existence_id]}
+          <strong>Protein existence:</strong>&nbsp;
+          {proteinExistenceValues[mapping.uniprotEntry.protein_existence_id]}
         </div>
       </div>
     </div>
   );
+};
+
+MappingHeader.propTypes = {
+  mapping: PropTypes.object.isRequired,
 };
 
 export default MappingHeader;
