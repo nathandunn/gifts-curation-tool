@@ -97,6 +97,7 @@ DoughnutChart.propTypes = {
   percent: PropTypes.number,
   borderWidth: PropTypes.number,
   textStyle: PropTypes.string,
+  children: PropTypes.object.isRequired,
 };
 
 DoughnutChart.defaultProps = {
