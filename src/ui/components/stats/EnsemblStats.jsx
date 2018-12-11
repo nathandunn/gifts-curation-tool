@@ -1,6 +1,7 @@
 import React from 'react';
-import { formatLargeNumber } from '../../util/util';
+import PropTypes from 'prop-types';
 
+import { formatLargeNumber } from '../../util/util';
 import DoughnutChart from './DoughnutChart';
 
 const EnsemblStats = (props) => {
@@ -33,6 +34,14 @@ const EnsemblStats = (props) => {
       </div>
     </div>
   );
+};
+
+EnsemblStats.propTypes = {
+  genes_total: PropTypes.number.isRequired,
+  genes_unmapped: PropTypes.number.isRequired,
+  transcripts_total: PropTypes.number.isRequired,
+  transcripts_unmapped: PropTypes.number.isRequired,
+  ensembl: PropTypes.number.isRequired,
 };
 
 export default EnsemblStats;
