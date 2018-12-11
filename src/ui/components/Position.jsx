@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+
 import { formatLargeNumber } from '../util/util';
 
 const Position = (props) => {
@@ -11,6 +13,10 @@ const Position = (props) => {
   }
 
   return <Fragment>{position}</Fragment>;
+};
+
+Position.propTypes = {
+  transcript: PropTypes.object.isRequired,
 };
 
 export default Position;
