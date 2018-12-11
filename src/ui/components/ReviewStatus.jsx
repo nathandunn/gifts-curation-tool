@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import '../../styles/ReviewStatus.css';
 
@@ -16,6 +17,14 @@ const ReviewStatus = (props) => {
       // probably an isoform
       return null;
   }
+};
+
+ReviewStatus.propTypes = {
+  entryType: PropTypes.string,
+};
+
+ReviewStatus.defaultProps = {
+  entryType: '',
 };
 
 export default ReviewStatus;
