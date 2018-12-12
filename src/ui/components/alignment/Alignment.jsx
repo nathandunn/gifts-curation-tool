@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import LoadingSpinner from '../LoadingSpinner';
 import '../../../styles/Alignment.css';
@@ -9,7 +10,6 @@ class Alignment extends Component {
   state = {
     alignments: null,
     loading: false,
-    isPerfectMatch: false,
   };
 
   componentDidMount() {
@@ -51,22 +51,19 @@ class Alignment extends Component {
         let isTooLong = false;
 
         let alignments = null;
-        let isPerfectMatch = false;
         if (details.alignments.length > 0) {
           alignments = [
             details.alignments[0].uniprot_alignment,
             details.alignments[0].ensembl_alignment,
           ];
-          isPerfectMatch = details.alignments[0].alignment_type === 'perfect_match';
 
-          if (10000 < alignments[0].length) {
+          if (alignments[0].length > 10000) {
             isTooLong = true;
           }
         }
 
         this.setState({
           alignments,
-          isPerfectMatch,
           isTooLong,
           loading: false,
         });
@@ -226,7 +223,7 @@ class Alignment extends Component {
     const positionB = currentTarget.getAttribute('position-b');
     const rowIndex = parseInt(currentTarget.getAttribute('row-index'), 10);
     const cellIndex = parseInt(currentTarget.getAttribute('cell-index'), 10);
-    const index = rowIndex * this.rowSize + cellIndex;
+    const index = (rowIndex * this.rowSize) + cellIndex;
     const valueA = this.positions[0][index];
     const valueB = this.positions[1][index];
 
@@ -242,7 +239,7 @@ class Alignment extends Component {
   hidePosition = () => {
     this.hidePositionTooltip = window.setTimeout(() => {
       const tooltip = document.getElementById('alignment-hover-tooltip');
-      if (null === tooltip) {
+      if (tooltip === null) {
         return;
       }
       tooltip.style.display = 'none';
@@ -250,7 +247,9 @@ class Alignment extends Component {
   };
 
   render() {
-    const { alignments, loading, isPerfectMatch, isTooLong } = this.state;
+    const {
+      alignments, loading, isTooLong,
+    } = this.state;
 
     if (loading) {
       return <LoadingSpinner />;
@@ -270,21 +269,7 @@ class Alignment extends Component {
           <em>No alignments have been run for this mapping</em>
         </div>
       );
-    } /* else if (isPerfectMatch) {
-      return (
-        <div className="callout">
-          <em>
-            <span role="img" aria-label="party">
-              🎉
-            </span>{' '}
-            Sequences are identical{' '}
-            <span role="img" aria-label="party">
-              🎉
-            </span>
-          </em>
-        </div>
-      );
-    }  */
+    }
 
     return (
       <div className="row mapping__alignment__wrapper">
@@ -295,5 +280,10 @@ class Alignment extends Component {
     );
   }
 }
+
+Alignment.propTypes = {
+  mappingId: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired,
+};
 
 export default withRouter(Alignment);

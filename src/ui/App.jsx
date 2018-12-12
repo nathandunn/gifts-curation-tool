@@ -136,7 +136,6 @@ class App extends Component {
   };
 
   exploreMappingsByOrganism = (organism) => {
-    const { activeFacets } = this.state;
     const activeFacetsCopy = {
       activeFacets: {},
       organism,
@@ -144,12 +143,12 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       searchTerm: '',
-    }
+    };
 
     this.setState({
       activeFacets: activeFacetsCopy,
     }, () => {
-        this.exploreMappingsAction();
+      this.exploreMappingsAction();
     });
   };
 
@@ -157,7 +156,8 @@ class App extends Component {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
       ...activeFacets,
-    }
+    };
+
     delete activeFacetsCopy[facet];
 
     this.setState({
@@ -169,7 +169,8 @@ class App extends Component {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
       ...activeFacets,
-    }
+    };
+
     activeFacetsCopy[facet] = value;
 
     this.setState({
@@ -206,7 +207,7 @@ class App extends Component {
       activeFacets: {},
       initialPage: 0,
     }, () => {
-      if ('function' === typeof callback) {
+      if (typeof callback === 'function') {
         callback();
       }
     });
@@ -282,7 +283,7 @@ class App extends Component {
               />
               <Route exact path={`${BASE_URL}/error`} render={() => <Broken {...appProps} />} />
               <Route exact path={`${BASE_URL}/feedback`} component={Feedback} />
-              <Route exact path={`${BASE_URL}/no-results`} component={NoResults} />
+              <Route exact path={`${BASE_URL}/no-results`} render={() => <NoResults {...appProps} />} />
             </Switch>
           </div>
         </section>
@@ -292,15 +293,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  cookies: PropTypes.object,
-  history: PropTypes.object,
-  location: PropTypes.object,
-};
-
-App.defaultProps = {
-  cookies: {},
-  history: {},
-  location: {},
+  cookies: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default withRouter(withCookies(App));

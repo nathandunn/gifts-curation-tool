@@ -7,10 +7,11 @@ import HomePage from '../../../src/ui/Home';
 describe('HomePage component', () => {
   test('should render', () => {
     const exploreMappingsByOrganism = jest.fn(() => {});
+    const props = {
+      exploreMappingsByOrganism,
+    };
     const component = renderer
-      .create(<MemoryRouter>
-        <HomePage exploreMappingsByOrganism={exploreMappingsByOrganism} />
-              </MemoryRouter>)
+      .create(<MemoryRouter><HomePage {...props} /></MemoryRouter>)
       .toJSON();
 
     expect(component).toMatchSnapshot();

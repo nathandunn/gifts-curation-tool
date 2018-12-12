@@ -33,7 +33,7 @@ class StatusChangeControl extends Component {
 
     axios
       .put(apiURI, changes, config)
-      .then((response) => {
+      .then(() => {
         this.setState({ editMode: false });
       })
       .catch((e) => {
@@ -101,5 +101,14 @@ class StatusChangeControl extends Component {
     return <Fragment>{editMode ? <StatusChangeForm /> : <Status />}</Fragment>;
   }
 }
+
+StatusChangeControl.propTypes = {
+  status: PropTypes.string.isRequired,
+  mappingId: PropTypes.number.isRequired,
+  history: PropTypes.object.isRequired,
+  cookies: PropTypes.object.isRequired,
+  options: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default withRouter(withCookies(StatusChangeControl));

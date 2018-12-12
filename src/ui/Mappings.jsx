@@ -42,7 +42,7 @@ class Mappings extends Component {
   componentDidUpdate(prevProps) {
     if (
       isLoading ||
-      null === this.state.results ||
+      this.state.results === null ||
       !isEqual(prevProps.activeFacets, this.props.activeFacets) ||
       prevProps.searchTerm !== this.props.searchTerm
     ) {
@@ -65,7 +65,7 @@ class Mappings extends Component {
       offset: this.props.offset,
       limit: this.props.limit,
       format: 'json',
-    }
+    };
 
     axios
       .get(apiURI, { params })
@@ -78,17 +78,17 @@ class Mappings extends Component {
           return;
         }
 
-        const onlyIsoforms = data.results.every(d =>
-          d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical));
+        // const onlyIsoforms = data.results.every(d =>
+        //   d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical));
 
         const groupedResults = this.groupByIsoform(data.results);
 
         this.setState({
-          params: this.props.params,
+          // params: this.props.params,
           facets: data.facets,
           results: groupedResults,
           totalCount: data.count,
-          displayIsoforms: onlyIsoforms,
+          // displayIsoforms: onlyIsoforms,
         }, () => {
           isLoading = false;
         });
@@ -126,10 +126,9 @@ class Mappings extends Component {
       clearSearchTerm: this.props.clearSearchTerm,
     };
 
-    return (isLoading || null === this.state.results)
+    return (isLoading || this.state.results === null)
       ? <LoadingSpinner />
       : <ResultsTable {...propsToPass} />;
-    
   }
 }
 
@@ -138,12 +137,28 @@ Mappings.propTypes = {
   defaultOrganism: PropTypes.number,
   history: PropTypes.object.isRequired,
   clearSearchTerm: PropTypes.func,
+  initialPage: PropTypes.number,
+  limit: PropTypes.number,
+  offset: PropTypes.number,
+  changePageParams: PropTypes.func,
+  activeFacets: PropTypes.object,
+  params: PropTypes.object,
+  addFilter: PropTypes.func,
+  removeFilter: PropTypes.func,
 };
 
 Mappings.defaultProps = {
   searchTerm: '',
   defaultOrganism: null,
   clearSearchTerm: null,
+  initialPage: 0,
+  limit: 15,
+  offset: 0,
+  changePageParams: null,
+  activeFacets: {},
+  params: {},
+  addFilter: null,
+  removeFilter: null,
 };
 
 export default withRouter(Mappings);

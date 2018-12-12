@@ -7,55 +7,49 @@ import StatusIndicator from './StatusIndicator';
 import AlignmentIndicator from './alignment/AlignmentIndicator';
 import Position from './Position';
 
-const RelatedMapping = (props) => {
-  const {
-    status, mappingId, ensemblTranscript, uniprotEntry, alignment_difference,
-  } = props.item;
-
-  return (
-    <tr className="related-mapping">
-      <td>
-        <StatusIndicator status={status} />
-      </td>
-      <td>
-        <ReviewStatus entryType={uniprotEntry.entryType} />
-        <a href={`//www.uniprot.org/uniprot/${uniprotEntry.uniprotAccession}`} target="_blank">
-          {uniprotEntry.uniprotAccession}
-        </a>
-      </td>
-      <td>
-        <a href={`//www.ensembl.org/id/${ensemblTranscript.enstId}`} target="_blank">
-          {ensemblTranscript.enstId}
-        </a>
-      </td>
-      <td>
-        <a href={`//www.ensembl.org/id/${ensemblTranscript.ensgId}`} target="_blank">
-          {ensemblTranscript.ensgId}
-        </a>
-      </td>
-      <td>{ensemblTranscript.ensgName}</td>
-      <td>{ensemblTranscript.source}</td>
-      <td>
-        <Position transcript={ensemblTranscript} />
-      </td>
-      <td>
-        <AlignmentIndicator difference={alignment_difference} />
-      </td>
-      <td>
-        <Link to={`${BASE_URL}/mapping/${mappingId}`}>
-          <span>View</span>
-        </Link>
-      </td>
-    </tr>
-  );
-};
+const RelatedMapping = props => (
+  <tr className="related-mapping">
+    <td>
+      <StatusIndicator status={props.item.status} />
+    </td>
+    <td>
+      <ReviewStatus entryType={props.item.uniprotEntry.entryType} />
+      <a href={`//www.uniprot.org/uniprot/${props.item.uniprotEntry.uniprotAccession}`} target="_blank">
+        {props.item.uniprotEntry.uniprotAccession}
+      </a>
+    </td>
+    <td>
+      <a href={`//www.ensembl.org/id/${props.item.ensemblTranscript.enstId}`} target="_blank">
+        {props.item.ensemblTranscript.enstId}
+      </a>
+    </td>
+    <td>
+      <a href={`//www.ensembl.org/id/${props.item.ensemblTranscript.ensgId}`} target="_blank">
+        {props.item.ensemblTranscript.ensgId}
+      </a>
+    </td>
+    <td>{props.item.ensemblTranscript.ensgName}</td>
+    <td>{props.item.ensemblTranscript.source}</td>
+    <td>
+      <Position transcript={props.item.ensemblTranscript} />
+    </td>
+    <td>
+      <AlignmentIndicator difference={props.item.alignment_difference} />
+    </td>
+    <td>
+      <Link to={`${BASE_URL}/mapping/${props.item.mappingId}`}>
+        <span>View</span>
+      </Link>
+    </td>
+  </tr>
+);
 
 RelatedMapping.propTypes = {
   item: PropTypes.shape({
+    mappingId: PropTypes.number,
     status: PropTypes.string,
-    id: PropTypes.string,
-    ensemblTranscript: PropTypes.object,
     uniprotEntry: PropTypes.object,
+    ensemblTranscript: PropTypes.object,
     alignment_difference: PropTypes.number,
   }).isRequired,
 };
@@ -97,37 +91,32 @@ UnmappedEnsembl.propTypes = {
   }).isRequired,
 };
 
-const UnmappedUniProt = (props) => {
-  const {
-    gene_accession, gene_symbol, uniprotAccession, entryType,
-  } = props.item;
-  return (
-    <tr className="related-mapping">
-      <td />
-      <td>
-        <a href={`//www.uniprot.org/uniprot/${uniprotAccession}`} target="_blank">
-          <span>
-            <ReviewStatus entryType={entryType} />
-            {uniprotAccession}
-          </span>
-        </a>
-      </td>
-      <td />
-      <td>{gene_accession}</td>
-      <td>{gene_symbol}</td>
-      <td />
-      <td />
-      <td />
-    </tr>
-  );
-};
+const UnmappedUniProt = props => (
+  <tr className="related-mapping">
+    <td />
+    <td>
+      <a href={`//www.uniprot.org/uniprot/${props.item.uniprotAccession}`} target="_blank">
+        <span>
+          <ReviewStatus entryType={props.item.entryType} />
+          {props.item.uniprotAccession}
+        </span>
+      </a>
+    </td>
+    <td />
+    <td>{props.item.gene_accession}</td>
+    <td>{props.item.gene_symbol}</td>
+    <td />
+    <td />
+    <td />
+  </tr>
+);
 
 UnmappedUniProt.propTypes = {
   item: PropTypes.shape({
-    gene_accession: PropTypes.string,
-    gene_symbol: PropTypes.string,
     uniprotAccession: PropTypes.string,
     entryType: PropTypes.string,
+    gene_accession: PropTypes.string,
+    gene_symbol: PropTypes.string,
   }).isRequired,
 };
 
@@ -148,13 +137,19 @@ const RelatedMappingsSection = props => (
     </thead>
     <tbody>
       {props.mappings.mapped.map(item => (
-        <RelatedMapping item={item} key={item.mappingId} />
+        (item)
+          ? <RelatedMapping item={item} key={item.mappingId} />
+          : null
       ))}
       {props.mappings.unmapped.ensembl.map(item => (
-        <UnmappedEnsembl item={item} key={`${item.enstId}-${item.ensgId}`} />
+        (item)
+          ? <UnmappedEnsembl item={item} key={`${item.enstId}-${item.ensgId}`} />
+          : null
       ))}
       {props.mappings.unmapped.uniprot.map(item => (
-        <UnmappedUniProt item={item} key={`${item.gene_symbol}-${item.uniprotAccession}`} />
+        (item)
+          ? <UnmappedUniProt item={item} key={`${item.gene_symbol}-${item.uniprotAccession}`} />
+          : null
       ))}
     </tbody>
   </table>

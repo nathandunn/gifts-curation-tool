@@ -22,7 +22,7 @@ class CommentsSection extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { isLoggedIn } = this.props;
 
     if (this.textEditor === null && isLoggedIn) {
@@ -30,7 +30,9 @@ class CommentsSection extends Component {
     }
 
     // fix this re-render issue later
-    this.textEditor && this.textEditor.render(document.getElementById('text-editor'));
+    if (this.textEditor) {
+      this.textEditor.render(document.getElementById('text-editor'));
+    }
   }
 
   createTextEditor = () => {
@@ -66,7 +68,7 @@ class CommentsSection extends Component {
 
     axios
       .post(apiURI, comment, config)
-      .then((response) => {
+      .then(() => {
         this.textEditor.value('');
         afterSaveCallback(mappingId, isLoggedIn);
       })
@@ -77,7 +79,7 @@ class CommentsSection extends Component {
   };
 
   render() {
-    const { isLoggedIn, comments, onCommentTextChange } = this.props;
+    const { isLoggedIn, comments } = this.props;
 
     if (isLoggedIn === false) {
       return null;
@@ -107,5 +109,18 @@ class CommentsSection extends Component {
     );
   }
 }
+
+CommentsSection.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  mappingId: PropTypes.number.isRequired,
+  history: PropTypes.object.isRequired,
+  cookies: PropTypes.object.isRequired,
+  afterSaveCallback: PropTypes.func.isRequired,
+  comments: PropTypes.array,
+};
+
+CommentsSection.defaultProps = {
+  comments: [],
+};
 
 export default withRouter(withCookies(CommentsSection));

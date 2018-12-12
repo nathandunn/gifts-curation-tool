@@ -57,8 +57,6 @@ class LabelsSection extends Component {
   };
 
   addLabel = () => {
-    const { labels } = this.state;
-
     const {
       mappingId, isLoggedIn, history, cookies, afterChangeCallback,
     } = this.props;
@@ -75,7 +73,7 @@ class LabelsSection extends Component {
 
     axios
       .post(apiURI, {}, config)
-      .then((response) => {
+      .then(() => {
         this.setState({
           addLabelMode: false,
         });
@@ -104,7 +102,7 @@ class LabelsSection extends Component {
 
     axios
       .delete(apiURI, config)
-      .then((response) => {
+      .then(() => {
         afterChangeCallback(mappingId, isLoggedIn);
       })
       .catch((e) => {
@@ -153,7 +151,7 @@ class LabelsSection extends Component {
             onDelete={this.deleteLabel}
           />
         ))}
-        {isLoggedIn ? (
+        {isLoggedIn && (
           addLabelMode ? (
             <AddLabelControl />
           ) : (
@@ -161,10 +159,24 @@ class LabelsSection extends Component {
               Add label
             </button>
           )
-        ) : null}
+        )}
       </Fragment>
     );
   }
 }
+
+LabelsSection.propTypes = {
+  labels: PropTypes.array,
+  mappingId: PropTypes.number.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
+  cookies: PropTypes.object.isRequired,
+  afterChangeCallback: PropTypes.func.isRequired,
+
+};
+
+LabelsSection.defaultProps = {
+  labels: [],
+};
 
 export default withRouter(withCookies(LabelsSection));

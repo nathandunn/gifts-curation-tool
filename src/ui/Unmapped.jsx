@@ -92,7 +92,8 @@ class Unmapped extends Component {
                 ))}
               </td>
               <td>
-                {row.transcripts.map(transcript => <div>{transcript.source}</div>)}</td>
+                {row.transcripts.map(transcript => <div>{transcript.source}</div>)}
+              </td>
             </tr>
           ))}
         </tbody>

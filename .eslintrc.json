@@ -8,6 +8,16 @@
     "jest": true
   },
   "rules": {
+    "no-plusplus": 0,
+    "arrow-body-style": 0,
+    "no-undef": 0,
+    "consistent-return": 0,
+    "no-console": 0,
+    "react/no-danger": 0,
+    "react/sort-comp": 0,
+    "react/forbid-prop-types": 0,
+    "react/no-did-mount-set-state": 0,
+    "react/no-array-index-key": 0,
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
@@ -16,9 +26,10 @@
         "aspects": ["noHref", "invalidHref", "preferButton"]
       }
     ],
-    "react/forbid-prop-types": 0,
-    "react/no-array-index-key": 0,
-    "no-plusplus": 0
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/interactive-supports-focus": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/anchor-is-valid": 0
   },
   "globals": {
     "BASE_URL": false,
