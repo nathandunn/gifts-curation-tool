@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import '../../../styles/AlignmentIndicator.css';
 
@@ -31,6 +32,15 @@ const AlignmentIndicator = (props) => {
     );
   }
   return null;
+};
+
+AlignmentIndicator.propTypes = {
+  difference: PropTypes.string,
+  differenceName: PropTypes.string.isRequired,
+};
+
+AlignmentIndicator.defaultProps = {
+  difference: null,
 };
 
 export default AlignmentIndicator;
