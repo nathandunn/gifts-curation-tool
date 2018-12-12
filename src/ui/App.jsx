@@ -283,7 +283,7 @@ class App extends Component {
               />
               <Route exact path={`${BASE_URL}/error`} render={() => <Broken {...appProps} />} />
               <Route exact path={`${BASE_URL}/feedback`} component={Feedback} />
-              <Route exact path={`${BASE_URL}/no-results`} component={NoResults} />
+              <Route exact path={`${BASE_URL}/no-results`} render={() => <NoResults {...appProps} />} />
             </Switch>
           </div>
         </section>

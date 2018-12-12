@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const NoResults = () => (
+const NoResults = props => (
   <div className="row column medium-8 medium-offset-2">
     <div className="callout text-center">
       <h2>No results!</h2>
@@ -9,11 +9,15 @@ const NoResults = () => (
         🥛
       </span>
       <p className="lead">You could try a different search term or</p>
-      <Link to={`${BASE_URL}/mappings`} className="button">
+      <a href={`${BASE_URL}/mappings`} onClick={e => props.goToMappingsPage(e)} className="button">
         Explore mappings
-      </Link>
+      </a>
     </div>
   </div>
 );
+
+NoResults.propTypes = {
+  goToMappingsPage: PropTypes.func.isRequired,
+};
 
 export default NoResults;
