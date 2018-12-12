@@ -106,8 +106,8 @@ class StatusChangeControl extends Component {
 StatusChangeControl.propTypes = {
   status: PropTypes.string.isRequired,
   mappingId: PropTypes.number.isRequired,
-  history: PropTypes.func.isRequired,
-  cookies: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  cookies: PropTypes.object.isRequired,
   options: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };

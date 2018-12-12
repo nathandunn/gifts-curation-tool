@@ -90,7 +90,7 @@ class Statistics extends Component {
 }
 
 Statistics.propTypes = {
-  history: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withRouter(Statistics);

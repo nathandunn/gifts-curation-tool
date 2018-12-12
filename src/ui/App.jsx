@@ -292,15 +292,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  cookies: PropTypes.object,
-  history: PropTypes.object,
-  location: PropTypes.object,
-};
-
-App.defaultProps = {
-  cookies: {},
-  history: {},
-  location: {},
+  cookies: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default withRouter(withCookies(App));

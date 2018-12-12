@@ -40,14 +40,14 @@ const UniProtStats = (props) => {
 UniProtStats.propTypes = {
   uniprot_entries_total: PropTypes.number,
   uniprot_entries_unmapped: PropTypes.number,
-  uniprot: PropTypes.number,
+  uniprot: PropTypes.string,
   uniprot_entries_unmapped_sp: PropTypes.number,
 };
 
 UniProtStats.defaultProps = {
   uniprot_entries_total: null,
   uniprot_entries_unmapped: null,
-  uniprot: null,
+  uniprot: '',
   uniprot_entries_unmapped_sp: null,
 };
 

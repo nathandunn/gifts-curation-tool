@@ -138,14 +138,13 @@ ResultsTable.propTypes = {
   activeFacets: PropTypes.object.isRequired,
   handlePageClick: PropTypes.func.isRequired,
   initialPage: PropTypes.number.isRequired,
-  facets: PropTypes.object,
+  facets: PropTypes.array,
   results: PropTypes.array,
-  // 'results.map': PropTypes.func.isRequired,
   pageCount: PropTypes.number,
 };
 
 ResultsTable.defaultProps = {
-  facets: {},
+  facets: [],
   results: [],
   pageCount: 0,
 };

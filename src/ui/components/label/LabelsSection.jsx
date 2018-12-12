@@ -178,7 +178,7 @@ class LabelsSection extends Component {
 
 LabelsSection.propTypes = {
   labels: PropTypes.array,
-  mappingId: PropTypes.string.isRequired,
+  mappingId: PropTypes.number.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
   cookies: PropTypes.object.isRequired,
