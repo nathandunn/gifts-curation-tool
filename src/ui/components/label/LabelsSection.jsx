@@ -151,15 +151,6 @@ class LabelsSection extends Component {
             onDelete={this.deleteLabel}
           />
         ))}
-        {/* isLoggedIn ? (
-          addLabelMode ? (
-            <AddLabelControl />
-          ) : (
-            <button className="button button--primary" href="#" onClick={this.enableAddLabelMode}>
-              Add label
-            </button>
-          )
-        ) : null */}
         {isLoggedIn && (
           addLabelMode ? (
             <AddLabelControl />
