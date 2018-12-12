@@ -35,12 +35,13 @@ const AlignmentIndicator = (props) => {
 };
 
 AlignmentIndicator.propTypes = {
-  difference: PropTypes.string,
-  differenceName: PropTypes.string.isRequired,
+  difference: PropTypes.number,
+  differenceName: PropTypes.string,
 };
 
 AlignmentIndicator.defaultProps = {
   difference: null,
+  differenceName: '',
 };
 
 export default AlignmentIndicator;

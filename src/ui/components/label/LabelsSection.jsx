@@ -80,9 +80,8 @@ class LabelsSection extends Component {
 
         afterChangeCallback(mappingId, isLoggedIn);
       })
-      .catch(() => {
-      // .catch((e) => {
-      //   console.log(e);
+      .catch((e) => {
+        console.log(e);
         history.push(`${BASE_URL}/error`);
       });
   };
@@ -106,9 +105,8 @@ class LabelsSection extends Component {
       .then(() => {
         afterChangeCallback(mappingId, isLoggedIn);
       })
-      .catch(() => {
-      // .catch((e) => {
-      //   console.log(e);
+      .catch((e) => {
+        console.log(e);
         history.push(`${BASE_URL}/error`);
       });
   };

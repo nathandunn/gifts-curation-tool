@@ -56,7 +56,6 @@ class Alignment extends Component {
             details.alignments[0].uniprot_alignment,
             details.alignments[0].ensembl_alignment,
           ];
-          isPerfectMatch = details.alignments[0].alignment_type === 'perfect_match';
 
           if (alignments[0].length > 10000) {
             isTooLong = true;
@@ -69,9 +68,8 @@ class Alignment extends Component {
           loading: false,
         });
       })
-      .catch(() => {
-      // .catch((e) => {
-      //   console.log(e);
+      .catch((e) => {
+        console.log(e);
         history.push(`${BASE_URL}/error`);
       });
   };
@@ -284,7 +282,7 @@ class Alignment extends Component {
 }
 
 Alignment.propTypes = {
-  mappingId: PropTypes.number.isRequired,
+  mappingId: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
 };
 

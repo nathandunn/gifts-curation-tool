@@ -36,9 +36,8 @@ class StatusChangeControl extends Component {
       .then(() => {
         this.setState({ editMode: false });
       })
-      .catch(() => {
-      // .catch((e) => {
-      //   console.log(e);
+      .catch((e) => {
+        console.log(e);
         history.push(`${BASE_URL}/error`);
       });
   };

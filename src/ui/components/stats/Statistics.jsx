@@ -40,9 +40,8 @@ class Statistics extends Component {
           },
         });
       })
-      .catch(() => {
-      // .catch((e) => {
-      //   console.log(e);
+      .catch((e) => {
+        console.log(e);
         history.push(`${BASE_URL}/error`);
       });
   };

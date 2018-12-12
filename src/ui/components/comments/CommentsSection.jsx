@@ -72,9 +72,8 @@ class CommentsSection extends Component {
         this.textEditor.value('');
         afterSaveCallback(mappingId, isLoggedIn);
       })
-      .catch(() => {
-      // .catch((e) => {
-      //   console.log(e);
+      .catch((e) => {
+        console.log(e);
         history.push(`${BASE_URL}/error`);
       });
   };

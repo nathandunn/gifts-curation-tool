@@ -93,9 +93,8 @@ class Mappings extends Component {
           isLoading = false;
         });
       })
-      .catch(() => {
-      // .catch((e) => {
-        // console.log(e);
+      .catch((e) => {
+        console.log(e);
         history.push(`${BASE_URL}/error`);
       });
   };
