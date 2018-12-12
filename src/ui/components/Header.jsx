@@ -1,10 +1,15 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import SearchField from './SearchField';
 
 function Header(props) {
-  const { authenticated, user } = props;
+  const { authenticated } = props;
+
+  const loginLogoutLink = authenticated
+    ? (<li><Link to={`${BASE_URL}/logout`}>Logout</Link></li>)
+    : (<li><Link to={`${BASE_URL}/login`}>Login</Link></li>);
 
   return (
     <div data-sticky-container>
@@ -29,7 +34,7 @@ function Header(props) {
           {/* <!-- /local-title --> */}
           {/* <!-- local-nav --> */}
           <div className="columns medium-6">
-            {props.location.pathname != `${BASE_URL}/` && <SearchField {...props} />}
+            {props.location.pathname !== `${BASE_URL}/` && <SearchField {...props} />}
           </div>
           <nav>
             <ul id="local-nav" className="dropdown menu float-left" data-description="navigational">
@@ -37,7 +42,7 @@ function Header(props) {
                 <Link to={`${BASE_URL}/`}>Home</Link>
               </li>
               <li>
-                <a href={`${BASE_URL}/mappings`} onClick={(e) => props.goToMappingsPage(e)}>Mappings</a>
+                <a href={`${BASE_URL}/mappings`} onClick={e => props.goToMappingsPage(e)}>Mappings</a>
               </li>
               <li>
                 <Link to={`${BASE_URL}/unmapped`}>Unmapped</Link>
@@ -45,17 +50,7 @@ function Header(props) {
               <li>
                 <Link to={`${BASE_URL}/feedback`}>Feedback</Link>
               </li>
-              {READ_ONLY === false ? (
-                authenticated ? (
-                  <li>
-                    <Link to={`${BASE_URL}/logout`}>Logout</Link>
-                  </li>
-                ) : (
-                  <li>
-                    <Link to={`${BASE_URL}/login`}>Login</Link>
-                  </li>
-                )
-              ) : null}
+              {(READ_ONLY === false) ? loginLogoutLink : null}
             </ul>
           </nav>
           {/* <!-- /local-nav --> */}
@@ -64,5 +59,11 @@ function Header(props) {
     </div>
   );
 }
+
+Header.propTypes = {
+  authenticated: PropTypes.bool.isRequired,
+  location: PropTypes.object.isRequired,
+  goToMappingsPage: PropTypes.func.isRequired,
+};
 
 export default withRouter(Header);
