@@ -136,7 +136,6 @@ class App extends Component {
   };
 
   exploreMappingsByOrganism = (organism) => {
-    const { activeFacets } = this.state;
     const activeFacetsCopy = {
       activeFacets: {},
       organism,
@@ -144,12 +143,12 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       searchTerm: '',
-    }
+    };
 
     this.setState({
       activeFacets: activeFacetsCopy,
     }, () => {
-        this.exploreMappingsAction();
+      this.exploreMappingsAction();
     });
   };
 
@@ -157,7 +156,8 @@ class App extends Component {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
       ...activeFacets,
-    }
+    };
+
     delete activeFacetsCopy[facet];
 
     this.setState({
@@ -169,7 +169,8 @@ class App extends Component {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
       ...activeFacets,
-    }
+    };
+
     activeFacetsCopy[facet] = value;
 
     this.setState({
@@ -206,7 +207,7 @@ class App extends Component {
       activeFacets: {},
       initialPage: 0,
     }, () => {
-      if ('function' === typeof callback) {
+      if (typeof callback === 'function') {
         callback();
       }
     });
