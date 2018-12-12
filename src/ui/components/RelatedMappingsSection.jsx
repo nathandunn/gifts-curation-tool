@@ -113,16 +113,11 @@ const UnmappedUniProt = props => (
 
 UnmappedUniProt.propTypes = {
   item: PropTypes.shape({
-    uniprotAccession: PropTypes.string.isRequired,
-    entryType: PropTypes.string.isRequired,
+    uniprotAccession: PropTypes.string,
+    entryType: PropTypes.string,
     gene_accession: PropTypes.string,
     gene_symbol: PropTypes.string,
-  })
-};
-
-UnmappedUniProt.defaultProps = {
-  gene_accession: null,
-  gene_symbol: null,
+  }).isRequired,
 };
 
 const RelatedMappingsSection = props => (
