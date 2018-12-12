@@ -107,7 +107,7 @@ StatusChangeControl.propTypes = {
   mappingId: PropTypes.number.isRequired,
   history: PropTypes.object.isRequired,
   cookies: PropTypes.object.isRequired,
-  options: PropTypes.func.isRequired,
+  options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
