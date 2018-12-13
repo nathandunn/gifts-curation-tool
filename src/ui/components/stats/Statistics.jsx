@@ -33,8 +33,8 @@ class Statistics extends Component {
       .then((response) => {
         this.setState({
           stats: {
-            mouse: response[0].data,
-            human: response[1].data,
+            human: response[0].data,
+            mouse: response[1].data,
             humanRel: response[2].data,
             mouseRel: response[3].data,
           },
