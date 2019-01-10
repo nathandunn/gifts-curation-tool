@@ -15,7 +15,7 @@ const UniProtStats = (props) => {
         UniProt <small>{props.uniprot}</small>
       </h3>
       <div className="stats-item column medium-6">
-        <h5>Mapped</h5>
+        <h5>UniProtKB Canonical & Isoforms Mapped</h5>
         <DoughnutChart
           color={color}
           percent={Math.floor((mapped / props.uniprot_entries_total) * 100)}
@@ -23,7 +23,7 @@ const UniProtStats = (props) => {
         <span className="stat">{mapped ? formatLargeNumber(mapped) : 'NA'}</span>
       </div>
       <div className="stats-item  column medium-6">
-        <h5>Swiss-Prot unmapped</h5>
+        <h5>Swiss-Prot Canonical Unmapped</h5>
         <DoughnutChart
           percent={swissProtUnmapped}
         />
