@@ -24,15 +24,33 @@ class ResultsTable extends Component {
 
   state = {
     displayIsoforms: false,
+    expandGroupIndex: null,
   };
 
   toggleShowIsoforms = () => {
     this.setState({ displayIsoforms: !this.state.displayIsoforms });
   };
 
-  renderRows = (items, taxonomy) =>
-    items.map((mapping) => {
+  toggleExpandGroup = (index) => {
+    const { expandGroupIndex } = this.state;
+
+    this.setState({
+      expandGroupIndex: (index !== expandGroupIndex)
+        ? index
+        : null
+    });
+  }
+
+  renderRows = (group) => {
+    const { rows, taxonomy, wrapper } = group;
+
+    return rows.map((mapping) => {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
+
+      // if (!this.state.displayIsoforms && !mapping.uniprotEntry.isCanonical) {
+      if (!this.state.displayIsoforms && !mapping.uniprotEntry.isCanonical && wrapper.index !== this.state.expandGroupIndex) {
+        return null;
+      }
 
       return (
         <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
@@ -67,6 +85,55 @@ class ResultsTable extends Component {
         </Link>
       );
     });
+  };
+
+  renderWrapperRows = (group) => {
+    const { wrapper } = group;
+    const {
+      index,
+      gene_symbol,
+      ensgId,
+      counts,
+    } = wrapper;
+
+    return (
+      <div className="table-body group-wrapper">
+        <div className="table-row group-wrapper-header" onClick={() => this.toggleExpandGroup(index)}>
+          <div className="table-cell">
+            <span class="badge">
+              {(index + 1)}
+            </span>
+          </div>
+          <div className="table-cell"></div>
+          <div className="table-cell">
+            {gene_symbol}
+          </div>
+          <div className="table-cell">
+            {ensgId}
+          </div>
+          <div className="table-cell">
+            {(0 < counts.canonical)
+              ? (1 === counts.canonical)
+                ? <span class="label warning">{`${counts.canonical} Canonical`}</span>
+                : <span class="label warning">{`${counts.canonical} Canonicals`}</span>
+              : null }
+
+            {(0 < counts.isoform)
+              ? (1 === counts.isoform)
+                ? <span class="label primary">{`${counts.isoform} Isoform`}</span>
+                : <span class="label primary">{`${counts.isoform} Isoforms`}</span>
+              : null }
+          </div>
+          <div className="table-cell"></div>
+          <div className="table-cell"></div>
+          <div className="table-cell"></div>
+          <div className="table-cell"></div>
+          <div className="table-cell"></div>
+        </div>
+        {this.renderRows(group)}
+      </div>
+    );
+  };
 
   render() {
     return (
@@ -103,7 +170,7 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              {this.props.results && this.props.results.map(row => (
+              {/* this.props.results && this.props.results.map(row => (
                 <div
                   className="table-body"
                   key={row.canonical.reduce(
@@ -115,7 +182,12 @@ class ResultsTable extends Component {
                   {this.renderRows(row.canonical, row.taxonomy)}
                   {this.state.displayIsoforms && this.renderRows(row.isoforms, row.taxonomy)}
                 </div>
-              ))}
+              )) */}
+
+              {this.props.results && this.props.results.map(group => {
+                // return this.renderRows(group.rows, group.taxonomy);
+                return this.renderWrapperRows(group);
+              })}
             </div>
             <ReactPaginate
               pageCount={this.props.pageCount}

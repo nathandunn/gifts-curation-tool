@@ -82,7 +82,7 @@ class Mappings extends Component {
         //   d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical));
 
         const groupedResults = this.groupByIsoform(data.results);
-
+console.log(">>> GROUPED RESULTS:", groupedResults);
         this.setState({
           // params: this.props.params,
           facets: data.facets,
@@ -100,10 +100,24 @@ class Mappings extends Component {
   };
 
   groupByIsoform = results =>
-    results.map(row => ({
-      taxonomy: row.taxonomy,
-      canonical: row.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === true),
-      isoforms: row.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === false),
+    results.map((group, index) => ({
+      taxonomy: group.taxonomy,
+      // canonical: group.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === true),
+      // isoforms: group.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === false),
+      rows: group.entryMappings,
+      wrapper: {
+        index,
+        ensgId: group.entryMappings[0].ensemblTranscript.ensgId,
+        gene_symbol: group.entryMappings[0].uniprotEntry.gene_symbol,
+        counts: {
+          canonical: group.entryMappings
+            .filter(mapping => mapping.uniprotEntry.isCanonical === true)
+            .length,
+          isoform: group.entryMappings
+            .filter(mapping => mapping.uniprotEntry.isCanonical === false)
+            .length,
+        }
+      },
     }));
 
   render() {

@@ -5,7 +5,7 @@ tbody {
 .table {
   width: 100%;
   display: table;
-  border-collapse: separate;
+  border-collapse: collapse;
   margin-bottom: 1rem;
   border-radius: 0;
 }
@@ -98,4 +98,20 @@ tbody {
   text-align: center;
   background-color: #7778c7;
   padding: 0 0.2rem;
+}
+
+.group-wrapper {
+  border-bottom: 5px solid #cbcce0;
+}
+
+.group-wrapper-header {
+  cursor: pointer;
+}
+
+.group-wrapper-header .label {
+  cursor: pointer;
+}
+
+.badge {
+  background-color: #cbcce1;
 }
