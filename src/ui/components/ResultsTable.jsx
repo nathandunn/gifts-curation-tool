@@ -28,7 +28,10 @@ class ResultsTable extends Component {
   };
 
   toggleShowIsoforms = () => {
-    this.setState({ displayIsoforms: !this.state.displayIsoforms });
+    this.setState({
+      displayIsoforms: !this.state.displayIsoforms,
+      expandGroupIndex: null,
+    });
   };
 
   toggleExpandGroup = (index) => {

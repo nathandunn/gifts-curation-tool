@@ -47,6 +47,10 @@ tbody {
   white-space: nowrap;
 }
 
+.table-row .table-cell:first-child {
+  min-width: 65px;
+}
+
 .table.zebra .table-body .table-row:nth-child(odd) {
   background-color: #f1f1f1;
 }
