@@ -50,7 +50,6 @@ class ResultsTable extends Component {
     return rows.map((mapping) => {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
 
-      // if (!this.state.displayIsoforms && !mapping.uniprotEntry.isCanonical) {
       if (!this.state.displayIsoforms && !mapping.uniprotEntry.isCanonical && wrapper.index !== this.state.expandGroupIndex) {
         return null;
       }
@@ -188,7 +187,6 @@ class ResultsTable extends Component {
               )) */}
 
               {this.props.results && this.props.results.map(group => {
-                // return this.renderRows(group.rows, group.taxonomy);
                 return this.renderWrapperRows(group);
               })}
             </div>
