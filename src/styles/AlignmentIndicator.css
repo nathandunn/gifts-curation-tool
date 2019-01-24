@@ -17,3 +17,7 @@
 .alignment-indicator--large {
     background-color: red;
 }
+
+.alignment-indicator--no-alignment {
+    background-color: #d8ced8;
+}

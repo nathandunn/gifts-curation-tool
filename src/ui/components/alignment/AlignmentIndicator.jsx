@@ -5,7 +5,11 @@ import '../../../styles/AlignmentIndicator.css';
 
 const AlignmentIndicator = (props) => {
   if (props.difference === null) {
-    return null;
+    return (
+      <span className="alignment-indicator  alignment-indicator--no-alignment" title="No alignment">
+        -
+      </span>
+    );
   } else if (+props.difference === 0 || props.differenceName === 'identical') {
     return (
       <span className="alignment-indicator" title="Identical sequences">

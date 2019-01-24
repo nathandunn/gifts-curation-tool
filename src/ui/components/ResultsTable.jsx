@@ -47,46 +47,70 @@ class ResultsTable extends Component {
   renderRows = (group) => {
     const { rows, taxonomy, wrapper } = group;
 
-    return rows.map((mapping) => {
-      const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
+    // -- temp disabled for simplified table
+    // return rows.map((mapping) => {
+    rows
+      .sort((a, b) => {
+        if (a.uniprotEntry.isCanonical && !b.uniprotEntry.isCanonical) {
+          return 1;
+        }
 
-      if (!this.state.displayIsoforms && !mapping.uniprotEntry.isCanonical && wrapper.index !== this.state.expandGroupIndex) {
-        return null;
-      }
+        if (!a.uniprotEntry.isCanonical && b.uniprotEntry.isCanonical) {
+          return -1;
+        }
 
-      return (
-        <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
-          <div className="table-cell">
-            {!mapping.uniprotEntry.isCanonical && <span className="tree-indent" title="Isoform">isoform</span>}
-          </div>
-          <div className="table-cell">
-            <StatusIndicator status={mapping.status} />
-          </div>
-          <div className="table-cell">{mapping.ensemblTranscript.ensgSymbol}</div>
-          <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-          <div className="table-cell">
-            <Position transcript={mapping.ensemblTranscript} />
-          </div>
-          <div className="table-cell">
-            <strong>
-              <ReviewStatus entryType={mapping.ensemblTranscript.select ? 'Ensembl' : ''} />
-              {mapping.ensemblTranscript.enstId}
-            </strong>
-          </div>
-          <div className="table-cell">
-            <strong>
-              <ReviewStatus entryType={mapping.uniprotEntry.entryType} />
-              {mapping.uniprotEntry.uniprotAccession}
-            </strong>
-          </div>
-          <div className="table-cell">{mapping.uniprotEntry.length}</div>
-          <div className="table-cell">{taxonomy.species}</div>
-          <div className="table-cell">
-            <AlignmentIndicator difference={mapping.alignment_difference} />
-          </div>
-        </Link>
-      );
-    });
+        if (null === a.alignment_difference && null !== b.alignment_difference) {
+          return -1;
+        }
+
+        if (null === b.alignment_difference) {
+          return 0;
+        }
+
+        return (a.alignment_difference - b.alignment_difference);
+      })
+
+      return rows.slice(0,1).map((mapping) => {
+        const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
+
+        // -- temp disabled for simplified table
+        // if (!this.state.displayIsoforms && !mapping.uniprotEntry.isCanonical && wrapper.index !== this.state.expandGroupIndex) {
+        //   return null;
+        // }
+
+        return (
+          <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
+            <div className="table-cell">
+              {!mapping.uniprotEntry.isCanonical && <span className="tree-indent" title="Isoform">isoform</span>}
+            </div>
+            <div className="table-cell">
+              <StatusIndicator status={mapping.status} />
+            </div>
+            <div className="table-cell">{mapping.ensemblTranscript.ensgSymbol}</div>
+            <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
+            <div className="table-cell">
+              <Position transcript={mapping.ensemblTranscript} />
+            </div>
+            <div className="table-cell">
+              <strong>
+                <ReviewStatus entryType={mapping.ensemblTranscript.select ? 'Ensembl' : ''} />
+                {mapping.ensemblTranscript.enstId}
+              </strong>
+            </div>
+            <div className="table-cell">
+              <strong>
+                <ReviewStatus entryType={mapping.uniprotEntry.entryType} />
+                {mapping.uniprotEntry.uniprotAccession}
+              </strong>
+            </div>
+            <div className="table-cell">{mapping.uniprotEntry.length}</div>
+            <div className="table-cell">{taxonomy.species}</div>
+            <div className="table-cell">
+              <AlignmentIndicator difference={mapping.alignment_difference} />
+            </div>
+          </Link>
+        );
+      });
   };
 
   renderWrapperRows = (group) => {
@@ -154,9 +178,9 @@ class ResultsTable extends Component {
             />
           </div>
           <div className="column medium-10">
-            <button className="button" onClick={() => this.toggleShowIsoforms()}>
+            {/* <button className="button" onClick={() => this.toggleShowIsoforms()}>
               {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
-            </button>
+            </button> */}
             <div className="table tbody-zebra">
               <div className="table-head">
                 <div className="table-row">
@@ -187,7 +211,8 @@ class ResultsTable extends Component {
               )) */}
 
               {this.props.results && this.props.results.map(group => {
-                return this.renderWrapperRows(group);
+                // return this.renderWrapperRows(group);
+                return this.renderRows(group);
               })}
             </div>
             <ReactPaginate
