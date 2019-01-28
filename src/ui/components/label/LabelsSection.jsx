@@ -151,7 +151,8 @@ class LabelsSection extends Component {
             onDelete={this.deleteLabel}
           />
         ))}
-        {isLoggedIn && (
+        {/* temporarily removing the labels control */}
+        {/* isLoggedIn && (
           addLabelMode ? (
             <AddLabelControl />
           ) : (
@@ -159,7 +160,7 @@ class LabelsSection extends Component {
               Add label
             </button>
           )
-        )}
+        ) */}
       </Fragment>
     );
   }
