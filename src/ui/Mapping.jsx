@@ -24,6 +24,7 @@ class Mapping extends Component {
     isLoggedIn: null,
     mappingId: null,
     labels: null,
+    showAlignment: true,
   };
 
   componentDidMount() {
@@ -122,14 +123,28 @@ class Mapping extends Component {
     return true;
   };
 
+  toggleDisplayAlignment() {
+    const { showAlignment } = this.state;
+
+    this.setState({
+      showAlignment: !showAlignment,
+    });
+  }
+
   render() {
     if (this.state.details === null) {
       return <LoadingSpinner />;
     }
 
     const {
-      details, status, comments, isLoggedIn, labels,
+      details,
+      status,
+      comments,
+      isLoggedIn,
+      labels,
+      showAlignment,
     } = this.state;
+
     const { mapping, relatedEntries, taxonomy } = details;
     const { mappingId } = mapping;
 
@@ -156,8 +171,14 @@ class Mapping extends Component {
         </div>
 
         <div className="row column medium-12">
-          <h3>Alignment</h3>
-          <Alignment mappingId={this.state.mappingId} />
+          <button
+            className="button"
+            onClick={() => this.toggleDisplayAlignment()}>
+            {(showAlignment) ? 'Hide' : 'Show'} Alignment
+          </button>
+          {(showAlignment)
+            ? <Alignment mappingId={this.state.mappingId} />
+            : null }
         </div>
 
         <div className="row column medium-12">

@@ -43,7 +43,7 @@
 .mapping__alignment__wrapper {
   padding-top: 2.5rem;
   border: 2px solid #484747;
-  height: 80vh;
+  /*height: 80vh;*/
   overflow-y: scroll;
   border-radius: 1rem;
 }
