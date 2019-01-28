@@ -80,7 +80,9 @@ class App extends Component {
     const { history } = this.props;
 
     this.setState({
-      searchTerm: input.trim(),
+      searchTerm: input
+        .split('.')[0]
+        .trim(),
       offset: 0,
       limit: 15,
       initialPage: 0,
