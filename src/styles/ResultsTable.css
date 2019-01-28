@@ -48,7 +48,8 @@ tbody {
 }
 
 .table-row .table-cell:first-child {
-  min-width: 65px;
+  /* temporarily disabled since 'isoform' flags are hidden now */
+  /*min-width: 65px;*/
 }
 
 .table.zebra .table-body .table-row:nth-child(odd) {

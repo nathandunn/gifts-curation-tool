@@ -81,7 +81,8 @@ class ResultsTable extends Component {
         return (
           <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
             <div className="table-cell">
-              {!mapping.uniprotEntry.isCanonical && <span className="tree-indent" title="Isoform">isoform</span>}
+              {/* temporarily disabled 'isoform' flag */}
+              {/* !mapping.uniprotEntry.isCanonical && <span className="tree-indent" title="Isoform">isoform</span> */}
             </div>
             <div className="table-cell">
               <StatusIndicator status={mapping.status} />
