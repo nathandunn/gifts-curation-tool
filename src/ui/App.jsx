@@ -80,7 +80,7 @@ class App extends Component {
     const { history } = this.props;
 
     this.setState({
-      searchTerm: input,
+      searchTerm: input.trim(),
       offset: 0,
       limit: 15,
       initialPage: 0,
