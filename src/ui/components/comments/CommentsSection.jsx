@@ -23,7 +23,7 @@ class CommentsSection extends Component {
   }
 
   componentDidUpdate() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, mappingId } = this.props;
 
     if (this.textEditor === null && isLoggedIn) {
       this.createTextEditor();
@@ -32,10 +32,13 @@ class CommentsSection extends Component {
     // fix this re-render issue later
     if (this.textEditor) {
       this.textEditor.render(document.getElementById('text-editor'));
+
+      this.textEditor.value(localStorage.getItem(`comments-${mappingId}`) || '');
     }
   }
 
   createTextEditor = () => {
+    const { mappingId } = this.props;
     const element = document.getElementById('text-editor');
 
     if (element === null) {
@@ -44,10 +47,19 @@ class CommentsSection extends Component {
 
     this.textEditor = new SimpleMED({
       element,
-      initialValue: '',
+      initialValue: localStorage.getItem(`comments-${mappingId}`) || '',
       hideIcons: ['image'],
     });
+
+    this.textEditor.codemirror.on('change', this.onCommentTextchange);
   };
+
+  onCommentTextchange = () => {
+    const { mappingId } = this.props;
+    const text = this.textEditor.value();
+
+    localStorage.setItem(`comments-${mappingId}`, text);
+  }
 
   saveComment = () => {
     const {
@@ -71,6 +83,8 @@ class CommentsSection extends Component {
       .then(() => {
         this.textEditor.value('');
         afterSaveCallback(mappingId, isLoggedIn);
+
+        localStorage.removeItem(`comments-${mappingId}`);
       })
       .catch((e) => {
         console.log(e);
