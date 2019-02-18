@@ -6,6 +6,7 @@ import { withCookies } from 'react-cookie';
 import SimpleMED from 'simplemde';
 
 import Comment from './Comment';
+import StatusSection from '../StatusSection';
 
 import '../../../styles/CommentsSection.css';
 
@@ -63,7 +64,11 @@ class CommentsSection extends Component {
 
   saveComment = () => {
     const {
-      mappingId, isLoggedIn, history, cookies, afterSaveCallback,
+      mappingId,
+      isLoggedIn,
+      history,
+      cookies,
+      afterSaveCallback,
     } = this.props;
 
     const apiURI = `${API_URL}/mapping/${mappingId}/comments/`;
@@ -93,7 +98,13 @@ class CommentsSection extends Component {
   };
 
   render() {
-    const { isLoggedIn, comments } = this.props;
+    const {
+      mappingId,
+      isLoggedIn,
+      comments,
+      mappingStatus,
+      onMappingStatusChange
+    } = this.props;
 
     if (isLoggedIn === false) {
       return null;
@@ -112,6 +123,15 @@ class CommentsSection extends Component {
           <div className="column medium-12">
             <div className="comment__avatar">?</div>
             <div className="comment__details">
+              <div className="status-wrapper" style={{ marginBottom: '2rem' }}>
+                <StatusSection
+                  mappingId={mappingId}
+                  isLoggedIn={isLoggedIn}
+                  status={mappingStatus}
+                  onChange={onMappingStatusChange}
+                  editable={true}
+                />
+              </div>
               <textarea id="text-editor" />
               <button className="comments-section__save-button button" onClick={this.saveComment}>
                 Add comment

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import StatusIndicator from './StatusIndicator';
 import StatusChangeControl from './StatusChangeControl';
 
+import '../../styles/StatusSection.css';
+
 class StatusSection extends Component {
   state = {
     statusOptions: [],
@@ -16,13 +18,18 @@ class StatusSection extends Component {
 
   render() {
     const {
-      status, onChange, isLoggedIn, mappingId,
+      status,
+      onChange,
+      isLoggedIn,
+      mappingId,
+      editable,
     } = this.props;
     const { statusOptions } = this.state;
+
     return (
-      <Fragment>
+      <div className="status-section">
         <StatusIndicator status={status} />
-        {isLoggedIn ? (
+        {(isLoggedIn && editable) ? (
           <StatusChangeControl
             mappingId={mappingId}
             status={status}
@@ -32,7 +39,7 @@ class StatusSection extends Component {
         ) : (
           <span>{status}</span>
         )}
-      </Fragment>
+      </div>
     );
   }
 }
@@ -42,6 +49,7 @@ StatusSection.propTypes = {
   onChange: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   mappingId: PropTypes.number.isRequired,
+  editable: PropTypes.bool,
 };
 
 export default StatusSection;

@@ -1,6 +1,7 @@
 
 .status-change-form {
   display: flex;
+  display: inline-flex;
 }
 
 .status-change-form select {

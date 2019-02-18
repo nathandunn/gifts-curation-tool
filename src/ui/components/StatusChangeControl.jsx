@@ -89,13 +89,13 @@ class StatusChangeControl extends Component {
     );
 
     const Status = () => (
-      <div>
+      <Fragment>
         <span>{status}</span>
         &nbsp;
         <a href="#" onClick={this.enableEditMode}>
           Edit
         </a>
-      </div>
+      </Fragment>
     );
 
     return <Fragment>{editMode ? <StatusChangeForm /> : <Status />}</Fragment>;

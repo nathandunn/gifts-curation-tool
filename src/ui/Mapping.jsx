@@ -192,7 +192,9 @@ class Mapping extends Component {
               mappingId={mappingId}
               isLoggedIn={isLoggedIn}
               comments={comments}
+              mappingStatus={status}
               afterSaveCallback={this.getMappingDetails}
+              onMappingStatusChange={this.onStatusChange}
             />
           </div>
         </div>
