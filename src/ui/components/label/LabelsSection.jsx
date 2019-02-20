@@ -9,8 +9,8 @@ import Label from './Label';
 class LabelsSection extends Component {
   state = {
     labels: [],
-    labelsAvailable: [],
-    addLabelMode: false,
+    // labelsAvailable: [],
+    // addLabelMode: false,
   };
 
   constructor(props) {
@@ -34,23 +34,23 @@ class LabelsSection extends Component {
   processLabels = (labels) => {
     this.setState({
       labels: labels.filter(label => label.status).reverse(),
-      labelsAvailable: labels.filter(label => !label.status),
+      // labelsAvailable: labels.filter(label => !label.status),
     });
   };
 
   enableAddLabelMode = (e) => {
-    this.setState({
+    { /* this.setState({
       addLabelMode: true,
-    });
+    }); */ }
 
     e.preventDefault();
     return false;
   };
 
   disableAddLabelMode = (e) => {
-    this.setState({
+    { /* this.setState({
       addLabelMode: false,
-    });
+    }); */ }
 
     e.preventDefault();
     return false;
@@ -74,9 +74,9 @@ class LabelsSection extends Component {
     axios
       .post(apiURI, {}, config)
       .then(() => {
-        this.setState({
+        { /* this.setState({
           addLabelMode: false,
-        });
+        }); */ }
 
         afterChangeCallback(mappingId, isLoggedIn);
       })
@@ -112,11 +112,14 @@ class LabelsSection extends Component {
   };
 
   render() {
-    const { labels, labelsAvailable, addLabelMode } = this.state;
+    const {
+      labels,
+      // labelsAvailable,
+    } = this.state;
 
     const { isLoggedIn } = this.props;
 
-    const AddLabelControl = () => (
+    { /* const AddLabelControl = () => (
       <div className="row">
         <div className="column medium-4">
           <select className="input-group-field" ref={this.labelsListRef}>
@@ -138,7 +141,7 @@ class LabelsSection extends Component {
           </div>
         </div>
       </div>
-    );
+    ); */ }
 
     return (
       <Fragment>
@@ -151,8 +154,8 @@ class LabelsSection extends Component {
             onDelete={this.deleteLabel}
           />
         ))}
-        {/* temporarily removing the labels control */}
-        {/* isLoggedIn && (
+        { /* temporarily removing the labels control */ }
+        { /* isLoggedIn && (
           addLabelMode ? (
             <AddLabelControl />
           ) : (
@@ -160,18 +163,18 @@ class LabelsSection extends Component {
               Add label
             </button>
           )
-        ) */}
+        ) */ }
       </Fragment>
     );
   }
 }
 
 LabelsSection.propTypes = {
-  labels: PropTypes.array,
+  labels: PropTypes.arrayOf(PropTypes.shape),
   mappingId: PropTypes.number.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  history: PropTypes.object.isRequired,
-  cookies: PropTypes.object.isRequired,
+  history: PropTypes.shape.isRequired,
+  cookies: PropTypes.shape.isRequired,
   afterChangeCallback: PropTypes.func.isRequired,
 
 };

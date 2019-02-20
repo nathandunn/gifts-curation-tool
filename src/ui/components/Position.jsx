@@ -16,7 +16,7 @@ const Position = (props) => {
 };
 
 Position.propTypes = {
-  transcript: PropTypes.object.isRequired,
+  transcript: PropTypes.shape.isRequired,
 };
 
 export default Position;

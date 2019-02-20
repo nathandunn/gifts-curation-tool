@@ -92,9 +92,9 @@ class StatusChangeControl extends Component {
       <Fragment>
         <span>{status}</span>
         &nbsp;
-        <a href="#" onClick={this.enableEditMode}>
+        <button className="button" href="#" onClick={this.enableEditMode}>
           Edit
-        </a>
+        </button>
       </Fragment>
     );
 
@@ -105,9 +105,9 @@ class StatusChangeControl extends Component {
 StatusChangeControl.propTypes = {
   status: PropTypes.string.isRequired,
   mappingId: PropTypes.number.isRequired,
-  history: PropTypes.object.isRequired,
-  cookies: PropTypes.object.isRequired,
-  options: PropTypes.array.isRequired,
+  history: PropTypes.shape.isRequired,
+  cookies: PropTypes.shape.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape).isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

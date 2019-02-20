@@ -31,7 +31,7 @@ class Login extends Component {
       name: jwt.name,
     };
 
-    for (let i = 0; i < jwt.domains.length; i++) {
+    for (let i = 0; i < jwt.domains.length; i += 1) {
       const domain = jwt.domains[i];
 
       if (domain === GIFTS_DOMAIN || domain === GIFTS_DOMAIN_ID) {
@@ -51,7 +51,7 @@ class Login extends Component {
 
 Login.propTypes = {
   onLoginSuccess: PropTypes.func.isRequired,
-  cookies: PropTypes.object.isRequired,
+  cookies: PropTypes.shape.isRequired,
 };
 
 export default withCookies(Login);

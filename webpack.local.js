@@ -17,7 +17,7 @@ module.exports = merge(common, {
   plugins: [
     new webpack.DefinePlugin({
       BASE_URL: JSON.stringify('/gifts'),
-      API_URL: JSON.stringify('http://www-test.ebi.ac.uk/gifts/api'),
+      API_URL: JSON.stringify('http://wwwdev.ebi.ac.uk/gifts/api'),
       AUTH_CALLBACK_URL: JSON.stringify('http%3A%2F%2Flocalhost%3A39093%2Flogin'),
       READ_ONLY: JSON.stringify((process.argv.indexOf('--READ_ONLY') > -1) || false)
     }),

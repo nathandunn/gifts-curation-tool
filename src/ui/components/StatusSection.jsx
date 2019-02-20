@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import StatusIndicator from './StatusIndicator';
@@ -50,6 +50,10 @@ StatusSection.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   mappingId: PropTypes.number.isRequired,
   editable: PropTypes.bool,
+};
+
+StatusSection.defaultProps = {
+  editable: null,
 };
 
 export default StatusSection;

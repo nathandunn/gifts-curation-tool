@@ -67,8 +67,8 @@ class Filters extends Component {
 }
 
 Filters.propTypes = {
-  data: PropTypes.array,
-  activeFacets: PropTypes.object,
+  data: PropTypes.arrayOf(PropTypes.shape),
+  activeFacets: PropTypes.shape,
   removeFilter: PropTypes.func.isRequired,
   addFilter: PropTypes.func.isRequired,
 };

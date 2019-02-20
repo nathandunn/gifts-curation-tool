@@ -14,7 +14,7 @@ const Message = props => (
 );
 
 Message.propTypes = {
-  details: PropTypes.object.isRequired,
+  details: PropTypes.shape.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
