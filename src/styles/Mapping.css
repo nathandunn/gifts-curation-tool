@@ -1,8 +1,5 @@
 .status-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  width: max-content;
+  display: table;
   margin-left: auto;
 }
 

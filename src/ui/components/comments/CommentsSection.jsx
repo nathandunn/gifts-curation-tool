@@ -123,7 +123,7 @@ class CommentsSection extends Component {
           <div className="column medium-12">
             <div className="comment__avatar">?</div>
             <div className="comment__details">
-              <div className="status-wrapper" style={{ marginBottom: '2rem' }}>
+              <div className="status-wrapper">
                 <StatusSection
                   mappingId={mappingId}
                   isLoggedIn={isLoggedIn}
