@@ -92,7 +92,7 @@ const MappingHeader = (props) => {
 };
 
 MappingHeader.propTypes = {
-  mapping: PropTypes.object.isRequired,
+  mapping: PropTypes.shape.isRequired,
 };
 
 export default MappingHeader;

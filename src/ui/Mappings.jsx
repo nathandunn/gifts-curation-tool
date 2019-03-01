@@ -82,7 +82,7 @@ class Mappings extends Component {
         //   d.entryMappings.every(mapping => !mapping.uniprotEntry.isCanonical));
 
         const groupedResults = this.groupByIsoform(data.results);
-console.log(">>> GROUPED RESULTS:", groupedResults);
+
         this.setState({
           // params: this.props.params,
           facets: data.facets,
@@ -102,8 +102,6 @@ console.log(">>> GROUPED RESULTS:", groupedResults);
   groupByIsoform = results =>
     results.map((group, index) => ({
       taxonomy: group.taxonomy,
-      // canonical: group.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === true),
-      // isoforms: group.entryMappings.filter(mapping => mapping.uniprotEntry.isCanonical === false),
       rows: group.entryMappings,
       wrapper: {
         index,
@@ -116,7 +114,7 @@ console.log(">>> GROUPED RESULTS:", groupedResults);
           isoform: group.entryMappings
             .filter(mapping => mapping.uniprotEntry.isCanonical === false)
             .length,
-        }
+        },
       },
     }));
 
@@ -149,14 +147,14 @@ console.log(">>> GROUPED RESULTS:", groupedResults);
 Mappings.propTypes = {
   searchTerm: PropTypes.string,
   defaultOrganism: PropTypes.number,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.shape({}).isRequired,
   clearSearchTerm: PropTypes.func,
   initialPage: PropTypes.number,
   limit: PropTypes.number,
   offset: PropTypes.number,
   changePageParams: PropTypes.func,
-  activeFacets: PropTypes.object,
-  params: PropTypes.object,
+  activeFacets: PropTypes.shape({}),
+  params: PropTypes.shape({}),
   addFilter: PropTypes.func,
   removeFilter: PropTypes.func,
 };

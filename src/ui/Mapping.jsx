@@ -34,6 +34,8 @@ class Mapping extends Component {
     } = this.props;
     const { mappingId } = params;
 
+    console.log('>> Mapping: did mount');
+
     this.setState({
       mappingId,
     });
@@ -173,7 +175,8 @@ class Mapping extends Component {
         <div className="row column medium-12">
           <button
             className="button"
-            onClick={() => this.toggleDisplayAlignment()}>
+            onClick={() => this.toggleDisplayAlignment()}
+          >
             {(showAlignment) ? 'Hide' : 'Show'} Alignment
           </button>
           {(showAlignment)
@@ -204,12 +207,12 @@ class Mapping extends Component {
 }
 
 Mapping.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
+  history: PropTypes.shape.isRequired,
+  match: PropTypes.shape.isRequired,
   tokenIsExpired: PropTypes.func.isRequired,
-  cookies: PropTypes.object.isRequired,
+  cookies: PropTypes.shape.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired,
+  location: PropTypes.shape.isRequired,
 };
 
 export default withCookies(withRouter(Mapping));

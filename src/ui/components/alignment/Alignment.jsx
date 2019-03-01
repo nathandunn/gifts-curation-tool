@@ -30,7 +30,7 @@ class Alignment extends Component {
     const { mappingId } = this.props;
 
     if (mappingId === prevProps.mappingId) {
-      return false;
+      return;
     }
 
     this.getAlignments(mappingId);
@@ -103,7 +103,18 @@ class Alignment extends Component {
     this.positions = alignments.map((seq) => {
       let innerCounter = 0;
 
-      return seq.split('').map(x => (x !== '-' ? ++innerCounter : null));
+      // return seq.split('').map(x => (x !== '-' ? ++innerCounter : null));
+
+      return seq
+        .split('')
+        .map((x) => {
+          if (x !== '-') {
+            innerCounter += 1;
+            return innerCounter;
+          }
+
+          return null;
+        });
     });
 
     this.startEndPosition = alignments.map(seq =>
@@ -283,7 +294,7 @@ class Alignment extends Component {
 
 Alignment.propTypes = {
   mappingId: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.shape.isRequired,
 };
 
 export default withRouter(Alignment);

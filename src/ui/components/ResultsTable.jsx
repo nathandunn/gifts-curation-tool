@@ -40,12 +40,12 @@ class ResultsTable extends Component {
     this.setState({
       expandGroupIndex: (index !== expandGroupIndex)
         ? index
-        : null
+        : null,
     });
   }
 
   renderRows = (group) => {
-    const { rows, taxonomy, wrapper } = group;
+    const { rows, taxonomy } = group;
 
     // -- temp disabled for simplified table
     // return rows.map((mapping) => {
@@ -59,59 +59,63 @@ class ResultsTable extends Component {
           return -1;
         }
 
-        if (null === a.alignment_difference && null !== b.alignment_difference) {
+        if (a.alignment_difference === null && b.alignment_difference !== null) {
           return -1;
         }
 
-        if (null === b.alignment_difference) {
+        if (b.alignment_difference === null) {
           return 0;
         }
 
         return (a.alignment_difference - b.alignment_difference);
-      })
-
-      return rows.slice(0,1).map((mapping) => {
-        const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
-
-        // -- temp disabled for simplified table
-        // if (!this.state.displayIsoforms && !mapping.uniprotEntry.isCanonical && wrapper.index !== this.state.expandGroupIndex) {
-        //   return null;
-        // }
-
-        return (
-          <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
-            <div className="table-cell">
-              {/* temporarily disabled 'isoform' flag */}
-              {/* !mapping.uniprotEntry.isCanonical && <span className="tree-indent" title="Isoform">isoform</span> */}
-            </div>
-            <div className="table-cell">
-              <StatusIndicator status={mapping.status} />
-            </div>
-            <div className="table-cell">{mapping.ensemblTranscript.ensgSymbol}</div>
-            <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
-            <div className="table-cell">
-              <Position transcript={mapping.ensemblTranscript} />
-            </div>
-            <div className="table-cell">
-              <strong>
-                <ReviewStatus entryType={mapping.ensemblTranscript.select ? 'Ensembl' : ''} />
-                {mapping.ensemblTranscript.enstId}
-              </strong>
-            </div>
-            <div className="table-cell">
-              <strong>
-                <ReviewStatus entryType={mapping.uniprotEntry.entryType} />
-                {mapping.uniprotEntry.uniprotAccession}
-              </strong>
-            </div>
-            <div className="table-cell">{mapping.uniprotEntry.length}</div>
-            <div className="table-cell">{taxonomy.species}</div>
-            <div className="table-cell">
-              <AlignmentIndicator difference={mapping.alignment_difference} />
-            </div>
-          </Link>
-        );
       });
+
+    return rows.slice(0, 1).map((mapping) => {
+      const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
+
+      // -- temp disabled for simplified table
+      // if (!this.state.displayIsoforms &&
+      //   !mapping.uniprotEntry.isCanonical &&
+      //   wrapper.index !== this.state.expandGroupIndex)
+      // {
+      //   return null;
+      // }
+
+      return (
+        <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
+          <div className="table-cell">
+            {/* temporarily disabled 'isoform' flag */}
+            {/* !mapping.uniprotEntry.isCanonical &&
+              <span className="tree-indent" title="Isoform">isoform</span> */}
+          </div>
+          <div className="table-cell">
+            <StatusIndicator status={mapping.status} />
+          </div>
+          <div className="table-cell">{mapping.ensemblTranscript.ensgSymbol}</div>
+          <div className="table-cell">{mapping.ensemblTranscript.ensgId}</div>
+          <div className="table-cell">
+            <Position transcript={mapping.ensemblTranscript} />
+          </div>
+          <div className="table-cell">
+            <strong>
+              <ReviewStatus entryType={mapping.ensemblTranscript.select ? 'Ensembl' : ''} />
+              {mapping.ensemblTranscript.enstId}
+            </strong>
+          </div>
+          <div className="table-cell">
+            <strong>
+              <ReviewStatus entryType={mapping.uniprotEntry.entryType} />
+              {mapping.uniprotEntry.uniprotAccession}
+            </strong>
+          </div>
+          <div className="table-cell">{mapping.uniprotEntry.length}</div>
+          <div className="table-cell">{taxonomy.species}</div>
+          <div className="table-cell">
+            <AlignmentIndicator difference={mapping.alignment_difference} />
+          </div>
+        </Link>
+      );
+    });
   };
 
   renderWrapperRows = (group) => {
@@ -127,11 +131,11 @@ class ResultsTable extends Component {
       <div className="table-body group-wrapper">
         <div className="table-row group-wrapper-header" onClick={() => this.toggleExpandGroup(index)}>
           <div className="table-cell">
-            <span class="badge">
+            <span className="badge">
               {(index + 1)}
             </span>
           </div>
-          <div className="table-cell"></div>
+          <div className="table-cell" />
           <div className="table-cell">
             {gene_symbol}
           </div>
@@ -139,23 +143,23 @@ class ResultsTable extends Component {
             {ensgId}
           </div>
           <div className="table-cell">
-            {(0 < counts.canonical)
-              ? (1 === counts.canonical)
-                ? <span class="label warning">{`${counts.canonical} Canonical`}</span>
-                : <span class="label warning">{`${counts.canonical} Canonicals`}</span>
+            {(counts.canonical > 0)
+              ? (counts.canonical === 1)
+                ? <span className="label warning">{`${counts.canonical} Canonical`}</span>
+                : <span className="label warning">{`${counts.canonical} Canonicals`}</span>
               : null }
 
-            {(0 < counts.isoform)
-              ? (1 === counts.isoform)
-                ? <span class="label primary">{`${counts.isoform} Isoform`}</span>
-                : <span class="label primary">{`${counts.isoform} Isoforms`}</span>
+            {(counts.isoform > 0)
+              ? (counts.isoform === 1)
+                ? <span className="label primary">{`${counts.isoform} Isoform`}</span>
+                : <span className="label primary">{`${counts.isoform} Isoforms`}</span>
               : null }
           </div>
-          <div className="table-cell"></div>
-          <div className="table-cell"></div>
-          <div className="table-cell"></div>
-          <div className="table-cell"></div>
-          <div className="table-cell"></div>
+          <div className="table-cell" />
+          <div className="table-cell" />
+          <div className="table-cell" />
+          <div className="table-cell" />
+          <div className="table-cell" />
         </div>
         {this.renderRows(group)}
       </div>
@@ -211,10 +215,12 @@ class ResultsTable extends Component {
                 </div>
               )) */}
 
-              {this.props.results && this.props.results.map(group => {
+              {/* this.props.results && this.props.results.map(group => {
                 // return this.renderWrapperRows(group);
                 return this.renderRows(group);
-              })}
+              }) */}
+
+              {this.props.results && this.props.results.map(group => this.renderRows(group))}
             </div>
             <ReactPaginate
               pageCount={this.props.pageCount}
@@ -234,11 +240,11 @@ class ResultsTable extends Component {
 ResultsTable.propTypes = {
   addFilter: PropTypes.func.isRequired,
   removeFilter: PropTypes.func.isRequired,
-  activeFacets: PropTypes.object.isRequired,
+  activeFacets: PropTypes.shape.isRequired,
   handlePageClick: PropTypes.func.isRequired,
   initialPage: PropTypes.number.isRequired,
-  facets: PropTypes.array,
-  results: PropTypes.array,
+  facets: PropTypes.arrayOf(PropTypes.shape),
+  results: PropTypes.arrayOf(PropTypes.shape),
   pageCount: PropTypes.number,
 };
 

@@ -20,7 +20,7 @@ class Logout extends Component {
 
 Logout.propTypes = {
   onLogout: PropTypes.func.isRequired,
-  cookies: PropTypes.object.isRequired,
+  cookies: PropTypes.shape.isRequired,
 };
 
 export default withCookies(Logout);

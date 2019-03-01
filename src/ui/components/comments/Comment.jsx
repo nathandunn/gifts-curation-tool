@@ -18,7 +18,7 @@ const Comment = props => (
 );
 
 Comment.propTypes = {
-  details: PropTypes.object,
+  details: PropTypes.shape,
 };
 
 Comment.defaultProps = {

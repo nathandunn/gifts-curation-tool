@@ -177,9 +177,19 @@ class Unmapped extends Component {
           <div className="column medium-10">
             {this.state.source.value === 'swissprot' && this.renderUniProtTable()}
             {this.state.source.value === 'ensembl' && this.renderEnsemblTable()}
-            <a onClick={() => this.paginate(this.state.offset - this.state.limit)}>Previous</a>
+            <button
+              className="button"
+              onClick={() => this.paginate(this.state.offset - this.state.limit)}
+            >
+              Previous
+            </button>
             &nbsp;
-            <a onClick={() => this.paginate(this.state.offset + this.state.limit)}>Next</a>
+            <button
+              className="button"
+              onClick={() => this.paginate(this.state.offset + this.state.limit)}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

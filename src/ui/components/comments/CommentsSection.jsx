@@ -43,7 +43,7 @@ class CommentsSection extends Component {
     const element = document.getElementById('text-editor');
 
     if (element === null) {
-      return false;
+      return;
     }
 
     this.textEditor = new SimpleMED({
@@ -103,7 +103,7 @@ class CommentsSection extends Component {
       isLoggedIn,
       comments,
       mappingStatus,
-      onMappingStatusChange
+      onMappingStatusChange,
     } = this.props;
 
     if (isLoggedIn === false) {
@@ -145,12 +145,14 @@ class CommentsSection extends Component {
 }
 
 CommentsSection.propTypes = {
+  mappingStatus: PropTypes.string.isRequired,
+  onMappingStatusChange: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   mappingId: PropTypes.number.isRequired,
-  history: PropTypes.object.isRequired,
-  cookies: PropTypes.object.isRequired,
+  history: PropTypes.shape.isRequired,
+  cookies: PropTypes.shape.isRequired,
   afterSaveCallback: PropTypes.func.isRequired,
-  comments: PropTypes.array,
+  comments: PropTypes.arrayOf(PropTypes.shape),
 };
 
 CommentsSection.defaultProps = {
