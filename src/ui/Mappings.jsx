@@ -147,14 +147,14 @@ class Mappings extends Component {
 Mappings.propTypes = {
   searchTerm: PropTypes.string,
   defaultOrganism: PropTypes.number,
-  history: PropTypes.shape.isRequired,
+  history: PropTypes.shape({}).isRequired,
   clearSearchTerm: PropTypes.func,
   initialPage: PropTypes.number,
   limit: PropTypes.number,
   offset: PropTypes.number,
   changePageParams: PropTypes.func,
-  activeFacets: PropTypes.shape,
-  params: PropTypes.shape,
+  activeFacets: PropTypes.shape({}),
+  params: PropTypes.shape({}),
   addFilter: PropTypes.func,
   removeFilter: PropTypes.func,
 };

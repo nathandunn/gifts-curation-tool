@@ -9,6 +9,7 @@ describe('HomePage component', () => {
     const exploreMappingsByOrganism = jest.fn(() => {});
     const props = {
       exploreMappingsByOrganism,
+      handleSearchSubmit: () => null,
     };
     const component = renderer
       .create(<MemoryRouter><HomePage {...props} /></MemoryRouter>)
