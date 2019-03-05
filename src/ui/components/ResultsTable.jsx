@@ -135,7 +135,7 @@ class ResultsTable extends Component {
     } = wrapper;
 
     return (
-      <div className="table-body group-wrapper">
+      <div className="table-body group-wrapper" key={`${index}-${gene_symbol}`}>
         {this.renderRows(group)}
       </div>
     );
@@ -243,11 +243,11 @@ class ResultsTable extends Component {
 ResultsTable.propTypes = {
   addFilter: PropTypes.func.isRequired,
   removeFilter: PropTypes.func.isRequired,
-  activeFacets: PropTypes.shape.isRequired,
+  activeFacets: PropTypes.shape({}).isRequired,
   handlePageClick: PropTypes.func.isRequired,
   initialPage: PropTypes.number.isRequired,
-  facets: PropTypes.arrayOf(PropTypes.shape),
-  results: PropTypes.arrayOf(PropTypes.shape),
+  facets: PropTypes.arrayOf(PropTypes.shape({})),
+  results: PropTypes.arrayOf(PropTypes.shape({})),
   pageCount: PropTypes.number,
 };
 

@@ -51,7 +51,7 @@ class Login extends Component {
 
 Login.propTypes = {
   onLoginSuccess: PropTypes.func.isRequired,
-  cookies: PropTypes.shape.isRequired,
+  cookies: PropTypes.shape({}).isRequired,
 };
 
 export default withCookies(Login);

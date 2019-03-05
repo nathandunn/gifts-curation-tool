@@ -149,10 +149,10 @@ CommentsSection.propTypes = {
   onMappingStatusChange: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   mappingId: PropTypes.number.isRequired,
-  history: PropTypes.shape.isRequired,
-  cookies: PropTypes.shape.isRequired,
+  history: PropTypes.shape({}).isRequired,
+  cookies: PropTypes.shape({}).isRequired,
   afterSaveCallback: PropTypes.func.isRequired,
-  comments: PropTypes.arrayOf(PropTypes.shape),
+  comments: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 CommentsSection.defaultProps = {
