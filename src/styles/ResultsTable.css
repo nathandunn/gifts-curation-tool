@@ -106,7 +106,7 @@ tbody {
 }
 
 .group-wrapper {
-  border-bottom: 5px solid #cbcce0;
+  border-bottom: 0.15rem solid #e0e0e0;;
 }
 
 .group-wrapper-header {
@@ -119,4 +119,25 @@ tbody {
 
 .badge {
   background-color: #cbcce1;
+}
+
+.protein-type-icon {
+  font-size: .7rem;
+  display: inline-block;
+  border-radius: .2rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  text-align: center;
+  padding: 0 0.2rem;
+  min-width: 1.5rem;
+}
+
+.protein-type-icon--canonical {
+  color: #0a0a0a;
+  background: #ffae00;
+}
+
+.protein-type-icon--isoform {
+  color: #ffffff;
+  background-color: #7778c7;
 }

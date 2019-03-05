@@ -295,9 +295,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  cookies: PropTypes.shape.isRequired,
-  history: PropTypes.shape.isRequired,
-  location: PropTypes.shape.isRequired,
+  cookies: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({}).isRequired,
 };
 
 export default withRouter(withCookies(App));

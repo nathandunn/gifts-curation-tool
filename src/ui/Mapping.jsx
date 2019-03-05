@@ -207,12 +207,12 @@ class Mapping extends Component {
 }
 
 Mapping.propTypes = {
-  history: PropTypes.shape.isRequired,
-  match: PropTypes.shape.isRequired,
+  history: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired,
   tokenIsExpired: PropTypes.func.isRequired,
-  cookies: PropTypes.shape.isRequired,
+  cookies: PropTypes.shape({}).isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  location: PropTypes.shape.isRequired,
+  location: PropTypes.shape({}).isRequired,
 };
 
 export default withCookies(withRouter(Mapping));

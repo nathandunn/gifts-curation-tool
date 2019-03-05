@@ -170,11 +170,11 @@ class LabelsSection extends Component {
 }
 
 LabelsSection.propTypes = {
-  labels: PropTypes.arrayOf(PropTypes.shape),
+  labels: PropTypes.arrayOf(PropTypes.shape({})),
   mappingId: PropTypes.number.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  history: PropTypes.shape.isRequired,
-  cookies: PropTypes.shape.isRequired,
+  history: PropTypes.shape({}).isRequired,
+  cookies: PropTypes.shape({}).isRequired,
   afterChangeCallback: PropTypes.func.isRequired,
 
 };
