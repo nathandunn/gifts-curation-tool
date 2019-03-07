@@ -9,6 +9,7 @@ import Filters from './Filters';
 import ReviewStatus from './ReviewStatus';
 import AlignmentIndicator from './alignment/AlignmentIndicator';
 import Position from './Position';
+import { formatLargeNumber } from '../util/util';
 
 import '../../styles/ResultsTable.css';
 
@@ -169,10 +170,9 @@ class ResultsTable extends Component {
   render() {
     return (
       <Fragment>
-        {/* <div className="row column medium-12">
-          <h2>{formatLargeNumber(+this.state.totalCount)} Mapping(s)</h2>
-          This is confusing as it shows the number of hits, not the number of mappings shown.
-        </div> */}
+        <div className="row column medium-12">
+          <h2>{formatLargeNumber(+this.props.rowCount)} Mapping(s)</h2>
+        </div>
         <div className="row">
           <div className="column medium-2">
             <Filters

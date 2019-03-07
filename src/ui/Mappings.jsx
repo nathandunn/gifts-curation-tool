@@ -138,6 +138,7 @@ class Mappings extends Component {
       clearSearchTerm: this.props.clearSearchTerm,
       selectedFilters: this.props.selectedFilters,
       toggleFilter: this.props.toggleFilter,
+      rowCount: this.state.totalCount,
     };
 
     return (isLoading || this.state.results === null)

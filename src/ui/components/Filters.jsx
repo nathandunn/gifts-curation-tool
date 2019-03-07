@@ -91,17 +91,17 @@ const filtersStructure = {
       },
       partial: {
         label: 'Partially Mapped',
-        value: 'partial',
+        value: 'type:potentially_associated',
         order: 2,
         subheading: true,
         group: 'mappings',
         items: {
-          by_gene: {
-            label: 'By Gene',
-            value: 'type:potentially_associated',
-            order: 1,
-            group: 'type',
-          },
+          // by_gene: {
+          //   label: 'By Gene',
+          //   value: 'type:potentially_associated',
+          //   order: 1,
+          //   group: 'type',
+          // },
           by_isoform: {
             label: 'By Isoform',
             value: 'type:related_by_isoform',
@@ -112,7 +112,7 @@ const filtersStructure = {
       },
       unmapped: {
         label: 'Unmapped',
-        value: 'unmapped',
+        value: 'type:unmapped',
         order: 3,
         subheading: true,
         group: 'mappings',
@@ -188,59 +188,6 @@ class Filters extends Component {
     );
   }
 
-//   toggleFilter = (filter, children) => {
-//     const {
-//       addFilter,
-//       removeFilter,
-//       selectedFilters,
-//     } = this.props;
-//     const { group, value } = filter;
-
-//     const updated = {...selectedFilters };
-
-//     if (!updated[group]) {
-//       updated[group] = {};
-//       updated[group][value] = true;
-
-//       const facet = value.split(':');
-      
-
-//       return;
-//     }
-
-//     if (typeof updated[group][value] !== undefined) {
-//       const originalValue = updated[group][value];
-//       updated[group] = {};
-//       updated[group][value] = !originalValue;
-
-//       return;
-//     }
-
-//     Object.keys(updated[group])
-//       .forEach(key => {
-// // console.log("key, value:", key, updated[group][key], value);
-// //         if (key === value) {
-// //           updated[group][key] = !updated[group][key];
-// //         } else {
-//           updated[group][key] = false;
-//         // }
-//       });
-
-//     // if (active[group]) {
-//     //   active[group][value]
-//     // }
-
-//     // if (children) {
-//     //   if (active[group]) {
-//     //     children.forEach(item => active[item] = true);
-//     //   } else {
-//     //     children.forEach(item => active[item] = false);
-//     //   }
-//     // }
-
-//     return false;
-//   }
-
   renderList = (list) => {
     return (
       <ul>
@@ -265,17 +212,6 @@ class Filters extends Component {
     );
   }
 
-//   setActiveFilters = (filters) => {
-//     const activeFilters = {};
-// console.log("set active filters....");
-//     Object.keys(filters)
-//       .forEach(group => {
-//         activeFilters[group] = {};
-//         activeFilters[group][`${group}:${filters[group]}`] = true;
-//       });
-//   }
-
-
   setActiveFilters = (filters) => {
     console.log("set active filters:", filters);
   }
@@ -285,10 +221,6 @@ class Filters extends Component {
       activeFacets,
       selectedFilters,
     } = this.props;
-// console.log(">> state:", this.state);
-console.log("*** props:", this.props);
-
-    // activeFacets['status'] = 'UNDER_REVIEW';
 
     this.setActiveFilters(selectedFilters);
 
@@ -300,10 +232,8 @@ console.log("*** props:", this.props);
   }
 }
 
-Filters.propTypes = {
-};
+Filters.propTypes = {};
 
-Filters.defaultProps = {
-};
+Filters.defaultProps = {};
 
 export default Filters;

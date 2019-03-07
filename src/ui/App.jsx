@@ -163,7 +163,7 @@ class App extends Component {
   toggleFilter = (filter, children) => {
     const { selectedFilters } = this.state;
     const { group, value } = filter;
-console.log("toggle filter:", filter, children);
+
     const updated = {...selectedFilters };
 
     if (!updated[group]) {
@@ -190,18 +190,11 @@ console.log("toggle filter:", filter, children);
 
       return;
     }
-
-    // this.selectedFiltersToActiveFacets();
-
   };
 
   selectedFiltersToActiveFacets() {
     const { selectedFilters } = this.state;
-console.log(">>> filter to facets:", selectedFilters);
-    const findActiveFilters = (filter, active) => {
-
-console.log("<< active:", active);
-      console.log("selected filter:", filter, Object.values(filter)[0]);
+    const convert = (filter, active) => {
       const key = Object.keys(filter)[0];
       const value = Object.values(filter)[0];
       const facet = key.split(':');
@@ -214,9 +207,7 @@ console.log("<< active:", active);
     const activeFacets = {};
 
     Object.values(selectedFilters)
-      .forEach(filter => findActiveFilters(filter, activeFacets));
-
-    console.log("updated facets:", activeFacets);
+      .forEach(filter => convert(filter, activeFacets));
 
     this.setState({
       activeFacets,
@@ -301,8 +292,7 @@ console.log("<< active:", active);
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
     );
-console.log("app facets:", this.state.activeFacets);
-console.log("app filters:", this.state.selectedFilters);
+
     const LogoutComponent = () => <Logout onLogout={this.onLogout} />;
     const appProps = {
       ...this.state,
