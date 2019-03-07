@@ -87,6 +87,8 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       activeFacets: {},
+
+      selectedFilters: {},
     });
 
     history.push(`${BASE_URL}/mappings?searchTerm=${input}`);
@@ -111,6 +113,8 @@ class App extends Component {
     limit: 15,
     activeFacets: {},
     initialPage: 0,
+
+    selectedFilters: {},
   };
 
   clearMessage = () => this.setState({ message: null });
@@ -145,6 +149,8 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       searchTerm: '',
+
+      selectedFilters: {},
     };
 
     this.setState({
@@ -154,7 +160,15 @@ class App extends Component {
     });
   };
 
-  removeFilter = (facet) => {
+  removeFilter = (filter) => {
+    console.log("removing filter:", filter);
+  };
+
+  addFilter = (filter) => {
+    console.log("add filter:", filter);
+  };
+
+  __removeFilter = (facet) => {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
       ...activeFacets,
@@ -167,7 +181,7 @@ class App extends Component {
     });
   };
 
-  addFilter = (facet, value) => {
+  __addFilter = (facet, value) => {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
       ...activeFacets,
@@ -208,6 +222,8 @@ class App extends Component {
       limit: 15,
       activeFacets: {},
       initialPage: 0,
+
+      selectedFilters: {},
     }, () => {
       if (typeof callback === 'function') {
         callback();
