@@ -136,6 +136,8 @@ class Mappings extends Component {
       history: this.props.history,
       initialPage: this.props.initialPage,
       clearSearchTerm: this.props.clearSearchTerm,
+      selectedFilters: this.props.selectedFilters,
+      toggleFilter: this.props.toggleFilter,
     };
 
     return (isLoading || this.state.results === null)

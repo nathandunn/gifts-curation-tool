@@ -180,6 +180,8 @@ class ResultsTable extends Component {
               addFilter={this.props.addFilter}
               removeFilter={this.props.removeFilter}
               activeFacets={this.props.activeFacets}
+              selectedFilters={this.props.selectedFilters}
+              toggleFilter={this.props.toggleFilter}
             />
           </div>
           <div className="column medium-10">

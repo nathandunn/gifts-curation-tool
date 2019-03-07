@@ -160,15 +160,70 @@ class App extends Component {
     });
   };
 
-  removeFilter = (filter) => {
-    console.log("removing filter:", filter);
+  toggleFilter = (filter, children) => {
+    const { selectedFilters } = this.state;
+    const { group, value } = filter;
+console.log("toggle filter:", filter, children);
+    const updated = {...selectedFilters };
+
+    if (!updated[group]) {
+      updated[group] = {};
+      updated[group][value] = true;
+
+      const facet = value.split(':');
+
+      this.setState({
+        selectedFilters: updated,
+      }, this.selectedFiltersToActiveFacets);
+
+      return;
+    }
+
+    if (typeof updated[group][value] !== undefined) {
+      const originalValue = updated[group][value];
+      updated[group] = {};
+      updated[group][value] = !originalValue;
+
+      this.setState({
+        selectedFilters: updated,
+      }, this.selectedFiltersToActiveFacets);
+
+      return;
+    }
+
+    // this.selectedFiltersToActiveFacets();
+
   };
 
-  addFilter = (filter) => {
-    console.log("add filter:", filter);
-  };
+  selectedFiltersToActiveFacets() {
+    const { selectedFilters } = this.state;
+console.log(">>> filter to facets:", selectedFilters);
+    const findActiveFilters = (filter, active) => {
 
-  __removeFilter = (facet) => {
+console.log("<< active:", active);
+      console.log("selected filter:", filter, Object.values(filter)[0]);
+      const key = Object.keys(filter)[0];
+      const value = Object.values(filter)[0];
+      const facet = key.split(':');
+
+      if (value) {
+        active[facet[0]] = facet[1];
+      }
+    }
+
+    const activeFacets = {};
+
+    Object.values(selectedFilters)
+      .forEach(filter => findActiveFilters(filter, activeFacets));
+
+    console.log("updated facets:", activeFacets);
+
+    this.setState({
+      activeFacets,
+    });
+  }
+
+  removeFilter = (facet) => {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
       ...activeFacets,
@@ -181,7 +236,7 @@ class App extends Component {
     });
   };
 
-  __addFilter = (facet, value) => {
+  addFilter = (facet, value) => {
     const { activeFacets } = this.state;
     const activeFacetsCopy = {
       ...activeFacets,
@@ -246,7 +301,8 @@ class App extends Component {
     const LoginComponent = () => (
       <Login onLoginSuccess={this.onLoginSuccess} onLoginFailure={this.onLoginFailure} />
     );
-
+console.log("app facets:", this.state.activeFacets);
+console.log("app filters:", this.state.selectedFilters);
     const LogoutComponent = () => <Logout onLogout={this.onLogout} />;
     const appProps = {
       ...this.state,
@@ -262,6 +318,7 @@ class App extends Component {
       changePageParams: this.changePageParams,
       resetSearchAndFacets: this.resetSearchAndFacets,
       goToMappingsPage: this.goToMappingsPage,
+      toggleFilter: this.toggleFilter,
     };
 
     const tokenIsExpiredMessage = {

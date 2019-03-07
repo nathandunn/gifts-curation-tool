@@ -143,10 +143,6 @@ const filtersStructure = {
 
 class Filters extends Component {
 
-  state = {
-    active: {},
-  };
-
   heading = (item) => {
     return (
       <h3>{`${item.label}`}</h3>
@@ -154,7 +150,7 @@ class Filters extends Component {
   }
 
   subheading = (item) => {
-    const { active } = this.state;
+    const { selectedFilters, toggleFilter } = this.props;
     const { label, value, group } = item;
 
     const childrenValues = Object.values(item.items)
@@ -166,8 +162,8 @@ class Filters extends Component {
           id={`filter-${value}`}
           type="checkbox"
           className="filters__item--subheading"
-          checked={(active[group] && active[group][value]) ? true : false}
-          onChange={() => this.toggleFilter(item, childrenValues)}
+          checked={(selectedFilters[group] && selectedFilters[group][value]) ? true : false}
+          onChange={() => toggleFilter(item, childrenValues)}
         />
         <label htmlFor={`filter-${value}`}>{`${label}`}</label>
       </Fragment>
@@ -175,7 +171,7 @@ class Filters extends Component {
   }
 
   item = (item) => {
-    const { active } = this.state;
+    const { selectedFilters, toggleFilter } = this.props;
     const { label, value, group } = item;
 
     return (
@@ -184,79 +180,66 @@ class Filters extends Component {
           id={`filter-${value}`}
           type="checkbox"
           className="filters__item"
-          checked={(active[group] && active[group][value]) ? true : false}
-          onChange={() => this.toggleFilter(item)}
+          checked={(selectedFilters[group] && selectedFilters[group][value]) ? true : false}
+          onChange={() => toggleFilter(item)}
         />
         <label htmlFor={`filter-${value}`}>{`${label}`}</label>
       </Fragment>
     );
   }
 
-  toggleFilter = (filter, children) => {
-    const { active } = this.state;
-    const { addFilter, removeFilter } = this.props;
-    const { group, value } = filter;
+//   toggleFilter = (filter, children) => {
+//     const {
+//       addFilter,
+//       removeFilter,
+//       selectedFilters,
+//     } = this.props;
+//     const { group, value } = filter;
 
-    const updated = {...active };
+//     const updated = {...selectedFilters };
 
-    if (!updated[group]) {
-      updated[group] = {};
-      updated[group][value] = true;
+//     if (!updated[group]) {
+//       updated[group] = {};
+//       updated[group][value] = true;
 
-      this.setState({
-        active: updated,
-        skipNextRender: false,
-      });
+//       const facet = value.split(':');
+      
 
-      const facet = value.split(':');
-console.log("facet:", facet);
-      addFilter(facet[0], facet[1]);
+//       return;
+//     }
 
-      return;
-    }
+//     if (typeof updated[group][value] !== undefined) {
+//       const originalValue = updated[group][value];
+//       updated[group] = {};
+//       updated[group][value] = !originalValue;
 
-    if (typeof updated[group][value] !== undefined) {
-      const originalValue = updated[group][value];
-      updated[group] = {};
-      updated[group][value] = !originalValue;
+//       return;
+//     }
 
-      this.setState({
-        active: updated,
-        skipNextRender: false,
-      });
+//     Object.keys(updated[group])
+//       .forEach(key => {
+// // console.log("key, value:", key, updated[group][key], value);
+// //         if (key === value) {
+// //           updated[group][key] = !updated[group][key];
+// //         } else {
+//           updated[group][key] = false;
+//         // }
+//       });
 
-      return;
-    }
+//     // if (active[group]) {
+//     //   active[group][value]
+//     // }
 
-    Object.keys(updated[group])
-      .forEach(key => {
-// console.log("key, value:", key, updated[group][key], value);
-//         if (key === value) {
-//           updated[group][key] = !updated[group][key];
-//         } else {
-          updated[group][key] = false;
-        // }
-      });
+//     // if (children) {
+//     //   if (active[group]) {
+//     //     children.forEach(item => active[item] = true);
+//     //   } else {
+//     //     children.forEach(item => active[item] = false);
+//     //   }
+//     // }
 
-    // if (active[group]) {
-    //   active[group][value]
-    // }
-
-    // if (children) {
-    //   if (active[group]) {
-    //     children.forEach(item => active[item] = true);
-    //   } else {
-    //     children.forEach(item => active[item] = false);
-    //   }
-    // }
-
-    this.setState({
-      active: updated,
-      skipNextRender: false,
-    });
-
-    return false;
-  }
+//     return false;
+//   }
 
   renderList = (list) => {
     return (
@@ -282,45 +265,32 @@ console.log("facet:", facet);
     );
   }
 
+//   setActiveFilters = (filters) => {
+//     const activeFilters = {};
+// console.log("set active filters....");
+//     Object.keys(filters)
+//       .forEach(group => {
+//         activeFilters[group] = {};
+//         activeFilters[group][`${group}:${filters[group]}`] = true;
+//       });
+//   }
+
+
   setActiveFilters = (filters) => {
-    const activeFilters = {};
-console.log("set active filters....");
-    Object.keys(filters)
-      .forEach(group => {
-        activeFilters[group] = {};
-        activeFilters[group][`${group}:${filters[group]}`] = true;
-      });
-
-    this.setState({
-      active: activeFilters,
-      skipNextRender: true,
-    });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-
-    return JSON.stringify(this.props.activeFacets) !== JSON.stringify(nextProps.activeFacets);
-
-//     if (nextState.skipNextRender) {
-//       return false;
-//     }
-// console.log("re-rendering...", nextState.skipNextRender);
-//     return true;
-  }
-
-  componentDidMount() {
-    const { activeFacets } = this.props;
-    this.setActiveFilters(activeFacets);
+    console.log("set active filters:", filters);
   }
 
   render() {
-    const { activeFacets } = this.props;
-console.log(">> state:", this.state);
+    const {
+      activeFacets,
+      selectedFilters,
+    } = this.props;
+// console.log(">> state:", this.state);
 console.log("*** props:", this.props);
 
-    activeFacets['status'] = 'UNDER_REVIEW';
+    // activeFacets['status'] = 'UNDER_REVIEW';
 
-    this.setActiveFilters(activeFacets);
+    this.setActiveFilters(selectedFilters);
 
     return (
       <div className="filters">
