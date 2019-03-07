@@ -7,7 +7,6 @@ import queryString from 'query-string';
 import Layout from './Layout';
 import Home from './Home';
 import Mappings from './Mappings';
-import Unmapped from './Unmapped';
 import Login from './Login';
 import Logout from './Logout';
 import Mapping from './Mapping';
@@ -332,11 +331,6 @@ class App extends Component {
                 render={() => (
                   <Mappings {...appProps} defaultOrganism={exploreMappingsByOrganism} />
                 )}
-              />
-              <Route
-                exact
-                path={`${BASE_URL}/unmapped`}
-                render={() => <Unmapped {...appProps} />}
               />
               <Route exact path={`${BASE_URL}/login`} component={LoginComponent} />
               <Route exact path={`${BASE_URL}/logout`} component={LogoutComponent} />

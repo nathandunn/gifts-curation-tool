@@ -96,12 +96,12 @@ const filtersStructure = {
         subheading: true,
         group: 'mappings',
         items: {
-          // by_gene: {
-          //   label: 'By Gene',
-          //   value: 'type:potentially_associated',
-          //   order: 1,
-          //   group: 'type',
-          // },
+          by_gene: {
+            label: 'By Gene',
+            value: 'type:potentially_associated',
+            order: 1,
+            group: 'type',
+          },
           by_isoform: {
             label: 'By Isoform',
             value: 'type:related_by_isoform',
@@ -142,7 +142,6 @@ const filtersStructure = {
 };
 
 class Filters extends Component {
-
   heading = (item) => {
     return (
       <h3>{`${item.label}`}</h3>
@@ -195,7 +194,7 @@ class Filters extends Component {
           .map(l => {
             if (l.items) {
               return (
-                <li>
+                <li key={l.value}>
                   {(l.heading)
                     ? this.heading(l)
                     : this.subheading(l)
@@ -205,15 +204,11 @@ class Filters extends Component {
               );
             }
 
-            return <li>{this.item(l)}</li>
+            return <li key={l.value}>{this.item(l)}</li>
           })
         }
       </ul>
     );
-  }
-
-  setActiveFilters = (filters) => {
-    console.log("set active filters:", filters);
   }
 
   render() {
@@ -221,8 +216,6 @@ class Filters extends Component {
       activeFacets,
       selectedFilters,
     } = this.props;
-
-    this.setActiveFilters(selectedFilters);
 
     return (
       <div className="filters">
