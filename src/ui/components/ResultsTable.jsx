@@ -209,9 +209,11 @@ class ResultsTable extends Component {
             />
           </div>
           <div className="column medium-10">
-            {<button className="button" onClick={() => this.toggleShowIsoforms()}>
-              {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
-            </button>}
+            {
+              <button className="button" onClick={() => this.toggleShowIsoforms()}>
+                {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
+              </button>
+            }
             <div className="table tbody-zebra">
               <div className="table-head">
                 <div className="table-row">
@@ -227,7 +229,7 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              
+
               {this.props.results && this.props.results
                 .map(group => this.renderBorderWrapperRows(group))}
 

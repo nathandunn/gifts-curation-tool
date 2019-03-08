@@ -18,7 +18,11 @@ const Comment = props => (
 );
 
 Comment.propTypes = {
-  details: PropTypes.shape({}),
+  details: PropTypes.shape({
+    user: PropTypes.string.isRequired,
+    timeAdded: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+  }),
 };
 
 Comment.defaultProps = {
