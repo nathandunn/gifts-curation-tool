@@ -321,7 +321,7 @@ App.propTypes = {
   cookies: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({}).isRequired,
   location: PropTypes.shape({
-    search: PropTypes.func.isRequired,
+    search: PropTypes.string.isRequired,
   }).isRequired,
 };
 
