@@ -168,10 +168,12 @@ class ResultsTable extends Component {
   };
 
   render() {
+    const rowCount = formatLargeNumber(this.props.rowCount);
+
     return (
       <Fragment>
         <div className="row column medium-12">
-          <h2>{formatLargeNumber(+this.props.rowCount)} Mapping(s)</h2>
+          <h2>{`${rowCount} ${(rowCount === '1') ? 'Mapping' : 'Mappings'}`}</h2>
         </div>
         <div className="row">
           <div className="column medium-2">
@@ -248,12 +250,16 @@ ResultsTable.propTypes = {
   facets: PropTypes.arrayOf(PropTypes.shape),
   results: PropTypes.arrayOf(PropTypes.shape),
   pageCount: PropTypes.number,
+  rowCount: PropTypes.number,
+  selectedFilters: PropTypes.shape({}).isRequired,
+  toggleFilter: PropTypes.func.isRequired,
 };
 
 ResultsTable.defaultProps = {
   facets: [],
   results: [],
   pageCount: 0,
+  rowCount: 0,
 };
 
 export default ResultsTable;

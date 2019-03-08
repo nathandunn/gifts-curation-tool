@@ -142,11 +142,7 @@ const filtersStructure = {
 };
 
 class Filters extends Component {
-  heading = (item) => {
-    return (
-      <h3>{`${item.label}`}</h3>
-    );
-  }
+  heading = item => <h3>{`${item.label}`}</h3>;
 
   subheading = (item) => {
     const { selectedFilters, toggleFilter } = this.props;
@@ -161,7 +157,7 @@ class Filters extends Component {
           id={`filter-${value}`}
           type="checkbox"
           className="filters__item--subheading"
-          checked={(selectedFilters[group] && selectedFilters[group][value]) ? true : false}
+          checked={(selectedFilters[group] && selectedFilters[group][value])}
           onChange={() => toggleFilter(item, childrenValues)}
         />
         <label htmlFor={`filter-${value}`}>{`${label}`}</label>
@@ -179,7 +175,7 @@ class Filters extends Component {
           id={`filter-${value}`}
           type="checkbox"
           className="filters__item"
-          checked={(selectedFilters[group] && selectedFilters[group][value]) ? true : false}
+          checked={(selectedFilters[group] && selectedFilters[group][value])}
           onChange={() => toggleFilter(item)}
         />
         <label htmlFor={`filter-${value}`}>{`${label}`}</label>
@@ -191,7 +187,7 @@ class Filters extends Component {
     return (
       <ul>
         {Object.values(list)
-          .map(l => {
+          .map((l) => {
             if (l.items) {
               return (
                 <li key={l.value}>
@@ -204,7 +200,7 @@ class Filters extends Component {
               );
             }
 
-            return <li key={l.value}>{this.item(l)}</li>
+            return <li key={l.value}>{this.item(l)}</li>;
           })
         }
       </ul>
@@ -212,20 +208,18 @@ class Filters extends Component {
   }
 
   render() {
-    const {
-      activeFacets,
-      selectedFilters,
-    } = this.props;
-
     return (
       <div className="filters">
         {this.renderList(filtersStructure)}
       </div>
-    )
+    );
   }
 }
 
-Filters.propTypes = {};
+Filters.propTypes = {
+  selectedFilters: PropTypes.shape({}).isRequired,
+  toggleFilter: PropTypes.func.isRequired,
+};
 
 Filters.defaultProps = {};
 

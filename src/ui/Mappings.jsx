@@ -160,6 +160,8 @@ Mappings.propTypes = {
   params: PropTypes.shape({}),
   addFilter: PropTypes.func,
   removeFilter: PropTypes.func,
+  selectedFilters: PropTypes.shape({}).isRequired,
+  toggleFilter: PropTypes.func.isRequired,
 };
 
 Mappings.defaultProps = {

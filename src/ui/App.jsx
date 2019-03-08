@@ -159,18 +159,16 @@ class App extends Component {
     });
   };
 
-  toggleFilter = (filter, children) => {
+  toggleFilter = (filter) => {
     const { selectedFilters } = this.state;
     const { group, value } = filter;
 
-    const updated = {...selectedFilters };
+    const updated = { ...selectedFilters };
 
     if (!updated[group]) {
       updated[group] = {};
       updated[group][value] = true;
 
-      const facet = value.split(':');
-
       this.setState({
         selectedFilters: updated,
       }, this.selectedFiltersToActiveFacets);
@@ -178,17 +176,13 @@ class App extends Component {
       return;
     }
 
-    if (typeof updated[group][value] !== undefined) {
-      const originalValue = updated[group][value];
-      updated[group] = {};
-      updated[group][value] = !originalValue;
+    const originalValue = updated[group][value];
+    updated[group] = {};
+    updated[group][value] = !originalValue;
 
-      this.setState({
-        selectedFilters: updated,
-      }, this.selectedFiltersToActiveFacets);
-
-      return;
-    }
+    this.setState({
+      selectedFilters: updated,
+    }, this.selectedFiltersToActiveFacets);
   };
 
   selectedFiltersToActiveFacets() {
@@ -196,12 +190,12 @@ class App extends Component {
     const convert = (filter, active) => {
       const key = Object.keys(filter)[0];
       const value = Object.values(filter)[0];
-      const facet = key.split(':');
+      const [facetKey, facetValue] = key.split(':');
 
       if (value) {
-        active[facet[0]] = facet[1];
+        active[facetKey] = facetValue;
       }
-    }
+    };
 
     const activeFacets = {};
 
