@@ -148,17 +148,14 @@ class Filters extends Component {
     const { selectedFilters, toggleFilter } = this.props;
     const { label, value, group } = item;
 
-    const childrenValues = Object.values(item.items)
-      .map(i => i.value);
-
     return (
       <Fragment>
         <input
           id={`filter-${value}`}
           type="checkbox"
           className="filters__item--subheading"
-          checked={(selectedFilters[group] && selectedFilters[group][value])}
-          onChange={() => toggleFilter(item, childrenValues)}
+          defaultChecked={(selectedFilters[group] && selectedFilters[group][value])}
+          onChange={() => toggleFilter(item)}
         />
         <label htmlFor={`filter-${value}`}>{`${label}`}</label>
       </Fragment>
@@ -175,7 +172,7 @@ class Filters extends Component {
           id={`filter-${value}`}
           type="checkbox"
           className="filters__item"
-          checked={(selectedFilters[group] && selectedFilters[group][value])}
+          defaultChecked={(selectedFilters[group] && selectedFilters[group][value])}
           onChange={() => toggleFilter(item)}
         />
         <label htmlFor={`filter-${value}`}>{`${label}`}</label>
