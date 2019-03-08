@@ -73,28 +73,33 @@ class ResultsTable extends Component {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
 
       if (!this.state.displayIsoforms &&
-        !mapping.uniprotEntry.isCanonical &&
-        wrapper.index !== this.state.expandGroupIndex)
-      {
+        (!mapping.uniprotEntry.isCanonical &&
+          mapping.uniprotEntry.entryType === 'Swiss-Prot isoform'
+        ) &&
+        wrapper.index !== this.state.expandGroupIndex
+      ) {
         return null;
       }
 
       return (
         <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
           <div className="table-cell">
-            {(mapping.uniprotEntry.isCanonical)
-              ? <span
-                  className="protein-type-icon protein-type-icon--canonical"
-                  title="Canonical"
-                >
-                  can
-                </span>
-              : <span
-                  className="protein-type-icon protein-type-icon--isoform"
-                  title="Isoform"
-                >
-                  iso
-                </span>}
+            {(mapping.uniprotEntry.isCanonical) &&
+              <span
+                className="protein-type-icon protein-type-icon--canonical"
+                title="Canonical"
+              >
+                can
+              </span>
+            }
+            {(mapping.uniprotEntry.entryType === 'Swiss-Prot isoform') &&
+              <span
+                className="protein-type-icon protein-type-icon--isoform"
+                title="Isoform"
+              >
+                iso
+              </span>
+            }
           </div>
           <div className="table-cell">
             <StatusIndicator status={mapping.status} />
