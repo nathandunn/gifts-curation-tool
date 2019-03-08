@@ -45,9 +45,6 @@ function Header(props) {
                 <a href={`${BASE_URL}/mappings`} onClick={e => props.goToMappingsPage(e)}>Mappings</a>
               </li>
               <li>
-                <Link to={`${BASE_URL}/unmapped`}>Unmapped</Link>
-              </li>
-              <li>
                 <Link to={`${BASE_URL}/feedback`}>Feedback</Link>
               </li>
               {(READ_ONLY === false) ? loginLogoutLink : null}

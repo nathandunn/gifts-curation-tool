@@ -9,6 +9,7 @@ import Filters from './Filters';
 import ReviewStatus from './ReviewStatus';
 import AlignmentIndicator from './alignment/AlignmentIndicator';
 import Position from './Position';
+import { formatLargeNumber } from '../util/util';
 
 import '../../styles/ResultsTable.css';
 
@@ -186,19 +187,20 @@ class ResultsTable extends Component {
   };
 
   render() {
+    const rowCount = formatLargeNumber(this.props.rowCount);
+
     return (
       <Fragment>
-        {/* <div className="row column medium-12">
-          <h2>{formatLargeNumber(+this.state.totalCount)} Mapping(s)</h2>
-          This is confusing as it shows the number of hits, not the number of mappings shown.
-        </div> */}
+        <div className="row column medium-12">
+          <h2>{`${rowCount} ${(rowCount === '1') ? 'Mapping' : 'Mappings'}`}</h2>
+        </div>
         <div className="row">
           <div className="column medium-2">
             <Filters
               data={this.props.facets}
-              addFilter={this.props.addFilter}
-              removeFilter={this.props.removeFilter}
               activeFacets={this.props.activeFacets}
+              selectedFilters={this.props.selectedFilters}
+              toggleFilter={this.props.toggleFilter}
             />
           </div>
           <div className="column medium-10">
@@ -241,20 +243,22 @@ class ResultsTable extends Component {
 }
 
 ResultsTable.propTypes = {
-  addFilter: PropTypes.func.isRequired,
-  removeFilter: PropTypes.func.isRequired,
   activeFacets: PropTypes.shape({}).isRequired,
   handlePageClick: PropTypes.func.isRequired,
   initialPage: PropTypes.number.isRequired,
   facets: PropTypes.arrayOf(PropTypes.shape({})),
   results: PropTypes.arrayOf(PropTypes.shape({})),
   pageCount: PropTypes.number,
+  rowCount: PropTypes.number,
+  selectedFilters: PropTypes.shape({}).isRequired,
+  toggleFilter: PropTypes.func.isRequired,
 };
 
 ResultsTable.defaultProps = {
   facets: [],
   results: [],
   pageCount: 0,
+  rowCount: 0,
 };
 
 export default ResultsTable;

@@ -7,7 +7,6 @@ import queryString from 'query-string';
 import Layout from './Layout';
 import Home from './Home';
 import Mappings from './Mappings';
-import Unmapped from './Unmapped';
 import Login from './Login';
 import Logout from './Logout';
 import Mapping from './Mapping';
@@ -87,6 +86,8 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       activeFacets: {},
+
+      selectedFilters: {},
     });
 
     history.push(`${BASE_URL}/mappings?searchTerm=${input}`);
@@ -111,6 +112,8 @@ class App extends Component {
     limit: 15,
     activeFacets: {},
     initialPage: 0,
+
+    selectedFilters: {},
   };
 
   clearMessage = () => this.setState({ message: null });
@@ -145,6 +148,8 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       searchTerm: '',
+
+      selectedFilters: {},
     };
 
     this.setState({
@@ -154,31 +159,53 @@ class App extends Component {
     });
   };
 
-  removeFilter = (facet) => {
-    const { activeFacets } = this.state;
-    const activeFacetsCopy = {
-      ...activeFacets,
-    };
+  toggleFilter = (filter) => {
+    const { selectedFilters } = this.state;
+    const { group, value } = filter;
 
-    delete activeFacetsCopy[facet];
+    const updated = { ...selectedFilters };
+
+    if (!updated[group]) {
+      updated[group] = {};
+      updated[group][value] = true;
+
+      this.setState({
+        selectedFilters: updated,
+      }, this.selectedFiltersToActiveFacets);
+
+      return;
+    }
+
+    const originalValue = updated[group][value];
+    updated[group] = {};
+    updated[group][value] = !originalValue;
 
     this.setState({
-      activeFacets: activeFacetsCopy,
-    });
+      selectedFilters: updated,
+    }, this.selectedFiltersToActiveFacets);
   };
 
-  addFilter = (facet, value) => {
-    const { activeFacets } = this.state;
-    const activeFacetsCopy = {
-      ...activeFacets,
+  selectedFiltersToActiveFacets() {
+    const { selectedFilters } = this.state;
+    const convert = (filter, active) => {
+      const key = Object.keys(filter)[0];
+      const value = Object.values(filter)[0];
+      const [facetKey, facetValue] = key.split(':');
+
+      if (value) {
+        active[facetKey] = facetValue;
+      }
     };
 
-    activeFacetsCopy[facet] = value;
+    const activeFacets = {};
+
+    Object.values(selectedFilters)
+      .forEach(filter => convert(filter, activeFacets));
 
     this.setState({
-      activeFacets: activeFacetsCopy,
+      activeFacets,
     });
-  };
+  }
 
   setResults = (data) => {
     this.setState({
@@ -208,6 +235,8 @@ class App extends Component {
       limit: 15,
       activeFacets: {},
       initialPage: 0,
+
+      selectedFilters: {},
     }, () => {
       if (typeof callback === 'function') {
         callback();
@@ -240,12 +269,11 @@ class App extends Component {
       clearSearchTerm: this.clearSearchTerm,
       exploreMappingsByOrganism: this.exploreMappingsByOrganism,
       getFacetsAsString: this.getFacetsAsString,
-      removeFilter: this.removeFilter,
-      addFilter: this.addFilter,
       setResults: this.setResults,
       changePageParams: this.changePageParams,
       resetSearchAndFacets: this.resetSearchAndFacets,
       goToMappingsPage: this.goToMappingsPage,
+      toggleFilter: this.toggleFilter,
     };
 
     const tokenIsExpiredMessage = {
@@ -269,11 +297,6 @@ class App extends Component {
                 render={() => (
                   <Mappings {...appProps} defaultOrganism={exploreMappingsByOrganism} />
                 )}
-              />
-              <Route
-                exact
-                path={`${BASE_URL}/unmapped`}
-                render={() => <Unmapped {...appProps} />}
               />
               <Route exact path={`${BASE_URL}/login`} component={LoginComponent} />
               <Route exact path={`${BASE_URL}/logout`} component={LogoutComponent} />

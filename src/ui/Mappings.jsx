@@ -120,8 +120,6 @@ class Mappings extends Component {
 
   render() {
     const propsToPass = {
-      addFilter: this.props.addFilter,
-      removeFilter: this.props.removeFilter,
       handlePageClick: this.handlePageClick,
       activeFacets: this.props.activeFacets,
       params: {
@@ -136,6 +134,9 @@ class Mappings extends Component {
       history: this.props.history,
       initialPage: this.props.initialPage,
       clearSearchTerm: this.props.clearSearchTerm,
+      selectedFilters: this.props.selectedFilters,
+      toggleFilter: this.props.toggleFilter,
+      rowCount: this.state.totalCount,
     };
 
     return (isLoading || this.state.results === null)
@@ -155,8 +156,8 @@ Mappings.propTypes = {
   changePageParams: PropTypes.func,
   activeFacets: PropTypes.shape({}),
   params: PropTypes.shape({}),
-  addFilter: PropTypes.func,
-  removeFilter: PropTypes.func,
+  selectedFilters: PropTypes.shape({}),
+  toggleFilter: PropTypes.func,
 };
 
 Mappings.defaultProps = {
@@ -169,8 +170,8 @@ Mappings.defaultProps = {
   changePageParams: null,
   activeFacets: {},
   params: {},
-  addFilter: null,
-  removeFilter: null,
+  selectedFilters: {},
+  toggleFilter: () => {},
 };
 
 export default withRouter(Mappings);
