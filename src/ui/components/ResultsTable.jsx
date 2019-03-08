@@ -74,27 +74,28 @@ class ResultsTable extends Component {
 
       if (!this.state.displayIsoforms &&
         !mapping.uniprotEntry.isCanonical &&
-        wrapper.index !== this.state.expandGroupIndex)
-      {
+        wrapper.index !== this.state.expandGroupIndex
+      ) {
         return null;
       }
 
       return (
         <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
           <div className="table-cell">
-            {(mapping.uniprotEntry.isCanonical)
-              ? <span
-                  className="protein-type-icon protein-type-icon--canonical"
-                  title="Canonical"
-                >
-                  can
-                </span>
-              : <span
-                  className="protein-type-icon protein-type-icon--isoform"
-                  title="Isoform"
-                >
-                  iso
-                </span>}
+            {(mapping.uniprotEntry.isCanonical) ?
+              <span
+                className="protein-type-icon protein-type-icon--canonical"
+                title="Canonical"
+              >
+                can
+              </span> :
+              <span
+                className="protein-type-icon protein-type-icon--isoform"
+                title="Isoform"
+              >
+                iso
+              </span>
+            }
           </div>
           <div className="table-cell">
             <StatusIndicator status={mapping.status} />
@@ -204,9 +205,11 @@ class ResultsTable extends Component {
             />
           </div>
           <div className="column medium-10">
-            {<button className="button" onClick={() => this.toggleShowIsoforms()}>
-              {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
-            </button>}
+            {
+              <button className="button" onClick={() => this.toggleShowIsoforms()}>
+                {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
+              </button>
+            }
             <div className="table tbody-zebra">
               <div className="table-head">
                 <div className="table-row">
@@ -222,7 +225,7 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              
+
               {this.props.results && this.props.results
                 .map(group => this.renderBorderWrapperRows(group))}
 
