@@ -71,10 +71,11 @@ class ResultsTable extends Component {
 
     return rows.map((mapping) => {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
+      const isoformType = 'Swiss-Prot isoform';
 
       if (!this.state.displayIsoforms &&
         (!mapping.uniprotEntry.isCanonical &&
-          mapping.uniprotEntry.entryType === 'Swiss-Prot isoform'
+          mapping.uniprotEntry.entryType === isoformType
         ) &&
         wrapper.index !== this.state.expandGroupIndex
       ) {
@@ -92,7 +93,7 @@ class ResultsTable extends Component {
                 can
               </span>
             }
-            {(mapping.uniprotEntry.entryType === 'Swiss-Prot isoform') &&
+            {(mapping.uniprotEntry.entryType === isoformType) &&
               <span
                 className="protein-type-icon protein-type-icon--isoform"
                 title="Isoform"
