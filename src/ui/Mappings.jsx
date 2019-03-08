@@ -156,8 +156,8 @@ Mappings.propTypes = {
   changePageParams: PropTypes.func,
   activeFacets: PropTypes.shape({}),
   params: PropTypes.shape({}),
-  selectedFilters: PropTypes.shape({}).isRequired,
-  toggleFilter: PropTypes.func.isRequired,
+  selectedFilters: PropTypes.shape({}),
+  toggleFilter: PropTypes.func,
 };
 
 Mappings.defaultProps = {
@@ -170,6 +170,8 @@ Mappings.defaultProps = {
   changePageParams: null,
   activeFacets: {},
   params: {},
+  selectedFilters: {},
+  toggleFilter: () => {},
 };
 
 export default withRouter(Mappings);
