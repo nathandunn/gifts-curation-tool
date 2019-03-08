@@ -179,8 +179,6 @@ class ResultsTable extends Component {
           <div className="column medium-2">
             <Filters
               data={this.props.facets}
-              addFilter={this.props.addFilter}
-              removeFilter={this.props.removeFilter}
               activeFacets={this.props.activeFacets}
               selectedFilters={this.props.selectedFilters}
               toggleFilter={this.props.toggleFilter}
@@ -242,8 +240,6 @@ class ResultsTable extends Component {
 }
 
 ResultsTable.propTypes = {
-  addFilter: PropTypes.func.isRequired,
-  removeFilter: PropTypes.func.isRequired,
   activeFacets: PropTypes.shape.isRequired,
   handlePageClick: PropTypes.func.isRequired,
   initialPage: PropTypes.number.isRequired,

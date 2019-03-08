@@ -207,32 +207,6 @@ class App extends Component {
     });
   }
 
-  removeFilter = (facet) => {
-    const { activeFacets } = this.state;
-    const activeFacetsCopy = {
-      ...activeFacets,
-    };
-
-    delete activeFacetsCopy[facet];
-
-    this.setState({
-      activeFacets: activeFacetsCopy,
-    });
-  };
-
-  addFilter = (facet, value) => {
-    const { activeFacets } = this.state;
-    const activeFacetsCopy = {
-      ...activeFacets,
-    };
-
-    activeFacetsCopy[facet] = value;
-
-    this.setState({
-      activeFacets: activeFacetsCopy,
-    });
-  };
-
   setResults = (data) => {
     this.setState({
       params: data.params,
@@ -295,8 +269,6 @@ class App extends Component {
       clearSearchTerm: this.clearSearchTerm,
       exploreMappingsByOrganism: this.exploreMappingsByOrganism,
       getFacetsAsString: this.getFacetsAsString,
-      removeFilter: this.removeFilter,
-      addFilter: this.addFilter,
       setResults: this.setResults,
       changePageParams: this.changePageParams,
       resetSearchAndFacets: this.resetSearchAndFacets,

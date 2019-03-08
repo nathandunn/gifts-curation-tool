@@ -120,8 +120,6 @@ class Mappings extends Component {
 
   render() {
     const propsToPass = {
-      addFilter: this.props.addFilter,
-      removeFilter: this.props.removeFilter,
       handlePageClick: this.handlePageClick,
       activeFacets: this.props.activeFacets,
       params: {
@@ -158,8 +156,6 @@ Mappings.propTypes = {
   changePageParams: PropTypes.func,
   activeFacets: PropTypes.shape({}),
   params: PropTypes.shape({}),
-  addFilter: PropTypes.func,
-  removeFilter: PropTypes.func,
   selectedFilters: PropTypes.shape({}).isRequired,
   toggleFilter: PropTypes.func.isRequired,
 };
@@ -174,8 +170,6 @@ Mappings.defaultProps = {
   changePageParams: null,
   activeFacets: {},
   params: {},
-  addFilter: null,
-  removeFilter: null,
 };
 
 export default withRouter(Mappings);
