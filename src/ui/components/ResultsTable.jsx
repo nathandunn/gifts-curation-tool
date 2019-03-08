@@ -24,7 +24,7 @@ class ResultsTable extends Component {
   }
 
   state = {
-    displayIsoforms: false,
+    displayIsoforms: true,
     expandGroupIndex: null,
   };
 
@@ -46,10 +46,8 @@ class ResultsTable extends Component {
   }
 
   renderRows = (group) => {
-    const { rows, taxonomy } = group;
+    const { rows, taxonomy, wrapper } = group;
 
-    // -- temp disabled for simplified table
-    // return rows.map((mapping) => {
     rows
       .sort((a, b) => {
         if (a.uniprotEntry.isCanonical && !b.uniprotEntry.isCanonical) {
@@ -71,23 +69,32 @@ class ResultsTable extends Component {
         return (a.alignment_difference - b.alignment_difference);
       });
 
-    return rows.slice(0, 1).map((mapping) => {
+    return rows.map((mapping) => {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
 
-      // -- temp disabled for simplified table
-      // if (!this.state.displayIsoforms &&
-      //   !mapping.uniprotEntry.isCanonical &&
-      //   wrapper.index !== this.state.expandGroupIndex)
-      // {
-      //   return null;
-      // }
+      if (!this.state.displayIsoforms &&
+        !mapping.uniprotEntry.isCanonical &&
+        wrapper.index !== this.state.expandGroupIndex)
+      {
+        return null;
+      }
 
       return (
         <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
           <div className="table-cell">
-            {/* temporarily disabled 'isoform' flag */}
-            {/* !mapping.uniprotEntry.isCanonical &&
-              <span className="tree-indent" title="Isoform">isoform</span> */}
+            {(mapping.uniprotEntry.isCanonical)
+              ? <span
+                  className="protein-type-icon protein-type-icon--canonical"
+                  title="Canonical"
+                >
+                  can
+                </span>
+              : <span
+                  className="protein-type-icon protein-type-icon--isoform"
+                  title="Isoform"
+                >
+                  iso
+                </span>}
           </div>
           <div className="table-cell">
             <StatusIndicator status={mapping.status} />
@@ -119,6 +126,22 @@ class ResultsTable extends Component {
     });
   };
 
+  renderBorderWrapperRows = (group) => {
+    const { wrapper } = group;
+    const {
+      index,
+      gene_symbol,
+      ensgId,
+      counts,
+    } = wrapper;
+
+    return (
+      <div className="table-body group-wrapper" key={`${index}-${gene_symbol}`}>
+        {this.renderRows(group)}
+      </div>
+    );
+  };
+
   renderWrapperRows = (group) => {
     const { wrapper } = group;
     const {
@@ -131,11 +154,7 @@ class ResultsTable extends Component {
     return (
       <div className="table-body group-wrapper">
         <div className="table-row group-wrapper-header" onClick={() => this.toggleExpandGroup(index)}>
-          <div className="table-cell">
-            <span className="badge">
-              {(index + 1)}
-            </span>
-          </div>
+          <div className="table-cell" />
           <div className="table-cell" />
           <div className="table-cell">
             {gene_symbol}
@@ -185,9 +204,9 @@ class ResultsTable extends Component {
             />
           </div>
           <div className="column medium-10">
-            {/* <button className="button" onClick={() => this.toggleShowIsoforms()}>
+            {<button className="button" onClick={() => this.toggleShowIsoforms()}>
               {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
-            </button> */}
+            </button>}
             <div className="table tbody-zebra">
               <div className="table-head">
                 <div className="table-row">
@@ -203,26 +222,10 @@ class ResultsTable extends Component {
                   <div className="table-cell">&nbsp;</div>
                 </div>
               </div>
-              {/* this.props.results && this.props.results.map(row => (
-                <div
-                  className="table-body"
-                  key={row.canonical.reduce(
-                    (total, mapping) =>
-                      (total ? `${total}_${mapping.mappingId}` : mapping.mappingId),
-                    undefined,
-                  )}
-                >
-                  {this.renderRows(row.canonical, row.taxonomy)}
-                  {this.state.displayIsoforms && this.renderRows(row.isoforms, row.taxonomy)}
-                </div>
-              )) */}
+              
+              {this.props.results && this.props.results
+                .map(group => this.renderBorderWrapperRows(group))}
 
-              {/* this.props.results && this.props.results.map(group => {
-                // return this.renderWrapperRows(group);
-                return this.renderRows(group);
-              }) */}
-
-              {this.props.results && this.props.results.map(group => this.renderRows(group))}
             </div>
             <ReactPaginate
               pageCount={this.props.pageCount}
@@ -240,11 +243,11 @@ class ResultsTable extends Component {
 }
 
 ResultsTable.propTypes = {
-  activeFacets: PropTypes.shape.isRequired,
+  activeFacets: PropTypes.shape({}).isRequired,
   handlePageClick: PropTypes.func.isRequired,
   initialPage: PropTypes.number.isRequired,
-  facets: PropTypes.arrayOf(PropTypes.shape),
-  results: PropTypes.arrayOf(PropTypes.shape),
+  facets: PropTypes.arrayOf(PropTypes.shape({})),
+  results: PropTypes.arrayOf(PropTypes.shape({})),
   pageCount: PropTypes.number,
   rowCount: PropTypes.number,
   selectedFilters: PropTypes.shape({}).isRequired,

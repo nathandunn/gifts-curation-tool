@@ -294,7 +294,7 @@ class Alignment extends Component {
 
 Alignment.propTypes = {
   mappingId: PropTypes.string.isRequired,
-  history: PropTypes.shape.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
 export default withRouter(Alignment);

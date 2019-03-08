@@ -219,6 +219,8 @@ class Filters extends Component {
 Filters.propTypes = {
   selectedFilters: PropTypes.shape({}).isRequired,
   toggleFilter: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({})),
+  activeFacets: PropTypes.shape({}),
 };
 
 Filters.defaultProps = {};

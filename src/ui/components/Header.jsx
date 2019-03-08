@@ -59,7 +59,7 @@ function Header(props) {
 
 Header.propTypes = {
   authenticated: PropTypes.bool.isRequired,
-  location: PropTypes.shape.isRequired,
+  location: PropTypes.shape({}).isRequired,
   goToMappingsPage: PropTypes.func.isRequired,
 };
 
