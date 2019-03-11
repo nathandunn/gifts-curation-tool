@@ -139,12 +139,52 @@ const filtersStructure = {
       },
     },
   },
+  chromosome: {
+    label: 'Chromosome',
+    value: 'chromosome',
+    order: 5,
+    specificTo: 'organism',
+    items: {
+      'organism:9606': {
+        items: {
+          1: {
+            label: '1',
+            value: '1',
+            order: 1,
+            group: 'chromosome',
+          },
+          2: {
+            label: '2',
+            value: '2',
+            order: 2,
+            group: 'chromosome',
+          },
+        }
+      },
+      'organism:10090': {
+        items: {
+          x: {
+            label: 'x',
+            value: 'X',
+            order: 1,
+            group: 'chromosome',
+          },
+          y: {
+            label: 'y',
+            value: 'Y',
+            order: 2,
+            group: 'chromosome',
+          },
+        }
+      },
+    }
+  }
 };
 
 class Filters extends Component {
-  heading = item => <h3>{`${item.label}`}</h3>;
+  createFilterHeading = item => <h3>{`${item.label}`}</h3>;
 
-  subheading = (item) => {
+  createFilterSubHeading = (item) => {
     const { selectedFilters, toggleFilter } = this.props;
     const { label, value, group } = item;
 
@@ -162,7 +202,33 @@ class Filters extends Component {
     );
   }
 
-  item = (item) => {
+  createSpecificToFilter = (item) => {
+    const { selectedFilters } = this.props;
+    const output = [];
+
+    if (!selectedFilters[item.specificTo]) {
+      return null;
+    }
+
+    output.push(this.createFilterHeading(item));
+
+    Object.keys(item.items)
+      .map((key) => {
+        if (selectedFilters[item.specificTo][key]) {
+          Object.values(item.items[key])
+            .forEach((i) => {
+              Object.values(i)
+                .forEach((v) => {
+                  output.push(this.createItem(v));
+                });
+            });
+        }
+      });
+
+    return output;
+  }
+
+  createItem = (item) => {
     const { selectedFilters, toggleFilter } = this.props;
     const { label, value, group } = item;
 
@@ -181,6 +247,23 @@ class Filters extends Component {
   }
 
   renderList = (list) => {
+    
+    const createListElement = (item) => {
+      const output = [];
+
+      if (item.heading) {
+        output.push(this.createFilterHeading(item));
+        output.push(this.renderList(item.items));
+      } else if (item.subheading) {
+        output.push(this.createFilterSubHeading(item));
+        output.push(this.renderList(item.items));
+      } else if (item.specificTo) {
+        output.push(this.createSpecificToFilter(item));
+      }
+
+      return output;
+    };
+
     return (
       <ul>
         {Object.values(list)
@@ -188,16 +271,12 @@ class Filters extends Component {
             if (l.items) {
               return (
                 <li key={l.value}>
-                  {(l.heading)
-                    ? this.heading(l)
-                    : this.subheading(l)
-                  }
-                  {this.renderList(l.items)}
+                  {createListElement(l)}
                 </li>
               );
             }
 
-            return <li key={l.value}>{this.item(l)}</li>;
+            return <li key={l.value}>{this.createItem(l)}</li>;
           })
         }
       </ul>
