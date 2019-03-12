@@ -149,30 +149,288 @@ const filtersStructure = {
         items: {
           1: {
             label: '1',
-            value: '1',
+            value: 'chromosomes:1',
             order: 1,
             group: 'chromosome',
           },
           2: {
             label: '2',
-            value: '2',
+            value: 'chromosomes:2',
             order: 2,
+            group: 'chromosome',
+          },
+          3: {
+            label: '3',
+            value: 'chromosomes:3',
+            order: 3,
+            group: 'chromosome',
+          },
+          4: {
+            label: '4',
+            value: 'chromosomes:4',
+            order: 4,
+            group: 'chromosome',
+          },
+          5: {
+            label: '5',
+            value: 'chromosomes:5',
+            order: 5,
+            group: 'chromosome',
+          },
+          6: {
+            label: '6',
+            value: 'chromosomes:6',
+            order: 6,
+            group: 'chromosome',
+          },
+          7: {
+            label: '7',
+            value: 'chromosomes:7',
+            order: 7,
+            group: 'chromosome',
+          },
+          8: {
+            label: '8',
+            value: 'chromosomes:8',
+            order: 8,
+            group: 'chromosome',
+          },
+          9: {
+            label: '9',
+            value: 'chromosomes:9',
+            order: 9,
+            group: 'chromosome',
+          },
+          10: {
+            label: '10',
+            value: 'chromosomes:10',
+            order: 10,
+            group: 'chromosome',
+          },
+          11: {
+            label: '11',
+            value: 'chromosomes:11',
+            order: 11,
+            group: 'chromosome',
+          },
+          12: {
+            label: '12',
+            value: 'chromosomes:12',
+            order: 12,
+            group: 'chromosome',
+          },
+          13: {
+            label: '13',
+            value: 'chromosomes:13',
+            order: 13,
+            group: 'chromosome',
+          },
+          14: {
+            label: '14',
+            value: 'chromosomes:14',
+            order: 14,
+            group: 'chromosome',
+          },
+          15: {
+            label: '15',
+            value: 'chromosomes:15',
+            order: 15,
+            group: 'chromosome',
+          },
+          16: {
+            label: '16',
+            value: 'chromosomes:16',
+            order: 16,
+            group: 'chromosome',
+          },
+          17: {
+            label: '17',
+            value: 'chromosomes:17',
+            order: 17,
+            group: 'chromosome',
+          },
+          18: {
+            label: '18',
+            value: 'chromosomes:18',
+            order: 18,
+            group: 'chromosome',
+          },
+          19: {
+            label: '19',
+            value: 'chromosomes:19',
+            order: 19,
+            group: 'chromosome',
+          },
+          20: {
+            label: '20',
+            value: 'chromosomes:20',
+            order: 20,
+            group: 'chromosome',
+          },
+          21: {
+            label: '21',
+            value: 'chromosomes:21',
+            order: 21,
+            group: 'chromosome',
+          },
+          22: {
+            label: '22',
+            value: 'chromosomes:22',
+            order: 22,
+            group: 'chromosome',
+          },
+          mt: {
+            label: 'MT',
+            value: 'chromosomes:mt',
+            order: 23,
+            group: 'chromosome',
+          },
+          x: {
+            label: 'X',
+            value: 'chromosomes:x',
+            order: 24,
+            group: 'chromosome',
+          },
+          y: {
+            label: 'Y',
+            value: 'chromosomes:y',
+            order: 25,
             group: 'chromosome',
           },
         }
       },
       'organism:10090': {
         items: {
-          x: {
-            label: 'x',
-            value: 'X',
+          1: {
+            label: '1',
+            value: 'chromosomes:1',
             order: 1,
             group: 'chromosome',
           },
-          y: {
-            label: 'y',
-            value: 'Y',
+          2: {
+            label: '2',
+            value: 'chromosomes:2',
             order: 2,
+            group: 'chromosome',
+          },
+          3: {
+            label: '3',
+            value: 'chromosomes:3',
+            order: 3,
+            group: 'chromosome',
+          },
+          4: {
+            label: '4',
+            value: 'chromosomes:4',
+            order: 4,
+            group: 'chromosome',
+          },
+          5: {
+            label: '5',
+            value: 'chromosomes:5',
+            order: 5,
+            group: 'chromosome',
+          },
+          6: {
+            label: '6',
+            value: 'chromosomes:6',
+            order: 6,
+            group: 'chromosome',
+          },
+          7: {
+            label: '7',
+            value: 'chromosomes:7',
+            order: 7,
+            group: 'chromosome',
+          },
+          8: {
+            label: '8',
+            value: 'chromosomes:8',
+            order: 8,
+            group: 'chromosome',
+          },
+          9: {
+            label: '9',
+            value: 'chromosomes:9',
+            order: 9,
+            group: 'chromosome',
+          },
+          10: {
+            label: '10',
+            value: 'chromosomes:10',
+            order: 10,
+            group: 'chromosome',
+          },
+          11: {
+            label: '11',
+            value: 'chromosomes:11',
+            order: 11,
+            group: 'chromosome',
+          },
+          12: {
+            label: '12',
+            value: 'chromosomes:12',
+            order: 12,
+            group: 'chromosome',
+          },
+          13: {
+            label: '13',
+            value: 'chromosomes:13',
+            order: 13,
+            group: 'chromosome',
+          },
+          14: {
+            label: '14',
+            value: 'chromosomes:14',
+            order: 14,
+            group: 'chromosome',
+          },
+          15: {
+            label: '15',
+            value: 'chromosomes:15',
+            order: 15,
+            group: 'chromosome',
+          },
+          16: {
+            label: '16',
+            value: 'chromosomes:16',
+            order: 16,
+            group: 'chromosome',
+          },
+          17: {
+            label: '17',
+            value: 'chromosomes:17',
+            order: 17,
+            group: 'chromosome',
+          },
+          18: {
+            label: '18',
+            value: 'chromosomes:18',
+            order: 18,
+            group: 'chromosome',
+          },
+          19: {
+            label: '19',
+            value: 'chromosomes:19',
+            order: 19,
+            group: 'chromosome',
+          },
+          mt: {
+            label: 'MT',
+            value: 'chromosomes:mt',
+            order: 23,
+            group: 'chromosome',
+          },
+          x: {
+            label: 'X',
+            value: 'chromosomes:x',
+            order: 24,
+            group: 'chromosome',
+          },
+          y: {
+            label: 'Y',
+            value: 'chromosomes:y',
+            order: 25,
             group: 'chromosome',
           },
         }
@@ -182,14 +440,15 @@ const filtersStructure = {
 };
 
 class Filters extends Component {
-  createFilterHeading = item => <h3>{`${item.label}`}</h3>;
+  createFilterHeading = item =>
+    <h3 key={`filter-heading-${item.label}`}>{`${item.label}`}</h3>;
 
   createFilterSubHeading = (item) => {
     const { selectedFilters, toggleFilter } = this.props;
     const { label, value, group } = item;
 
     return (
-      <Fragment>
+      <Fragment key={`filter-subheading-${value}`}>
         <input
           id={`filter-${value}`}
           type="checkbox"
@@ -233,7 +492,7 @@ class Filters extends Component {
     const { label, value, group } = item;
 
     return (
-      <Fragment>
+      <Fragment key={`filter-item-${value}`}>
         <input
           id={`filter-${value}`}
           type="checkbox"
@@ -265,7 +524,7 @@ class Filters extends Component {
     };
 
     return (
-      <ul>
+      <ul key={`filter-list-${list.value}`}>
         {Object.values(list)
           .map((l) => {
             if (l.items) {
