@@ -435,13 +435,13 @@ const filtersStructure = {
           },
         }
       },
-    }
-  }
+    },
+  },
 };
 
 class Filters extends Component {
   createFilterHeading = item =>
-    <h3 key={`filter-heading-${item.label}`}>{`${item.label}`}</h3>;
+    <h4 key={`filter-heading-${item.label}`}>{`${item.label}`}</h4>;
 
   createFilterSubHeading = (item) => {
     const { selectedFilters, toggleFilter } = this.props;
@@ -449,17 +449,19 @@ class Filters extends Component {
 
     return (
       <Fragment key={`filter-subheading-${value}`}>
-        <input
-          id={`filter-${value}`}
-          type="checkbox"
-          className="filters__item--subheading"
-          defaultChecked={(selectedFilters[group] && selectedFilters[group][value])}
-          onChange={() => toggleFilter(item)}
-        />
-        <label htmlFor={`filter-${value}`}>{`${label}`}</label>
+        <div>
+          <input
+            id={`filter-${value}`}
+            type="checkbox"
+            className="filters__item--subheading"
+            defaultChecked={(selectedFilters[group] && selectedFilters[group][value])}
+            onChange={() => toggleFilter(item)}
+          />
+          <label htmlFor={`filter-${value}`}>{`${label}`}</label>
+        </div>
       </Fragment>
     );
-  }
+  };
 
   createSpecificToFilter = (item) => {
     const { selectedFilters } = this.props;
@@ -478,14 +480,34 @@ class Filters extends Component {
             .forEach((i) => {
               Object.values(i)
                 .forEach((v) => {
-                  output.push(this.createItem(v));
+                  output.push(this.createSpecificToFilterItem(v));
                 });
             });
         }
       });
 
     return output;
-  }
+  };
+
+  createSpecificToFilterItem = (item) => {
+    const { selectedFilters, toggleFilter } = this.props;
+    const { label, value, group } = item;
+
+    return (
+      <li key={`filter-item-${value}`}>
+        <div>
+          <input
+            id={`filter-${value}`}
+            type="checkbox"
+            className="filters__item"
+            defaultChecked={(selectedFilters[group] && selectedFilters[group][value])}
+            onChange={() => toggleFilter(item)}
+          />
+          <label htmlFor={`filter-${value}`}>{`${label}`}</label>
+        </div>
+      </li>
+    );
+  };
 
   createItem = (item) => {
     const { selectedFilters, toggleFilter } = this.props;
@@ -493,21 +515,24 @@ class Filters extends Component {
 
     return (
       <Fragment key={`filter-item-${value}`}>
-        <input
-          id={`filter-${value}`}
-          type="checkbox"
-          className="filters__item"
-          defaultChecked={(selectedFilters[group] && selectedFilters[group][value])}
-          onChange={() => toggleFilter(item)}
-        />
-        <label htmlFor={`filter-${value}`}>{`${label}`}</label>
+        <div>
+          <input
+            id={`filter-${value}`}
+            type="checkbox"
+            className="filters__item"
+            defaultChecked={(selectedFilters[group] && selectedFilters[group][value])}
+            onChange={() => toggleFilter(item)}
+          />
+          <label htmlFor={`filter-${value}`}>{`${label}`}</label>
+        </div>
       </Fragment>
     );
-  }
+  };
 
   renderList = (list) => {
-    
+
     const createListElement = (item) => {
+      const inner = [];
       const output = [];
 
       if (item.heading) {
@@ -517,7 +542,15 @@ class Filters extends Component {
         output.push(this.createFilterSubHeading(item));
         output.push(this.renderList(item.items));
       } else if (item.specificTo) {
-        output.push(this.createSpecificToFilter(item));
+        const specificToFilter = this.createSpecificToFilter(item);
+
+        if (specificToFilter) {
+          specificToFilter
+            .forEach(i => inner.push(i));
+        }
+
+        output.push(inner.shift());
+        output.push(<ul key={`filter-list-${list.value}`}>{inner}</ul>);
       }
 
       return output;
@@ -540,7 +573,7 @@ class Filters extends Component {
         }
       </ul>
     );
-  }
+  };
 
   render() {
     return (
@@ -548,7 +581,7 @@ class Filters extends Component {
         {this.renderList(filtersStructure)}
       </div>
     );
-  }
+  };
 }
 
 Filters.propTypes = {
