@@ -297,7 +297,7 @@ const filtersStructure = {
             order: 25,
             group: 'chromosome',
           },
-        }
+        },
       },
       'organism:10090': {
         items: {
@@ -433,7 +433,7 @@ const filtersStructure = {
             order: 25,
             group: 'chromosome',
           },
-        }
+        },
       },
     },
   },
@@ -474,7 +474,7 @@ class Filters extends Component {
     output.push(this.createFilterHeading(item));
 
     Object.keys(item.items)
-      .map((key) => {
+      .forEach((key) => {
         if (selectedFilters[item.specificTo][key]) {
           Object.values(item.items[key])
             .forEach((i) => {
@@ -530,7 +530,6 @@ class Filters extends Component {
   };
 
   renderList = (list) => {
-
     const createListElement = (item) => {
       const inner = [];
       const output = [];
@@ -581,7 +580,7 @@ class Filters extends Component {
         {this.renderList(filtersStructure)}
       </div>
     );
-  };
+  }
 }
 
 Filters.propTypes = {
