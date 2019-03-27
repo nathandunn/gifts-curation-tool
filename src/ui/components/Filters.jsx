@@ -471,11 +471,11 @@ class Filters extends Component {
       return null;
     }
 
-    output.push(this.createFilterHeading(item));
-
     Object.keys(item.items)
       .forEach((key) => {
         if (selectedFilters[item.specificTo][key]) {
+          output.push(this.createFilterHeading(item));
+
           Object.values(item.items[key])
             .forEach((i) => {
               Object.values(i)
