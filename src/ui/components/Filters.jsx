@@ -531,7 +531,6 @@ class Filters extends Component {
 
   renderList = (list) => {
     const createListElement = (item) => {
-      const inner = [];
       const output = [];
 
       if (item.heading) {
