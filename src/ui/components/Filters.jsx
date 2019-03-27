@@ -544,12 +544,10 @@ class Filters extends Component {
         const specificToFilter = this.createSpecificToFilter(item);
 
         if (specificToFilter) {
-          specificToFilter
-            .forEach(i => inner.push(i));
+          output.push(specificToFilter.shift());
         }
 
-        output.push(inner.shift());
-        output.push(<ul key={`filter-list-${list.value}`}>{inner}</ul>);
+        output.push(<ul key={`filter-list-${list.value}`}>{specificToFilter}</ul>);
       }
 
       return output;
