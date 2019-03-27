@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../../styles/Message.css';
+import '../../styles/Message.scss';
 
 const Message = props => (
   <div className={`message callout ${props.details.isError ? 'alert' : 'primary'}`}>

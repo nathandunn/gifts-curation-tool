@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../../../styles/DoughnutChart.css';
+import '../../../styles/DoughnutChart.scss';
 
 const DoughnutChart = (props) => {
   const { percent } = props;

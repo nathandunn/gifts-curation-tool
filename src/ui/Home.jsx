@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import SearchField from './components/SearchField';
 import Statistics from './components/stats/Statistics';
 
-import '../styles/Home.css';
+import '../styles/Home.scss';
 
 const Home = props => (
   <main>

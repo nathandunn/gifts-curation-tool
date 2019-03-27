@@ -11,7 +11,7 @@ import AlignmentIndicator from './alignment/AlignmentIndicator';
 import Position from './Position';
 import { formatLargeNumber } from '../util/util';
 
-import '../../styles/ResultsTable.css';
+import '../../styles/ResultsTable.scss';
 
 class ResultsTable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {

@@ -8,7 +8,7 @@ import SimpleMED from 'simplemde';
 import Comment from './Comment';
 import StatusSection from '../StatusSection';
 
-import '../../../styles/CommentsSection.css';
+import '../../../styles/CommentsSection.scss';
 
 class CommentsSection extends Component {
   state = {};

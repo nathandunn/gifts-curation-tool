@@ -6,7 +6,7 @@ import Arrow from './Arrow';
 import ReviewStatus from './ReviewStatus';
 import Position from './Position';
 
-import '../../styles/MappingHeader.css';
+import '../../styles/MappingHeader.scss';
 
 const MappingHeader = (props) => {
   const { mapping } = props;

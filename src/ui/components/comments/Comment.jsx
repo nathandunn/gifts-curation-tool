@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 
-import '../../../styles/Comment.css';
+import '../../../styles/Comment.scss';
 
 const Comment = props => (
   <div className="comment row">

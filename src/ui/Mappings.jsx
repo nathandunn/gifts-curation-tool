@@ -7,7 +7,7 @@ import isEqual from 'lodash-es/isEqual';
 import LoadingSpinner from './components/LoadingSpinner';
 import ResultsTable from './components/ResultsTable';
 
-import '../styles/Home.css';
+import '../styles/Home.scss';
 
 let isLoading = true;
 

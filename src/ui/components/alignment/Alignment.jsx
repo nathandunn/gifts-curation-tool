@@ -4,7 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 
 import LoadingSpinner from '../LoadingSpinner';
-import '../../../styles/Alignment.css';
+import '../../../styles/Alignment.scss';
 
 class Alignment extends Component {
   state = {

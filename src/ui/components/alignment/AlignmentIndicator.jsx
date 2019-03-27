@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../../../styles/AlignmentIndicator.css';
+import '../../../styles/AlignmentIndicator.scss';
 
 const AlignmentIndicator = (props) => {
   if (props.difference === null) {

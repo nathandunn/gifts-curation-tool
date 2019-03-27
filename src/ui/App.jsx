@@ -15,7 +15,7 @@ import Message from './components/Message';
 import NoResults from './NoResults';
 import Feedback from './Feedback';
 
-import '../styles/Gifts.css';
+import '../styles/Gifts.scss';
 
 class App extends Component {
   constructor(props) {

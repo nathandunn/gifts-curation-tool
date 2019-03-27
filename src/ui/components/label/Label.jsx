@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../../../styles/Label.css';
+import '../../../styles/Label.scss';
 
 const Label = props => (
   <span className="label primary">

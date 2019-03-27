@@ -2,7 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import decode from 'jwt-decode';
 import { withCookies } from 'react-cookie';
-import '../styles/Home.css';
+import '../styles/Home.scss';
 
 const GIFTS_DOMAIN = 'self.gifts';
 const GIFTS_DOMAIN_ID = 'dom-23a4a571-5193-4cdd-838b-097ee9440e12';

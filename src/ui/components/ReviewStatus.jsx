@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../../styles/ReviewStatus.css';
+import '../../styles/ReviewStatus.scss';
 
 const ReviewStatus = (props) => {
   switch (props.entryType) {

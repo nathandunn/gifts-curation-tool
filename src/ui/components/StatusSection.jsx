@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import StatusIndicator from './StatusIndicator';
 import StatusChangeControl from './StatusChangeControl';
 
-import '../../styles/StatusSection.css';
+import '../../styles/StatusSection.scss';
 
 class StatusSection extends Component {
   state = {

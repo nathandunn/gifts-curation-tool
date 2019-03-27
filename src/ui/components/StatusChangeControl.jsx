@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withCookies } from 'react-cookie';
 
-import '../../styles/StatusChangeControl.css';
+import '../../styles/StatusChangeControl.scss';
 
 class StatusChangeControl extends Component {
   state = {

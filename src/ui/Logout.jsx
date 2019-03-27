@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withCookies } from 'react-cookie';
 
-import '../styles/Home.css';
+import '../styles/Home.scss';
 
 class Logout extends Component {
   constructor(props) {

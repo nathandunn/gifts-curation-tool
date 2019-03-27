@@ -13,7 +13,7 @@ import RelatedMappingsSection from './components/RelatedMappingsSection';
 import StatusSection from './components/StatusSection';
 import MappingHeader from './components/MappingHeader';
 
-import '../styles/Mapping.css';
+import '../styles/Mapping.scss';
 import '../../node_modules/simplemde/dist/simplemde.min.css';
 
 class Mapping extends Component {

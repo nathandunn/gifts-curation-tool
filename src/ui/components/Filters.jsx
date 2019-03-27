@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 
-import '../../styles/Filters.css';
+import '../../styles/Filters.scss';
 
 const filtersStructure = {
   status: {
