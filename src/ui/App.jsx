@@ -86,7 +86,6 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       activeFacets: {},
-
       selectedFilters: {},
     });
 
@@ -112,7 +111,6 @@ class App extends Component {
     limit: 15,
     activeFacets: {},
     initialPage: 0,
-
     selectedFilters: {},
   };
 
@@ -148,7 +146,6 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       searchTerm: '',
-
       selectedFilters: {},
     };
 
@@ -235,7 +232,6 @@ class App extends Component {
       limit: 15,
       activeFacets: {},
       initialPage: 0,
-
       selectedFilters: {},
     }, () => {
       if (typeof callback === 'function') {
