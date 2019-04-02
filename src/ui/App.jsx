@@ -174,7 +174,6 @@ class App extends Component {
     }
 
     const originalValue = updated[group][value];
-    updated[group] = {};
     updated[group][value] = !originalValue;
 
     this.setState({
@@ -184,13 +183,23 @@ class App extends Component {
 
   selectedFiltersToActiveFacets() {
     const { selectedFilters } = this.state;
-    const convert = (filter, active) => {
-      const key = Object.keys(filter)[0];
-      const value = Object.values(filter)[0];
-      const [facetKey, facetValue] = key.split(':');
 
-      if (value) {
-        active[facetKey] = facetValue;
+    const convert = (filter, active) => {
+      const values = [];
+      let mainKey;
+
+      Object.keys(filter)
+        .forEach((key) => {
+          const [facetKey, facetValue] = key.split(':');
+          mainKey = facetKey;
+
+          if (filter[key]) {
+            values.push(facetValue);
+          }
+        });
+
+      if (values.length > 0) {
+        active[mainKey] = values.join(',');
       }
     };
 
