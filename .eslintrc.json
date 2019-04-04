@@ -9,11 +9,16 @@
   },
   "rules": {
     "no-console": 0,
-    "react/sort-comp": 0,
-    "react/forbid-prop-types": 1,
-    "react/no-did-mount-set-state": 1,
-    "react/no-array-index-key": 0,
+    "camelcase": 0,
     "react/jsx-boolean-value": "always",
+    "no-else-return": [
+      "error", 
+      {
+        "allowElseIf": true
+      }
+    ],
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/label-has-associated-control": 0,
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
@@ -21,11 +26,15 @@
         "specialLink": ["to", "hrefLeft", "hrefRight"],
         "aspects": ["noHref", "invalidHref", "preferButton"]
       }
-    ],
-    "jsx-a11y/anchor-is-valid": 1,
-    "jsx-a11y/click-events-have-key-events": 0,
-    "jsx-a11y/interactive-supports-focus": 0,
-    "jsx-a11y/no-static-element-interactions": 0
+    ]
+    // "react/sort-comp": 0,
+    // "react/forbid-prop-types": 1,
+    // "react/no-did-mount-set-state": 1,
+    // "react/no-array-index-key": 0,
+    // "jsx-a11y/anchor-is-valid": 1,
+    // "jsx-a11y/click-events-have-key-events": 0,
+    // "jsx-a11y/interactive-supports-focus": 0,
+    // "jsx-a11y/no-static-element-interactions": 0
   },
   "globals": {
     "BASE_URL": false,

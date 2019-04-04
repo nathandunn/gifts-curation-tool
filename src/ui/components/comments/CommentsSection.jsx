@@ -133,7 +133,11 @@ class CommentsSection extends Component {
                 />
               </div>
               <textarea id="text-editor" />
-              <button className="comments-section__save-button button" onClick={this.saveComment}>
+              <button
+                className="comments-section__save-button button"
+                onClick={this.saveComment}
+                type="button"
+              >
                 Add comment
               </button>
             </div>

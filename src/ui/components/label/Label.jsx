@@ -3,16 +3,28 @@ import PropTypes from 'prop-types';
 
 import '../../../styles/Label.scss';
 
-const Label = props => (
-  <span className="label primary">
-    {props.text}
-    {props.isLoggedIn ? (
-      <button onClick={() => props.onDelete(props.id)}>
-        <span className="label__close">&times;</span>
-      </button>
-    ) : null}
-  </span>
-);
+const Label = (props) => {
+  const {
+    id,
+    text,
+    isLoggedIn,
+    onDelete,
+  } = props;
+
+  return (
+    <span className="label primary">
+      {text}
+      {isLoggedIn ? (
+        <button
+          onClick={() => onDelete(id)}
+          type="button"
+        >
+          <span className="label__close">&times;</span>
+        </button>
+      ) : null}
+    </span>
+  );
+};
 
 Label.propTypes = {
   id: PropTypes.number.isRequired,

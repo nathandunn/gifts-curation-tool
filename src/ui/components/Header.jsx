@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 import SearchField from './SearchField';
 
 function Header(props) {
-  const { authenticated } = props;
+  const {
+    authenticated,
+    location,
+    goToMappingsPage,
+  } = props;
 
   const loginLogoutLink = authenticated
     ? (<li><Link to={`${BASE_URL}/logout`}>Logout</Link></li>)
@@ -34,7 +38,7 @@ function Header(props) {
           {/* <!-- /local-title --> */}
           {/* <!-- local-nav --> */}
           <div className="columns medium-6">
-            {props.location.pathname !== `${BASE_URL}/` && <SearchField {...props} />}
+            {location.pathname !== `${BASE_URL}/` && <SearchField {...props} />}
           </div>
           <nav>
             <ul id="local-nav" className="dropdown menu float-left" data-description="navigational">
@@ -42,7 +46,7 @@ function Header(props) {
                 <Link to={`${BASE_URL}/`}>Home</Link>
               </li>
               <li>
-                <a href={`${BASE_URL}/mappings`} onClick={e => props.goToMappingsPage(e)}>Mappings</a>
+                <a href={`${BASE_URL}/mappings`} onClick={e => goToMappingsPage(e)}>Mappings</a>
               </li>
               <li>
                 <Link to={`${BASE_URL}/feedback`}>Feedback</Link>

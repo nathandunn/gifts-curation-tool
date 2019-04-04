@@ -8,10 +8,12 @@ class SearchField extends Component {
   }
 
   render() {
+    const { handleSearchSubmit } = this.props;
+
     return (
       <Fragment>
         <form
-          onSubmit={e => this.props.handleSearchSubmit(e, this.inputField.current.value)}
+          onSubmit={e => handleSearchSubmit(e, this.inputField.current.value)}
           className="input-group"
         >
           <input

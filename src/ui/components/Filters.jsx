@@ -440,8 +440,9 @@ const filtersStructure = {
 };
 
 class Filters extends Component {
-  createFilterHeading = item =>
-    <h4 key={`filter-heading-${item.label}`}>{`${item.label}`}</h4>;
+  createFilterHeading = item => (
+    <h4 key={`filter-heading-${item.label}`}>{`${item.label}`}</h4>
+  );
 
   createFilterSubHeading = (item) => {
     const { selectedFilters, toggleFilter } = this.props;
@@ -584,6 +585,5 @@ Filters.propTypes = {
   selectedFilters: PropTypes.shape({}).isRequired,
   toggleFilter: PropTypes.func.isRequired,
 };
-
 
 export default Filters;

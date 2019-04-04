@@ -3,15 +3,22 @@ import PropTypes from 'prop-types';
 
 import '../../styles/Message.scss';
 
-const Message = props => (
-  <div className={`message callout ${props.details.isError ? 'alert' : 'primary'}`}>
-    <h5>{props.details.title}</h5>
-    <p>{props.details.text}</p>
-    <button onClick={props.onClose} className="close-button" aria-label="Dismiss alert" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-);
+const Message = (props) => {
+  const {
+    details,
+    onClose,
+  } = props;
+
+  return (
+    <div className={`message callout ${details.isError ? 'alert' : 'primary'}`}>
+      <h5>{details.title}</h5>
+      <p>{details.text}</p>
+      <button onClick={onClose} className="close-button" aria-label="Dismiss alert" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  );
+};
 
 Message.propTypes = {
   details: PropTypes.shape({

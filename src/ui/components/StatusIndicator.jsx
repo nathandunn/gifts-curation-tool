@@ -24,7 +24,10 @@ function getClassName(status) {
   }
 }
 
-const StatusIndicator = props => <div className={getClassName(props.status)} />;
+const StatusIndicator = (props) => {
+  const { status } = props;
+  return <div className={getClassName(status)} />;
+};
 
 StatusIndicator.propTypes = {
   status: PropTypes.string,

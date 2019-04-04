@@ -17,6 +17,23 @@ import '../styles/Mapping.scss';
 import '../../node_modules/simplemde/dist/simplemde.min.css';
 
 class Mapping extends Component {
+  constructor(props) {
+    super(props);
+
+    const {
+      match: { params },
+      isLoggedIn,
+    } = props;
+    const { mappingId } = params;
+
+    this.state = {
+      ...this.state,
+      mappingId,
+    };
+
+    this.getMappingDetails(mappingId, isLoggedIn);
+  }
+
   state = {
     details: null,
     status: null,
@@ -27,33 +44,18 @@ class Mapping extends Component {
     showAlignment: true,
   };
 
-  componentDidMount() {
-    const {
-      match: { params },
-      isLoggedIn,
-    } = this.props;
-    const { mappingId } = params;
-
-    console.log('>> Mapping: did mount');
-
-    this.setState({
-      mappingId,
-    });
-
-    this.getMappingDetails(mappingId, isLoggedIn);
-  }
-
   componentDidUpdate(prevProps) {
     const {
       match: { params },
       isLoggedIn,
+      location,
     } = this.props;
     const { mappingId } = params;
 
     if (mappingId !== prevProps.match.params.mappingId) {
       this.getMappingDetails(mappingId, isLoggedIn);
     }
-    if (this.props.location !== prevProps.location) {
+    if (location !== prevProps.location) {
       window.scrollTo(0, 0);
     }
   }
@@ -134,6 +136,7 @@ class Mapping extends Component {
   }
 
   render() {
+    // eslint-disable-next-line react/destructuring-assignment
     if (this.state.details === null) {
       return <LoadingSpinner />;
     }
@@ -174,12 +177,17 @@ class Mapping extends Component {
 
         <div className="row column medium-12">
           <button
+            type="button"
             className="button"
             onClick={() => this.toggleDisplayAlignment()}
           >
-            {(showAlignment) ? 'Hide' : 'Show'} Alignment
+            {(showAlignment) ? 'Hide ' : 'Show '}
+            Alignment
           </button>
           {(showAlignment)
+            // This 'mappingId' is set at a different time
+            // from 'mapping.mappingId'
+            // eslint-disable-next-line react/destructuring-assignment
             ? <Alignment mappingId={this.state.mappingId} />
             : null }
         </div>
@@ -208,7 +216,11 @@ class Mapping extends Component {
 
 Mapping.propTypes = {
   history: PropTypes.shape({}).isRequired,
-  match: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      mappingId: PropTypes.string,
+    }),
+  }).isRequired,
   tokenIsExpired: PropTypes.func.isRequired,
   cookies: PropTypes.shape({}).isRequired,
   isLoggedIn: PropTypes.bool.isRequired,

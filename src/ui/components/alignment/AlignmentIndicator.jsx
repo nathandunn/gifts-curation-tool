@@ -4,19 +4,24 @@ import PropTypes from 'prop-types';
 import '../../../styles/AlignmentIndicator.scss';
 
 const AlignmentIndicator = (props) => {
-  if (props.difference === null) {
+  const {
+    difference,
+    differenceName,
+  } = props;
+
+  if (difference === null) {
     return (
       <span className="alignment-indicator  alignment-indicator--no-alignment" title="No alignment">
         -
       </span>
     );
-  } else if (+props.difference === 0 || props.differenceName === 'identical') {
+  } else if (+difference === 0 || differenceName === 'identical') {
     return (
       <span className="alignment-indicator" title="Identical sequences">
         I
       </span>
     );
-  } else if (+props.difference <= 5 || props.differenceName === 'small') {
+  } else if (+difference <= 5 || differenceName === 'small') {
     return (
       <span
         className="alignment-indicator alignment-indicator--small"
@@ -25,7 +30,7 @@ const AlignmentIndicator = (props) => {
         S
       </span>
     );
-  } else if (+props.difference > 5 || props.differenceName === 'large') {
+  } else if (+difference > 5 || differenceName === 'large') {
     return (
       <span
         className="alignment-indicator alignment-indicator--large"

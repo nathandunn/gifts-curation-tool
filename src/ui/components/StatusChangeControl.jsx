@@ -7,15 +7,19 @@ import { withCookies } from 'react-cookie';
 import '../../styles/StatusChangeControl.scss';
 
 class StatusChangeControl extends Component {
+  constructor(props) {
+    super(props);
+    const { status } = props;
+
+    this.state = {
+      originalStatus: status,
+    };
+  }
+
   state = {
     editMode: false,
     originalStatus: null,
   };
-
-  componentDidMount() {
-    const { status } = this.props;
-    this.setState({ originalStatus: status });
-  }
 
   updateStatus = () => {
     const {
@@ -78,10 +82,18 @@ class StatusChangeControl extends Component {
           {statusList}
         </select>
         <div className="button-group">
-          <button className="button button--primary" onClick={this.updateStatus}>
+          <button
+            type="button"
+            className="button button--primary"
+            onClick={this.updateStatus}
+          >
             Save
           </button>
-          <button className="button button--primary" onClick={this.disableEditMode}>
+          <button
+            type="button"
+            className="button button--primary"
+            onClick={this.disableEditMode}
+          >
             Cancel
           </button>
         </div>
@@ -92,7 +104,12 @@ class StatusChangeControl extends Component {
       <Fragment>
         <span>{status}</span>
         &nbsp;
-        <button className="button" href="#" onClick={this.enableEditMode}>
+        <button
+          type="button"
+          className="button"
+          href="#"
+          onClick={this.enableEditMode}
+        >
           Edit
         </button>
       </Fragment>
