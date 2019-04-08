@@ -11,7 +11,7 @@ import AlignmentIndicator from './alignment/AlignmentIndicator';
 import Position from './Position';
 import { formatLargeNumber } from '../util/util';
 
-import '../../styles/ResultsTable.css';
+import '../../styles/ResultsTable.scss';
 
 class ResultsTable extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -29,8 +29,10 @@ class ResultsTable extends Component {
   };
 
   toggleShowIsoforms = () => {
+    const { displayIsoforms } = this.state;
+
     this.setState({
-      displayIsoforms: !this.state.displayIsoforms,
+      displayIsoforms: !displayIsoforms,
       expandGroupIndex: null,
     });
   };
@@ -46,6 +48,10 @@ class ResultsTable extends Component {
   }
 
   renderRows = (group) => {
+    const {
+      displayIsoforms,
+      expandGroupIndex,
+    } = this.state;
     const { rows, taxonomy, wrapper } = group;
 
     rows
@@ -73,11 +79,11 @@ class ResultsTable extends Component {
       const key = `${mapping.ensemblTranscript.enstId}_${mapping.uniprotEntry.uniprotAccession}`;
       const isoformType = 'Swiss-Prot isoform';
 
-      if (!this.state.displayIsoforms &&
-        (!mapping.uniprotEntry.isCanonical &&
-          mapping.uniprotEntry.entryType === isoformType
-        ) &&
-        wrapper.index !== this.state.expandGroupIndex
+      if (!displayIsoforms
+        && (!mapping.uniprotEntry.isCanonical
+          && mapping.uniprotEntry.entryType === isoformType
+        )
+        && wrapper.index !== expandGroupIndex
       ) {
         return null;
       }
@@ -85,21 +91,25 @@ class ResultsTable extends Component {
       return (
         <Link to={`${BASE_URL}/mapping/${mapping.mappingId}`} key={key} className="table-row">
           <div className="table-cell">
-            {(mapping.uniprotEntry.isCanonical) &&
-              <span
-                className="protein-type-icon protein-type-icon--canonical"
-                title="Canonical"
-              >
-                can
-              </span>
+            {(mapping.uniprotEntry.isCanonical)
+              && (
+                <span
+                  className="protein-type-icon protein-type-icon--canonical"
+                  title="Canonical"
+                >
+                  can
+                </span>
+              )
             }
-            {(mapping.uniprotEntry.entryType === isoformType) &&
-              <span
-                className="protein-type-icon protein-type-icon--isoform"
-                title="Isoform"
-              >
-                iso
-              </span>
+            {(mapping.uniprotEntry.entryType === isoformType)
+              && (
+                <span
+                  className="protein-type-icon protein-type-icon--isoform"
+                  title="Isoform"
+                >
+                  iso
+                </span>
+              )
             }
           </div>
           <div className="table-cell">
@@ -137,8 +147,6 @@ class ResultsTable extends Component {
     const {
       index,
       gene_symbol,
-      ensgId,
-      counts,
     } = wrapper;
 
     return (
@@ -148,52 +156,22 @@ class ResultsTable extends Component {
     );
   };
 
-  renderWrapperRows = (group) => {
-    const { wrapper } = group;
-    const {
-      index,
-      gene_symbol,
-      ensgId,
-      counts,
-    } = wrapper;
-
-    return (
-      <div className="table-body group-wrapper">
-        <div className="table-row group-wrapper-header" onClick={() => this.toggleExpandGroup(index)}>
-          <div className="table-cell" />
-          <div className="table-cell" />
-          <div className="table-cell">
-            {gene_symbol}
-          </div>
-          <div className="table-cell">
-            {ensgId}
-          </div>
-          <div className="table-cell">
-            {(counts.canonical > 0)
-              ? (counts.canonical === 1)
-                ? <span className="label warning">{`${counts.canonical} Canonical`}</span>
-                : <span className="label warning">{`${counts.canonical} Canonicals`}</span>
-              : null }
-
-            {(counts.isoform > 0)
-              ? (counts.isoform === 1)
-                ? <span className="label primary">{`${counts.isoform} Isoform`}</span>
-                : <span className="label primary">{`${counts.isoform} Isoforms`}</span>
-              : null }
-          </div>
-          <div className="table-cell" />
-          <div className="table-cell" />
-          <div className="table-cell" />
-          <div className="table-cell" />
-          <div className="table-cell" />
-        </div>
-        {this.renderRows(group)}
-      </div>
-    );
-  };
-
   render() {
-    const rowCount = formatLargeNumber(this.props.rowCount);
+    const {
+      displayIsoforms,
+    } = this.state;
+    const {
+      rowCount: rowCountUnformatted,
+      facets,
+      activeFacets,
+      selectedFilters,
+      toggleFilter,
+      results,
+      pageCount,
+      handlePageClick,
+      initialPage,
+    } = this.props;
+    const rowCount = formatLargeNumber(rowCountUnformatted);
 
     return (
       <Fragment>
@@ -203,16 +181,17 @@ class ResultsTable extends Component {
         <div className="row">
           <div className="column medium-2">
             <Filters
-              data={this.props.facets}
-              activeFacets={this.props.activeFacets}
-              selectedFilters={this.props.selectedFilters}
-              toggleFilter={this.props.toggleFilter}
+              data={facets}
+              activeFacets={activeFacets}
+              selectedFilters={selectedFilters}
+              toggleFilter={toggleFilter}
             />
           </div>
           <div className="column medium-10">
             {
-              <button className="button" onClick={() => this.toggleShowIsoforms()}>
-                {this.state.displayIsoforms ? 'Hide' : 'Show'} Isoforms
+              <button type="button" className="button" onClick={() => this.toggleShowIsoforms()}>
+                {displayIsoforms ? 'Hide ' : 'Show '}
+                Isoforms
               </button>
             }
             <div className="table tbody-zebra">
@@ -231,16 +210,16 @@ class ResultsTable extends Component {
                 </div>
               </div>
 
-              {this.props.results && this.props.results
+              {results && results
                 .map(group => this.renderBorderWrapperRows(group))}
 
             </div>
             <ReactPaginate
-              pageCount={this.props.pageCount}
+              pageCount={pageCount}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
-              onPageChange={this.props.handlePageClick}
-              initialPage={this.props.initialPage}
+              onPageChange={handlePageClick}
+              initialPage={initialPage}
               containerClassName="results-paginate"
             />
           </div>

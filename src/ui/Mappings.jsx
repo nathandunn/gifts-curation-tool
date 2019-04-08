@@ -7,7 +7,7 @@ import isEqual from 'lodash-es/isEqual';
 import LoadingSpinner from './components/LoadingSpinner';
 import ResultsTable from './components/ResultsTable';
 
-import '../styles/Home.css';
+import '../styles/Home.scss';
 
 let isLoading = true;
 
@@ -17,11 +17,45 @@ class Mappings extends Component {
     facets: {},
   }
 
-  handlePageClick = (data) => {
-    const initialPage = data.selected;
-    const offset = Math.ceil(this.props.initialPage * this.props.limit);
+  componentDidMount() {
+    this.loadResults();
+  }
 
-    if (offset === this.props.offset && initialPage === this.props.initialPage) {
+  componentDidUpdate(prevProps) {
+    const { results } = this.state;
+    const {
+      activeFacets,
+      searchTerm,
+    } = this.props;
+
+    if (
+      isLoading
+      || results === null
+      || !isEqual(prevProps.activeFacets, activeFacets)
+      || prevProps.searchTerm !== searchTerm
+    ) {
+      this.loadResults();
+    }
+  }
+
+  getFacetsAsString = () => {
+    const { activeFacets } = this.props;
+    return Object.keys(activeFacets || {})
+      .map(key => `${key}:${activeFacets[key]}`)
+      .join(';');
+  }
+
+  handlePageClick = (data) => {
+    const {
+      initialPage,
+      limit,
+      offset,
+      changePageParams,
+    } = this.props;
+    const newInitialPage = data.selected;
+    const newOffset = Math.ceil(initialPage * limit);
+
+    if (newOffset === offset && newInitialPage === initialPage) {
       return;
     }
 
@@ -29,42 +63,28 @@ class Mappings extends Component {
       results: null,
     });
 
-    this.props.changePageParams({
-      offset,
-      initialPage,
+    changePageParams({
+      offset: newOffset,
+      initialPage: newInitialPage,
     });
   };
 
-  componentDidMount() {
-    this.loadResults();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      isLoading ||
-      this.state.results === null ||
-      !isEqual(prevProps.activeFacets, this.props.activeFacets) ||
-      prevProps.searchTerm !== this.props.searchTerm
-    ) {
-      this.loadResults();
-    }
-  }
-
-  getFacetsAsString = () =>
-    Object.keys(this.props.activeFacets || {})
-      .map(key => `${key}:${this.props.activeFacets[key]}`)
-      .join(',');
-
   loadResults = () => {
     isLoading = true;
-    const { history, clearSearchTerm } = this.props;
+    const {
+      searchTerm,
+      history,
+      clearSearchTerm,
+      offset,
+      limit,
+    } = this.props;
     const apiURI = `${API_URL}/mappings`;
     const params = {
-      searchTerm: this.props.searchTerm,
-      facets: this.getFacetsAsString(),
-      offset: this.props.offset,
-      limit: this.props.limit,
+      searchTerm,
+      offset,
+      limit,
       format: 'json',
+      facets: this.getFacetsAsString(),
     };
 
     axios
@@ -99,8 +119,8 @@ class Mappings extends Component {
       });
   };
 
-  groupByIsoform = results =>
-    results.map((group, index) => ({
+  groupByIsoform = results => results
+    .map((group, index) => ({
       taxonomy: group.taxonomy,
       rows: group.entryMappings,
       wrapper: {
@@ -119,27 +139,45 @@ class Mappings extends Component {
     }));
 
   render() {
+    const {
+      offset,
+      limit,
+      facets,
+      results,
+      totalCount,
+    } = this.state;
+
+    const {
+      activeFacets,
+      history,
+      initialPage,
+      clearSearchTerm,
+      selectedFilters,
+      toggleFilter,
+    } = this.props;
+
     const propsToPass = {
       handlePageClick: this.handlePageClick,
-      activeFacets: this.props.activeFacets,
+      activeFacets,
       params: {
-        offset: this.state.offset,
-        limit: this.state.limit,
+        offset,
+        limit,
         format: 'json',
       },
-      facets: this.state.facets,
-      results: this.state.results,
+      facets,
+      results,
       loadResults: this.loadResults,
-      pageCount: Math.ceil(this.state.totalCount / this.props.limit),
-      history: this.props.history,
-      initialPage: this.props.initialPage,
-      clearSearchTerm: this.props.clearSearchTerm,
-      selectedFilters: this.props.selectedFilters,
-      toggleFilter: this.props.toggleFilter,
-      rowCount: this.state.totalCount,
+      // eslint-disable-next-line react/destructuring-assignment
+      pageCount: Math.ceil(totalCount / this.props.limit),
+      history,
+      initialPage,
+      clearSearchTerm,
+      selectedFilters,
+      toggleFilter,
+      rowCount: totalCount,
     };
 
-    return (isLoading || this.state.results === null)
+    return (isLoading || results === null)
       ? <LoadingSpinner />
       : <ResultsTable {...propsToPass} />;
   }

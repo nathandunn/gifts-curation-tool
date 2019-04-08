@@ -4,13 +4,23 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 
 import LoadingSpinner from '../LoadingSpinner';
-import '../../../styles/Alignment.css';
+import '../../../styles/Alignment.scss';
 
 class Alignment extends Component {
   state = {
     alignments: null,
     loading: false,
   };
+
+  rowSize = 60;
+
+  positions = undefined;
+
+  startEndPosition = undefined;
+
+  hidePositionTooltip = undefined;
+
+  alignmentIDs = ['UNP', 'ENS'];
 
   componentDidMount() {
     const { mappingId } = this.props;
@@ -22,10 +32,6 @@ class Alignment extends Component {
     });
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', () => null);
-  }
-
   componentDidUpdate(prevProps) {
     const { mappingId } = this.props;
 
@@ -34,6 +40,10 @@ class Alignment extends Component {
     }
 
     this.getAlignments(mappingId);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', () => null);
   }
 
   getAlignments = (mappingId) => {
@@ -92,13 +102,6 @@ class Alignment extends Component {
     return paired;
   };
 
-  rowSize = 60;
-  positions = undefined;
-  startEndPosition = undefined;
-  hidePositionTooltip = undefined;
-
-  alignmentIDs = ['UNP', 'ENS'];
-
   calculatePositions = (alignments, size) => {
     this.positions = alignments.map((seq) => {
       let innerCounter = 0;
@@ -117,26 +120,25 @@ class Alignment extends Component {
         });
     });
 
-    this.startEndPosition = alignments.map(seq =>
-      seq
-        .match(new RegExp(`.{1,${size}}`, 'g'))
-        .map(chunk => chunk.replace(/-/g, '').length)
-        .reduce(
-          (accumulator, current, index) => {
-            const accu = accumulator;
+    this.startEndPosition = alignments.map(seq => seq
+      .match(new RegExp(`.{1,${size}}`, 'g'))
+      .map(chunk => chunk.replace(/-/g, '').length)
+      .reduce(
+        (accumulator, current, index) => {
+          const accu = accumulator;
 
-            if (index === 0) {
-              accu[0][1] = current;
-
-              return accu;
-            }
-
-            accu[index] = [accu[index - 1][1] + 1, accu[index - 1][1] + current];
+          if (index === 0) {
+            accu[0][1] = current;
 
             return accu;
-          },
-          [[1, null]],
-        ));
+          }
+
+          accu[index] = [accu[index - 1][1] + 1, accu[index - 1][1] + current];
+
+          return accu;
+        },
+        [[1, null]],
+      ));
   };
 
   createAlignmentVisualization = () => {
@@ -165,9 +167,11 @@ class Alignment extends Component {
         </div>
 
         {rows.map((row, rowIndex) => (
+          // eslint-disable-next-line react/no-array-index-key
           <div className="alignment__row" key={`row-${rowIndex}`}>
             <div className="alignment__id-wrapper">
               {this.alignmentIDs.map(id => (
+                // eslint-disable-next-line react/no-array-index-key
                 <div className="alignment_id" key={`id-${id}:${rowIndex}`}>
                   {id}
                 </div>
@@ -200,9 +204,11 @@ class Alignment extends Component {
                     position-b={el[1]}
                     row-index={`${rowIndex}`}
                     cell-index={`${cellIndex}`}
+                    // eslint-disable-next-line react/no-array-index-key
                     key={`col-${rowIndex}:${cellIndex}`}
                   >
                     {el.map((x, i) => (
+                      // eslint-disable-next-line react/no-array-index-key
                       <div className="alignment__cell" key={`cell-${i}-${rowIndex}:${cellIndex}`}>
                         {x}
                       </div>

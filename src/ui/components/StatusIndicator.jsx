@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../../styles/StatusIndicator.css';
+import '../../styles/StatusIndicator.scss';
 
 function getClassName(status) {
   switch (status) {
@@ -24,7 +24,10 @@ function getClassName(status) {
   }
 }
 
-const StatusIndicator = props => <div className={getClassName(props.status)} />;
+const StatusIndicator = (props) => {
+  const { status } = props;
+  return <div className={getClassName(status)} />;
+};
 
 StatusIndicator.propTypes = {
   status: PropTypes.string,

@@ -2,20 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 
-import '../../../styles/Comment.css';
+import '../../../styles/Comment.scss';
 
-const Comment = props => (
-  <div className="comment row">
-    <div className="column medium-12">
-      <div className="comment__avatar">{props.details.user[0]}</div>
-      <div className="comment__details">
-        <span className="comment__username">{props.details.user}</span>
-        <span className="comment__date">{props.details.timeAdded}</span>
-        <ReactMarkdown source={props.details.text} />
+const Comment = (props) => {
+  const { details } = props;
+
+  return (
+    <div className="comment row">
+      <div className="column medium-12">
+        <div className="comment__avatar">{details.user[0]}</div>
+        <div className="comment__details">
+          <span className="comment__username">{details.user}</span>
+          <span className="comment__date">{details.timeAdded}</span>
+          <ReactMarkdown source={details.text} />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 Comment.propTypes = {
   details: PropTypes.shape({

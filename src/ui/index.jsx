@@ -5,7 +5,7 @@ import { CookiesProvider } from 'react-cookie';
 
 import App from './App';
 
-import '../styles/index.css';
+import '../styles/index.scss';
 
 ReactDOM.render(
   <BrowserRouter>

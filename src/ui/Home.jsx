@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import SearchField from './components/SearchField';
 import Statistics from './components/stats/Statistics';
 
-import '../styles/Home.css';
+import '../styles/Home.scss';
 
 const Home = props => (
   <main>
@@ -13,11 +13,19 @@ const Home = props => (
         <h5>Search for a mapping:</h5>
         <SearchField {...props} />
         <div className="home-banner__actions">
-          <button className="button" onClick={() => props.exploreMappingsByOrganism(9606)}>
+          <button
+            type="button"
+            className="button"
+            onClick={() => props.exploreMappingsByOrganism(9606)}
+          >
             Explore Human
           </button>
           &nbsp;
-          <button className="button" onClick={() => props.exploreMappingsByOrganism(10090)}>
+          <button
+            type="button"
+            className="button"
+            onClick={() => props.exploreMappingsByOrganism(10090)}
+          >
             Explore Mouse
           </button>
         </div>

@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Switch, Route, withRouter, Link } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  withRouter,
+  Link,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withCookies } from 'react-cookie';
 import queryString from 'query-string';
@@ -15,9 +20,30 @@ import Message from './components/Message';
 import NoResults from './NoResults';
 import Feedback from './Feedback';
 
-import '../styles/Gifts.css';
+import '../styles/Gifts.scss';
 
 class App extends Component {
+  defaultState = {
+    // eslint-disable-next-line react/destructuring-assignment
+    searchTerm: queryString.parse(this.props.location.search).searchTerm
+      // eslint-disable-next-line react/destructuring-assignment
+      ? queryString.parse(this.props.location.search).searchTerm
+      : '',
+    authenticated: false,
+    readonly: true,
+    user: {
+      id: 'guest',
+      name: 'Guest',
+    },
+    message: null,
+    validToken: null,
+    offset: 0,
+    limit: 15,
+    activeFacets: {},
+    initialPage: 0,
+    selectedFilters: {},
+  };
+
   constructor(props) {
     super(props);
     this.state = this.defaultState;
@@ -30,23 +56,6 @@ class App extends Component {
       jwt: cookies.get('jwt') || '',
     });
   }
-
-  onLoginSuccess = (user, readonly) => {
-    const { history, cookies } = this.props;
-
-    this.setState(
-      {
-        authenticated: true,
-        validToken: true,
-        readonly,
-        user,
-      },
-      () => {
-        history.push(`${BASE_URL}/`);
-        cookies.set('authenticated', '1', { path: '/' });
-      },
-    );
-  };
 
   onLoginFailure = () => {
     this.setState(this.defaultState);
@@ -86,7 +95,6 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       activeFacets: {},
-
       selectedFilters: {},
     });
 
@@ -96,24 +104,21 @@ class App extends Component {
 
   clearSearchTerm = callback => this.setState({ searchTerm: '' }, callback);
 
-  defaultState = {
-    searchTerm: queryString.parse(this.props.location.search).searchTerm
-      ? queryString.parse(this.props.location.search).searchTerm
-      : '',
-    authenticated: false,
-    readonly: true,
-    user: {
-      id: 'guest',
-      name: 'Guest',
-    },
-    message: null,
-    validToken: null,
-    offset: 0,
-    limit: 15,
-    activeFacets: {},
-    initialPage: 0,
+  onLoginSuccess = (user, readonly) => {
+    const { history, cookies } = this.props;
 
-    selectedFilters: {},
+    this.setState(
+      {
+        authenticated: true,
+        validToken: true,
+        readonly,
+        user,
+      },
+      () => {
+        history.push(`${BASE_URL}/`);
+        cookies.set('authenticated', '1', { path: '/' });
+      },
+    );
   };
 
   clearMessage = () => this.setState({ message: null });
@@ -148,7 +153,6 @@ class App extends Component {
       limit: 15,
       initialPage: 0,
       searchTerm: '',
-
       selectedFilters: {},
     };
 
@@ -177,35 +181,12 @@ class App extends Component {
     }
 
     const originalValue = updated[group][value];
-    updated[group] = {};
     updated[group][value] = !originalValue;
 
     this.setState({
       selectedFilters: updated,
     }, this.selectedFiltersToActiveFacets);
   };
-
-  selectedFiltersToActiveFacets() {
-    const { selectedFilters } = this.state;
-    const convert = (filter, active) => {
-      const key = Object.keys(filter)[0];
-      const value = Object.values(filter)[0];
-      const [facetKey, facetValue] = key.split(':');
-
-      if (value) {
-        active[facetKey] = facetValue;
-      }
-    };
-
-    const activeFacets = {};
-
-    Object.values(selectedFilters)
-      .forEach(filter => convert(filter, activeFacets));
-
-    this.setState({
-      activeFacets,
-    });
-  }
 
   setResults = (data) => {
     this.setState({
@@ -218,10 +199,15 @@ class App extends Component {
   }
 
   changePageParams = (params) => {
-    const { offset, initialPage } = params;
-    if (offset === this.state.offset && initialPage === this.state.initialPage) {
+    const {
+      offset,
+      initialPage,
+    } = this.state;
+
+    if (params.offset === offset && params.initialPage === initialPage) {
       return;
     }
+
     this.setState({
       offset: params.offset,
       initialPage: params.initialPage,
@@ -235,7 +221,6 @@ class App extends Component {
       limit: 15,
       activeFacets: {},
       initialPage: 0,
-
       selectedFilters: {},
     }, () => {
       if (typeof callback === 'function') {
@@ -250,6 +235,39 @@ class App extends Component {
     const callback = () => history.push(`${BASE_URL}/mappings`);
     this.resetSearchAndFacets(callback);
     e.preventDefault();
+  }
+
+  selectedFiltersToActiveFacets() {
+    const { selectedFilters } = this.state;
+
+    const convert = (filter, active) => {
+      const values = [];
+      let mainKey;
+
+      Object.keys(filter)
+        .forEach((key) => {
+          const [facetKey, facetValue] = key.split(':');
+          mainKey = facetKey;
+
+          if (filter[key]) {
+            values.push(facetValue);
+          }
+        });
+
+      if (values.length > 0) {
+        // eslint-disable-next-line no-param-reassign
+        active[mainKey] = values.join(',');
+      }
+    };
+
+    const activeFacets = {};
+
+    Object.values(selectedFilters)
+      .forEach(filter => convert(filter, activeFacets));
+
+    this.setState({
+      activeFacets,
+    });
   }
 
   render() {

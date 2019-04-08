@@ -8,7 +8,7 @@ import SimpleMED from 'simplemde';
 import Comment from './Comment';
 import StatusSection from '../StatusSection';
 
-import '../../../styles/CommentsSection.css';
+import '../../../styles/CommentsSection.scss';
 
 class CommentsSection extends Component {
   state = {};
@@ -133,7 +133,11 @@ class CommentsSection extends Component {
                 />
               </div>
               <textarea id="text-editor" />
-              <button className="comments-section__save-button button" onClick={this.saveComment}>
+              <button
+                className="comments-section__save-button button"
+                onClick={this.saveComment}
+                type="button"
+              >
                 Add comment
               </button>
             </div>

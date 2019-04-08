@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScaleLoader } from 'react-spinners';
 
-import '../../styles/LoadingSpinner.css';
+import '../../styles/LoadingSpinner.scss';
 
 const LoadingSpinner = () => (
   <div className="loading-spinner">

@@ -1,10 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../../../styles/DoughnutChart.css';
+import '../../../styles/DoughnutChart.scss';
 
 const DoughnutChart = (props) => {
-  const { percent } = props;
+  const {
+    percent,
+    radius,
+    bgcolor,
+    color,
+    borderWidth,
+    innerColor,
+    children,
+    textStyle,
+  } = props;
   let leftTransformerDegree = '0deg';
   let rightTransformerDegree = '0deg';
   if (percent >= 50) {
@@ -18,17 +27,17 @@ const DoughnutChart = (props) => {
     <div
       className="circle"
       style={{
-        width: props.radius * 2,
-        height: props.radius * 2,
-        borderRadius: props.radius,
-        backgroundColor: props.bgcolor,
+        width: radius * 2,
+        height: radius * 2,
+        borderRadius: radius,
+        backgroundColor: bgcolor,
       }}
     >
       <div
         className="left-wrap"
         style={{
-          width: props.radius,
-          height: props.radius * 2,
+          width: radius,
+          height: radius * 2,
           left: 0,
         }}
       >
@@ -36,12 +45,12 @@ const DoughnutChart = (props) => {
           className="loader"
           id="id1"
           style={{
-            left: props.radius,
-            width: props.radius,
-            height: props.radius * 2,
+            left: radius,
+            width: radius,
+            height: radius * 2,
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
-            backgroundColor: props.color,
+            backgroundColor: color,
             transform: `rotate(${leftTransformerDegree})`,
           }}
         />
@@ -49,21 +58,21 @@ const DoughnutChart = (props) => {
       <div
         className="right-wrap"
         style={{
-          width: props.radius,
-          height: props.radius * 2,
-          left: props.radius,
+          width: radius,
+          height: radius * 2,
+          left: radius,
         }}
       >
         <div
           className="loader2"
           id="id2"
           style={{
-            left: -props.radius,
-            width: props.radius,
-            height: props.radius * 2,
+            left: -radius,
+            width: radius,
+            height: radius * 2,
             borderTopRightRadius: 0,
             borderBottomRightRadius: 0,
-            backgroundColor: props.color,
+            backgroundColor: color,
             transform: `rotate(${rightTransformerDegree})`,
           }}
         />
@@ -71,19 +80,15 @@ const DoughnutChart = (props) => {
       <div
         className="inner-circle"
         style={{
-          left: props.borderWidth,
-          top: props.borderWidth,
-          width: (props.radius - props.borderWidth) * 2,
-          height: (props.radius - props.borderWidth) * 2,
-          borderRadius: props.radius - props.borderWidth,
-          backgroundColor: props.innerColor,
+          left: borderWidth,
+          top: borderWidth,
+          width: (radius - borderWidth) * 2,
+          height: (radius - borderWidth) * 2,
+          borderRadius: radius - borderWidth,
+          backgroundColor: innerColor,
         }}
       >
-        {props.children ? (
-          props.children
-        ) : (
-          <span className={`text ${props.textStyle}`}>{props.percent}%</span>
-        )}
+        {children || <span className={`text ${textStyle}`}>{`${percent}%`}</span>}
       </div>
     </div>
   );

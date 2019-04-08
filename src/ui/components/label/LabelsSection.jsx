@@ -7,16 +7,16 @@ import { withCookies } from 'react-cookie';
 import Label from './Label';
 
 class LabelsSection extends Component {
+  constructor(props) {
+    super(props);
+    this.labelsListRef = React.createRef();
+  }
+
   state = {
     labels: [],
     // labelsAvailable: [],
     // addLabelMode: false,
   };
-
-  constructor(props) {
-    super(props);
-    this.labelsListRef = React.createRef();
-  }
 
   componentDidMount() {
     const { labels } = this.props;
@@ -39,18 +39,18 @@ class LabelsSection extends Component {
   };
 
   enableAddLabelMode = (e) => {
-    { /* this.setState({
+    /* this.setState({
       addLabelMode: true,
-    }); */ }
+    }); */
 
     e.preventDefault();
     return false;
   };
 
   disableAddLabelMode = (e) => {
-    { /* this.setState({
+    /* this.setState({
       addLabelMode: false,
-    }); */ }
+    }); */
 
     e.preventDefault();
     return false;
@@ -74,9 +74,9 @@ class LabelsSection extends Component {
     axios
       .post(apiURI, {}, config)
       .then(() => {
-        { /* this.setState({
+        /* this.setState({
           addLabelMode: false,
-        }); */ }
+        }); */
 
         afterChangeCallback(mappingId, isLoggedIn);
       })
@@ -119,7 +119,7 @@ class LabelsSection extends Component {
 
     const { isLoggedIn } = this.props;
 
-    { /* const AddLabelControl = () => (
+    /* const AddLabelControl = () => (
       <div className="row">
         <div className="column medium-4">
           <select className="input-group-field" ref={this.labelsListRef}>
@@ -141,7 +141,7 @@ class LabelsSection extends Component {
           </div>
         </div>
       </div>
-    ); */ }
+    ); */
 
     return (
       <Fragment>
