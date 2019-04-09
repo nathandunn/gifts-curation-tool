@@ -177,6 +177,7 @@ class App extends Component {
       // toggle organism: select/deselect.
       if (updated.organism && updated.organism[value]) {
         updated.organism[value] = false;
+        updated.chromosome = {};
       } else {
         updated.organism = {};
         updated.organism[value] = true;
