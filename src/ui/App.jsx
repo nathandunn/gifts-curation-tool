@@ -166,9 +166,30 @@ class App extends Component {
   toggleFilter = (filter) => {
     const { selectedFilters } = this.state;
     const { group, value } = filter;
-
     const updated = { ...selectedFilters };
 
+    // to reset the 'Chromosome' filters when the 'Organism' selection changes.
+    if (group === 'organism') {
+      if (selectedFilters.organism && !selectedFilters.organism[value]) {
+        updated.chromosome = {};
+      }
+
+      // toggle organism: select/deselect.
+      if (updated.organism && updated.organism[value]) {
+        updated.organism[value] = false;
+      } else {
+        updated.organism = {};
+        updated.organism[value] = true;
+      }
+
+      this.setState({
+        selectedFilters: updated,
+      }, this.selectedFiltersToActiveFacets);
+
+      return;
+    }
+
+    // first time selecting a filter
     if (!updated[group]) {
       updated[group] = {};
       updated[group][value] = true;
@@ -180,6 +201,7 @@ class App extends Component {
       return;
     }
 
+    // toggling an already selected filter
     const originalValue = updated[group][value];
     updated[group][value] = !originalValue;
 
