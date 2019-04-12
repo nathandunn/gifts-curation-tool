@@ -4,4 +4,4 @@ https://ebi-uniprot.github.io/gifts-curation-tool/
 `npm install`
 
 # To run
-`npm run dev-server`
+`npm run local-server`
